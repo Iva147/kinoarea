@@ -1,0 +1,5 @@
+export type { IFilm } from './film'
+export type { IPerson } from './person'
+export type { IVideo } from './video'
+export type { IIncome } from './income'
+export type { INews } from './news'

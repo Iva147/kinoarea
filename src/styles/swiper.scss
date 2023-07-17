@@ -1,0 +1,26 @@
+@import  'swiper/swiper.css';
+@import 'node_modules/swiper/modules/pagination/pagination.scss';
+@import 'node_modules/swiper/modules/navigation/navigation.scss';
+
+@layer components {
+  .slider-progress {
+    @apply md:pt-3.5 2xl:pt-5
+  }
+
+  .slider-progress .swiper-pagination {
+    @apply opacity-0 md:opacity-100
+  }
+
+  .slider-progress .swiper-button-prev,
+  .slider-progress .swiper-button-next {
+    @apply hidden
+  }
+
+  .slider-cards .swiper-pagination {
+    @apply static font-bold text-lg 2xl:text-xl
+  }
+}
+
+.swiper-button-disabled {
+  opacity: 5;
+}

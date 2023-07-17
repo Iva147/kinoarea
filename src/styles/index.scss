@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "swiper";
+@import "fonts";
+
+@layer base {
+  body {
+    @apply font-q
+  }
+
+  svg {
+    @apply fill-current
+  }
+
+  .slider-nav {
+    @apply hidden md:inline-flex
+  }
+}

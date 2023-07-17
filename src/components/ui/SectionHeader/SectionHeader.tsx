@@ -1,0 +1,54 @@
+import { Typography, TypographyTypes } from '../Typography/Typography'
+import { CategoryList } from '../CategoryList/CattegoryList'
+import { ReactComponent as BurgerIcon } from '../../../assets/images/general/burger.svg'
+import { ICategory } from '../Category/Category'
+import { Link } from '../Link/Link'
+
+export enum SectionHeaderType {
+  REGULAR = 'regular',
+  ARROW = 'arrow',
+}
+
+interface Category {
+  type?: SectionHeaderType.REGULAR
+  categories: ICategory[]
+}
+interface Arrow {
+  type: SectionHeaderType.ARROW
+  linkTitle: string
+}
+
+type SectionHeaderProps = {
+  title: string
+  className?: string
+} & (Category | Arrow)
+
+export const SectionHeader = (props: SectionHeaderProps) => {
+  const { title, className, type = SectionHeaderType.REGULAR } = props
+  if (type === SectionHeaderType.ARROW) {
+    const { linkTitle } = props as Arrow
+    return (
+      <div className={`flex flex-col gap-2 items-center md:flex-row md:justify-between ${className}`}>
+        <Typography variant={'h2'} type={TypographyTypes._TITLE}>
+          {title}
+        </Typography>
+        <Link path={'/'} title={linkTitle} className={'text-base font-bold text-white'} />
+      </div>
+    )
+  }
+
+  const { categories } = props as Category
+
+  return (
+    <div className={'mt-5 mb-[30px] xl:flex xl:justify-between xl:items-center'}>
+      <Typography variant={'h2'} type={TypographyTypes._TITLE} className={'relative mx-auto mb-5 w-fit md:mx-0'}>
+        <>
+          {title}
+          <BurgerIcon className={'absolute top-1/2 -right-8 --translate-y-1/2 fill-white md:hidden'} />
+        </>
+      </Typography>
+      <div className={'hidden xl:block w-[51px] h-0 border-b-2 border-white border-solid mx-2'} />
+      <CategoryList list={categories} className={'mt-4 xl:mt-0'} />
+    </div>
+  )
+}

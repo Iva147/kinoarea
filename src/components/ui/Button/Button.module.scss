@@ -1,0 +1,30 @@
+.icon {
+  svg {
+    width: 100%;
+  }
+
+  @apply p-2 w-[28.56px] h-[27px] text-blue bg-white
+  md:w-10 md:h-[38px] md:p-3
+  lg:w-11 lg:h-[41px] lg:p-3.5
+  2xl:w-[55px] 2xl:h-[52px] 2xl:px-5 2xl:py-4
+}
+
+.primary {
+  @apply px-2 py-[6px] text-white shadow-btn shadow-blue/80 bg-blue font-normal text-xs
+  md:px-[26px] md:py-[9px]
+  lg:px-[30px] lg:py-2.5
+  2xl:px-11 2xl:py-3 2xl:text-base
+
+}
+
+.transparent {
+  @apply px-8 py-3 border-2 border-solid border-white text-white text-base font-bold bg-transparent
+  xl:text-lg xl:px-11 xl:py-5
+  2xl:text-lg
+}
+
+.white {
+  @apply px-[18px] py-3.5  text-blue bg-white font-bold text-sm
+  lg:px-4 lg:py-3
+  2xl:px-[42px] 2xl:py-5 2xl:text-base
+}
