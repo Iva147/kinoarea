@@ -1,3 +1,6 @@
+@mixin btn {
+  @apply text-base font-q-700 2xl:text-lg
+}
 .icon {
   svg {
     width: 100%;
@@ -10,17 +13,18 @@
 }
 
 .primary {
-  @apply px-2 py-[6px] text-white shadow-btn shadow-blue/80 bg-blue font-normal text-xs
+  @include btn;
+  @apply px-2 py-[6px] text-white shadow-btn shadow-blue/80 bg-blue font-normal
   md:px-[26px] md:py-[9px]
   lg:px-[30px] lg:py-2.5
-  2xl:px-11 2xl:py-3 2xl:text-base
+  2xl:px-11 2xl:py-3
 
 }
 
 .transparent {
-  @apply px-8 py-3 border-2 border-solid border-white text-white text-base font-bold bg-transparent
+  @include btn;
+  @apply px-8 py-3 border-2 border-solid border-white text-white bg-transparent
   xl:text-lg xl:px-11 xl:py-5
-  2xl:text-lg
 }
 
 .white {

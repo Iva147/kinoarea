@@ -1,5 +1,6 @@
 import { HTMLAttributes, PropsWithChildren } from 'react'
 import cls from './Button.module.scss'
+import { twMerge } from 'tailwind-merge'
 
 type BtnVariant = 'icon' | 'primary' | 'transparent' | 'white'
 interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
@@ -15,7 +16,7 @@ export const Button = ({
   ...rest
 }: PropsWithChildren<ButtonProps>) => {
   return (
-    <button onClick={onClick} {...rest} className={`rounded-md ${className} ${cls[variant]}`}>
+    <button onClick={onClick} {...rest} className={twMerge(`rounded-md  ${cls[variant]} ${className}`)}>
       {children}
     </button>
   )
