@@ -3,7 +3,7 @@ import { endpoints } from '../../../api'
 import classnames from 'classnames'
 
 const navLinks = [
-  { id: '1', title: 'Афиша', path: endpoints.poster },
+  { id: '1', title: 'Афиша', path: endpoints.premier },
   { id: '2', title: 'Медиа', path: endpoints.media },
   { id: '3', title: 'Фильмы', path: endpoints.films },
   { id: '4', title: 'Актёры', path: endpoints.actors },

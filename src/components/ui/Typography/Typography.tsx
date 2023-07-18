@@ -10,6 +10,7 @@ export type SpanType = HTMLAttributes<HTMLSpanElement>
 
 export enum TypographyTypes {
   _TITLE = 'title',
+  BLOCK_TITLE = 'block_title',
   _P = 'paragraph',
   SUBTITLE = 'subtitle',
 }

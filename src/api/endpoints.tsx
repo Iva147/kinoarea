@@ -1,6 +1,6 @@
 export const endpoints = {
   main: '/',
-  poster: 'poster',
+  premier: 'premier',
   media: 'media',
   films: 'films',
   actors: 'actors',

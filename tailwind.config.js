@@ -34,6 +34,7 @@ export default {
         darkBlue: '#1E2538',
         'darkBlue-2': '#1B2133',
         'darkBlue-3': '#3B486B',
+        'darkBlue-4': '#4F5B7C',
         dark: '#151A26',
         gray: '#686868',
         'gray-2': '#152625',
@@ -67,7 +68,7 @@ export default {
         'card-sm': 'calc(100% * (178 / 369))',
       },
       aspectRatio: {
-        'card-sm': '178/244',
+        'card-sm': '178 / 244',
       },
       gridTemplateColumns: {
         'card-2': 'repeat(auto-fit, minmax(45%, 1fr))',
@@ -76,6 +77,7 @@ export default {
       },
       content: {
         burger: 'url("./src/assets/images/general/burger-mini.svg")',
+        breadcrumbs: 'url("./src/assets/images/general/breadcrumb-arrow.svg")',
       },
       fontFamily: {
         q: ['Qanelas Regular', 'sans-serif'],

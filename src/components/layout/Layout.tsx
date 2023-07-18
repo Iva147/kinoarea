@@ -24,7 +24,7 @@ export const Layout = ({ children, noMailing = false }: LayoutProps) => {
   effect(() => console.log({ isNavOpen: isNavOpen.value }))
 
   return (
-    <div className="App bg-darkBlue flex flex-col h-screen">
+    <div className="App bg-darkBlue flex flex-col min-h-screen">
       <Header onMenu={onMenuClick} />
       <Navigation isOpen={isNavOpen.value} onClose={onNavClose} />
       <main className={'grow'}>
