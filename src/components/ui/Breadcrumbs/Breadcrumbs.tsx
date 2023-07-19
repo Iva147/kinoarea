@@ -1,8 +1,10 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useParams } from 'react-router-dom'
 
 export const PAGES: { [key: string]: string } = {
   '/': 'Главная',
   '/premiere': 'Афиша',
+  '/films': 'Фильмы',
+  '/news': 'Новости',
 }
 
 interface BreadcrumbsProps {
@@ -10,6 +12,7 @@ interface BreadcrumbsProps {
 }
 export const Breadcrumbs = ({ className }: BreadcrumbsProps) => {
   const locations = useLocation()
+  const { slug } = useParams()
   let current = ''
   const othersCrumbs = locations.pathname
     .split('/')
@@ -20,14 +23,14 @@ export const Breadcrumbs = ({ className }: BreadcrumbsProps) => {
   console.log({ current, crumbs })
 
   return (
-    <ul className={`flex ${className} text-base font-q-500`}>
+    <ul className={`flex ${className} text-base font-q-500 w-fit`}>
       {crumbs.map(item => (
         <li
           key={item}
           className={`text-darkBlue-4 [&:not(:last-of-type):after]:content-breadcrumbs 
              [&:not(:last-of-type):after]:pl-2 [&:not(:first-of-type)]:pl-2 last-of-type:text-white [&:not(:last-of-type):hover]:underline`}
         >
-          <Link to={item}>{PAGES[item]}</Link>
+          <Link to={item}>{PAGES[item] || slug}</Link>
         </li>
       ))}
     </ul>

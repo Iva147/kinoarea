@@ -38,6 +38,7 @@ export default {
         dark: '#151A26',
         gray: '#686868',
         'gray-2': '#152625',
+        'gray-3': '#989898',
         grayIcon: '#686868',
         blueIcon: '#3C4767',
         'gray-text': '#6D717D',
@@ -96,6 +97,7 @@ export default {
       backgroundImage: {
         mailing: `url(./src/assets/images/films/mailing-bg.png)`,
         checkmark: 'url(./src/assets/images/general/checkmark.svg)',
+        'news-gradient': 'linear-gradient(1deg, #3657CB 0%, rgba(0, 0, 0, 0.00) 100%)',
       },
       borderRadius: {
         10: '10px',
@@ -126,6 +128,9 @@ export default {
           display: 'flex',
           'justify-content': 'space-between',
           'align-items': 'center',
+        },
+        '.cols-2': {
+          columns: '2',
         },
       })
     }),
