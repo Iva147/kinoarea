@@ -45,6 +45,7 @@ export default {
         'gray-text': '#6D717D',
         'gray-light': '#e6e3f0',
         yellowish: '#F2F60F',
+        'purple-1': '#54689E',
       },
       boxShadow: {
         btn: '0 0px 2px 0px',
@@ -108,7 +109,7 @@ export default {
     },
   },
   plugins: [
-    plugin(function ({ addUtilities, addBase, config }) {
+    plugin(function ({ addUtilities, addBase, config, theme }) {
       addBase({
         body: {
           color: config('theme.colors.white'),
@@ -134,6 +135,9 @@ export default {
         },
         '.cols-2': {
           columns: '2',
+        },
+        '.item-border': {
+          'border-bottom': `solid 1px ${theme('colors.darkBlue-3')}`,
         },
       })
     }),

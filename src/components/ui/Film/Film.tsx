@@ -1,7 +1,7 @@
-import { getRatingColor, getRating } from '../../../utils'
 import classnames from 'classnames'
 import { Button } from '../Button/Button'
 import { IFilm } from '../../../api/types'
+import { RateBadge } from '../RateBadge/RateBadge'
 interface FilmProps extends Omit<IFilm, 'id'> {
   className?: string
 }
@@ -13,15 +13,7 @@ export const Film = ({ img, rating, title, genre, className }: FilmProps) => {
         className={`group/film relative bg-img aspect-card-sm rounded-lg overflow-hidden`}
         style={{ backgroundImage: `url(${img})` }}
       >
-        {rating && (
-          <span
-            className={`absolute top-2.5 right-2.5 px-2 py-1 rounded-[5px] text-white font-bold
-          2xl:top-4 2xl:right-4 2xl:text-lg z-10`}
-            style={{ background: getRatingColor(rating) }}
-          >
-            {getRating(rating)}
-          </span>
-        )}
+        {rating && <RateBadge rating={rating} className={'absolute top-2.5 right-2.5'} />}
         <div
           className={`group-hover/film:opacity-100 opacity-0 
             absolute inset-0 bg-blue bg-opacity-60 flex justify-center items-center transition-opacity`}

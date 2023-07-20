@@ -7,6 +7,7 @@ import { FilmPage } from '../pages/FilmPage/FilmPage'
 import { News } from '../pages/News/News'
 import { OneNews } from '../pages/OneNews/OneNews'
 import { Collections } from '../pages/Collections/Collections'
+import { SearchResult } from '../pages/SearchResult/SearchResult'
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ export const router = createBrowserRouter([
       {
         path: 'collections',
         element: <Collections />,
+      },
+      {
+        path: 'search/result',
+        element: <SearchResult />,
       },
     ],
   },
