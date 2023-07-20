@@ -5,6 +5,7 @@ export const PAGES: { [key: string]: string } = {
   '/premiere': 'Афиша',
   '/films': 'Фильмы',
   '/news': 'Новости',
+  '/collections': 'Подборки',
 }
 
 interface BreadcrumbsProps {

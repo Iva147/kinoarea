@@ -32,3 +32,10 @@
   lg:px-4 lg:py-3
   2xl:px-[42px] 2xl:py-5 2xl:text-base
 }
+
+.md {
+  @apply text-sm pt-[9px] pb-2.5 pr-4 pl-[19px]
+  md:text-17 md:pt-3 md:pb-4 md:pr-[27px] md:pl-[31px]
+  lg:text-lg lg:pt-4 lg:pb-[15px] lg:px-[46px]
+  2xl:text-lg 2xl:pt-[21px] 2xl:pb-5 2xl:px-[62px]
+}
