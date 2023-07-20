@@ -1,5 +1,5 @@
-import NewsBig from '../assets/images/films/news-big.png'
-import News from '../assets/images/films/news.png'
+import NewsBig from '../assets/images/news/news-big.png'
+import News from '../assets/images/news/news.png'
 const setTimestamp = (d: string) => {
   const [day, month, year] = d.split(' ')
   const monthIndex = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'].indexOf(month)

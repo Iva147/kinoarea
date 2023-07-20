@@ -35,6 +35,7 @@ export default {
         'darkBlue-2': '#1B2133',
         'darkBlue-3': '#3B486B',
         'darkBlue-4': '#4F5B7C',
+        'darkBlue-5': '#191E2E',
         dark: '#151A26',
         gray: '#686868',
         'gray-2': '#152625',
@@ -60,6 +61,7 @@ export default {
         11: '0.6875rem', //11px
         13: '0.8123rem', //13px
         15: '0.9375rem', //15px
+        17: '1.0625rem', //15px
         25: '1.5625rem', //25px
         22: '1.375rem', //22px
         35: '2.185rem', //35px
@@ -92,6 +94,7 @@ export default {
         35: '0.35',
         41: '0.41',
         58: '0.58',
+        67: '0.67',
         72: '0.72',
       },
       backgroundImage: {

@@ -1,6 +1,8 @@
 @import  'swiper/swiper.css';
 @import 'node_modules/swiper/modules/pagination/pagination.scss';
 @import 'node_modules/swiper/modules/navigation/navigation.scss';
+@import 'node_modules/swiper/modules/thumbs/thumbs.scss';
+@import 'node_modules/swiper/modules/free-mode/free-mode';
 
 @layer components {
   .slider-progress {
@@ -18,6 +20,11 @@
 
   .slider-cards .swiper-pagination {
     @apply static font-bold text-lg 2xl:text-xl
+  }
+
+  /* NEWS SLIDER. ACTIVE THUMBS */
+  .slider-active .slider-active-cover {
+    @apply inset-0 bg-blue/60
   }
 }
 

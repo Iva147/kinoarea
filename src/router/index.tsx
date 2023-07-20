@@ -5,6 +5,7 @@ import { NotFound } from '../pages/NotFound/NotFound'
 import { Premiere } from '../pages/Premiere/Premiere'
 import { FilmPage } from '../pages/FilmPage/FilmPage'
 import { News } from '../pages/News/News'
+import { OneNews } from '../pages/OneNews/OneNews'
 
 export const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: 'news',
         element: <News />,
+      },
+      {
+        path: 'news/:slug',
+        element: <OneNews />,
       },
     ],
   },
