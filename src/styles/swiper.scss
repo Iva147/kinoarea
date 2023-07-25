@@ -5,6 +5,10 @@
 @import 'node_modules/swiper/modules/free-mode/free-mode';
 
 @layer components {
+  .slider-nav {
+    @apply hidden md:inline-flex
+  }
+
   .slider-progress {
     @apply md:pt-3.5 2xl:pt-5
   }

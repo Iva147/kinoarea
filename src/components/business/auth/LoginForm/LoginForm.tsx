@@ -1,0 +1,40 @@
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { ILoginFields, loginSchema } from '../../../../api/types/schemas'
+import { Input } from '../../../ui/Input/Input'
+import { Typography, TypographyTypes } from '../../../ui/Typography/Typography'
+import { Button } from '../../../ui/Button/Button'
+
+interface LoginFormProps {
+  onRegisterClick: () => void
+}
+export const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(loginSchema),
+  })
+
+  const onSubmit: SubmitHandler<ILoginFields> = data => {
+    //TODO: add request
+    console.log('data', data)
+  }
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className={'form'}>
+      <Typography variant={'h2'} type={TypographyTypes._TITLE} className={'mb-[34px] text-center'}>
+        Войти
+      </Typography>
+      <Input register={register} name={'login'} error={errors?.login?.message} label={'Логин, почта или телефон'} />
+      <Input register={register} name={'password'} error={errors?.password?.message} label={'Ваш пароль'} />
+      <Button variant={'yellow'} type={'submit'}>
+        Войти
+      </Button>
+      <button onClick={onRegisterClick} className={'form_link'}>
+        Зарегистрироваться
+      </button>
+    </form>
+  )
+}

@@ -5,6 +5,5 @@ export const getDate = (timestamp: number, o?: Intl.DateTimeFormatOptions) => {
     day: 'numeric',
   }
   const date = new Date(timestamp)
-  console.log({ date, timestamp })
   return new Intl.DateTimeFormat('en-AU', options).format(date)
 }

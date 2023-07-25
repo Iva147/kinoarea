@@ -31,7 +31,7 @@ export const Mailing = () => {
               E-mail рассылку!
             </p>
 
-            <form className={'px-[19px] lg:max-w-[551px] mx-auto 2xl:max-w-[615px]'}>
+            <form className={'px-[19px] lg:max-w-[551px] mx-auto 2xl:max-w-[615px]'} autoComplete="off">
               <div className={'flex flex-col md:flex-row gap-[9px] '}>
                 <input
                   type={'email'}

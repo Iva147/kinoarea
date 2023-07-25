@@ -1,14 +1,15 @@
-import { HTMLAttributes, PropsWithChildren } from 'react'
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react'
 import cls from './Button.module.scss'
 import { twMerge } from 'tailwind-merge'
 
-type BtnVariant = 'icon' | 'primary' | 'transparent' | 'white'
+type BtnVariant = 'icon' | 'primary' | 'transparent' | 'white' | 'yellow'
 type BtnSizes = 'normal' | 'md'
-interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void
   variant?: BtnVariant
   size?: BtnSizes
   className?: string
+  type?: 'button' | 'submit' | 'reset'
 }
 
 export const Button = ({
@@ -17,10 +18,16 @@ export const Button = ({
   variant = 'primary',
   size = 'normal',
   className,
+  type = 'button',
   ...rest
 }: PropsWithChildren<ButtonProps>) => {
   return (
-    <button onClick={onClick} {...rest} className={twMerge(`rounded-md  ${cls[variant]} ${cls[size]} ${className}`)}>
+    <button
+      onClick={onClick}
+      type={type}
+      {...rest}
+      className={twMerge(`rounded-md  ${cls[variant]} ${cls[size]} ${className}`)}
+    >
       {children}
     </button>
   )

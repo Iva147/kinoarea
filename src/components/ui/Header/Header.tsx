@@ -9,11 +9,15 @@ import { ReactComponent as FacebookIcon } from '@/assets/images/general/facebook
 import { ReactComponent as TwitterIcon } from '@/assets/images/general/icons8-twitter.svg'
 import { Logo } from '../Logo/Logo'
 import { NavLinks } from '../NavLinks/NavLinks'
+import { AuthModal } from '../modals/AuthModal/AuthModal'
+import { useState } from 'react'
 
 interface HeaderProps {
   onMenu?: () => void
 }
 export const Header = ({ onMenu }: HeaderProps) => {
+  //const [isLoginModalOpen, setLoginModalOpen] = useState(false)
+  const [isRegisterOpen, setRegisterModalOpen] = useState(false)
   return (
     <header className={'flex py-[11px] container'}>
       <div className={'hidden xl:block lg:flex-1'}>
@@ -40,8 +44,9 @@ export const Header = ({ onMenu }: HeaderProps) => {
         </div>
       </div>
       <div className={'lg:ml-6'}>
-        <Button onClick={() => {}}>Войти</Button>
+        <Button onClick={() => setRegisterModalOpen(true)}>Войти</Button>
       </div>
+      <AuthModal isOpened={isRegisterOpen} close={() => setRegisterModalOpen(false)} />
     </header>
   )
 }

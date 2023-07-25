@@ -1,0 +1,80 @@
+/* There is window EventListener set for keyboard interaction */
+/* eslint jsx-a11y/click-events-have-key-events: 0,jsx-a11y/no-static-element-interactions: 0 */
+
+import { type FC, ReactNode, useRef, useState, useCallback, MouseEvent, useEffect } from 'react'
+import cls from './Modal.module.scss'
+import { Portal } from '../../Portal/Portal'
+import { ReactComponent as CloseIcon } from '../../../../assets/images/general/close-btn.svg'
+import classnames from 'classnames'
+
+export interface ModalProps {
+  className?: string
+  contentClassName?: string
+  children: ReactNode
+  close: () => void
+  isOpened: boolean
+  overlay?: 'on' | 'off'
+}
+
+const ANIMATION_TIME = 400
+
+export const Modal: FC<ModalProps> = ({ children, close, isOpened, overlay = 'on', contentClassName }) => {
+  const [isClosing, setIsClosing] = useState(false)
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const closeHandler = useCallback(() => {
+    if (close) {
+      setIsClosing(true)
+      timer.current = setTimeout(() => {
+        close()
+        setIsClosing(false)
+      }, ANIMATION_TIME)
+    }
+  }, [close])
+
+  const onContentClick = useCallback((e: MouseEvent<HTMLElement>) => {
+    e.stopPropagation()
+  }, [])
+
+  const onKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeHandler()
+      }
+    },
+    [closeHandler]
+  )
+
+  useEffect(() => {
+    if (isOpened) {
+      window.addEventListener('keydown', onKeyDown)
+    }
+
+    return () => {
+      timer.current && clearTimeout(timer.current as ReturnType<typeof setTimeout>)
+      window.removeEventListener('keydown', onKeyDown)
+    }
+  }, [isOpened, onKeyDown])
+
+  if (!isOpened) return null
+
+  return (
+    <Portal>
+      <div
+        className={classnames(cls.modal, {
+          [cls.closing]: isClosing,
+          [cls.opened]: isOpened,
+        })}
+      >
+        <div className={cls.overlay + ' ' + cls[overlay]} onClick={closeHandler}>
+          <div className={`${cls.content} ${contentClassName}`} onClick={onContentClick}>
+            <button className={cls.closeBtn} onClick={closeHandler}>
+              <CloseIcon className={cls.icon} />
+            </button>
+            <div className={'max-h-[80vh] overflow-y-scroll'}>{children}</div>
+          </div>
+        </div>
+      </div>
+    </Portal>
+  )
+}

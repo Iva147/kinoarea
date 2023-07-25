@@ -5,6 +5,7 @@
 @import "swiper";
 @import "fonts";
 
+$color: theme('colors.darkBlue');
 @layer base {
   body {
     @apply font-q
@@ -14,7 +15,27 @@
     @apply fill-current
   }
 
-  .slider-nav {
-    @apply hidden md:inline-flex
+  input:-webkit-autofill {
+    background-color: transparent;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active{
+    -webkit-transition: color 9999s ease-out, background-color 9999s ease-out;
+    -webkit-transition-delay: 9999s;
+  }
+
+}
+
+@layer components {
+  .form {
+    @apply flex flex-col gap-4 px-4 max-w-[422px] mx-auto break-all sm:break-normal
+    md_h:gap-[14px]
+  }
+
+  .form_link {
+    @apply text-blue text-center font-q-500 text-17 underline underline-offset-2
   }
 }

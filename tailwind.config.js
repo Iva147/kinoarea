@@ -26,6 +26,7 @@ export default {
       lg: '1000px',
       xl: '1280px',
       '2xl': '1920px',
+      md_h: { raw: '(min-height: 1200px)' },
     },
     extend: {
       colors: {
@@ -138,6 +139,11 @@ export default {
         },
         '.item-border': {
           'border-bottom': `solid 1px ${theme('colors.darkBlue-3')}`,
+        },
+        '.modal-content-transform': {
+          transformBox: 'border-box',
+          transition: 'transform 400ms ease-in-out',
+          transformOrigin: 'left',
         },
       })
     }),

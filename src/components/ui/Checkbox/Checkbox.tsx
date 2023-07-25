@@ -1,24 +1,30 @@
-import { ReactNode } from 'react'
+import { HTMLAttributes, ReactNode, useState } from 'react'
 
-interface CheckboxProps {
+interface CheckboxProps extends HTMLAttributes<HTMLInputElement> {
   label?: ReactNode | string
-  name: string
   isChecked?: boolean
   onChecked?: (status: boolean) => void
   className?: string
+  name: string
 }
-export const Checkbox = ({ label, name, className, isChecked, onChecked }: CheckboxProps) => {
+export function Checkbox({ label, name, className, isChecked, onChecked }: CheckboxProps) {
+  const [checked, setChecked] = useState(isChecked || false)
+  const changeHandler = () => {
+    setChecked(prev => !prev)
+    onChecked?.(!checked)
+  }
+
   return (
-    <label className={`relative flex gap-3 ${className}`} htmlFor={name}>
+    <label className={`relative flex gap-3 ${className}`}>
       <input
         type={`checkbox`}
-        id={name}
-        //checked={isChecked}
-        onChange={e => onChecked?.(e.target.checked)}
+        name={name}
+        onChange={changeHandler}
         className={'w-0 h-0 absolute opacity-0'}
+        checked={isChecked}
       />
       <span className={`shrink-0 basis-[17px] h-[17px] rounded-sm bg-yellowish flex-center`}>
-        <span className={`${isChecked ? 'bg-checkmark' : ''} bg-img w-1.5 h-1`} />
+        <span className={`${checked ? 'bg-checkmark' : ''} bg-img w-1.5 h-1`} />
       </span>
       {label && <span className={'text-sm'}>{label}</span>}
     </label>
