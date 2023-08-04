@@ -145,9 +145,6 @@ export default {
           transition: 'transform 400ms ease-in-out',
           transformOrigin: 'left',
         },
-        '.poster': {
-
-        }
       })
     }),
   ],

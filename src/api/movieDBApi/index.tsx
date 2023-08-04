@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from 'axios'
-import { IGenre } from '../types/responses'
+import { IGenre } from '../types'
 
 const token = import.meta.env.VITE_MOVIEDB_TOKEN
 type MOVIETV = 'movie' | 'tv'

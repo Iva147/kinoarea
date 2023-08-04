@@ -1,6 +1,6 @@
 import { Genres } from '../actionsTypes/genres'
 import { CustomError } from '../../api/types'
-import { IGenre } from '../../api/types/responses'
+import { IGenre } from '../../api/types'
 export interface IMovieGenresAction {
   type: Genres.ADD_MOVIES_GENRES
   payload: IGenre[]

@@ -1,5 +1,5 @@
 import { Film } from '../Film/Film'
-import { IMovies } from '../../../api/types/film'
+import { IMovies } from '../../../api/types'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
 import { getGenres } from '../../../utils/getGenres'
 import { memo } from 'react'

@@ -1,7 +1,7 @@
 import { Genres } from '../actionsTypes/genres'
 import { IMovieGenresAction, IMovieGenresErrAction } from '../actions/genres'
 import { CustomError } from '../../api/types'
-import { IGenre } from '../../api/types/responses'
+import { IGenre } from '../../api/types'
 
 export const GenresActionCreators = {
   addMovieGenres: (genres: IGenre[]): IMovieGenresAction => {

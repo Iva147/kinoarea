@@ -1,7 +1,7 @@
 import { type Dispatch } from 'redux'
 import { PersonsActions } from '../actions/persons'
 import { getPersons } from '../../api/movieDBApi'
-import { PersonsActionCreator } from '../actionsCreators/persons'
+import { PersonsActionCreator } from '../actionsCreators'
 
 export const fetchPopularPersons = (id?: string | number) => {
   return async (dispatch: Dispatch<PersonsActions>) => {
