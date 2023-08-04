@@ -19,7 +19,13 @@ export const Schedule = ({ period, films }: ScheduleProps) => {
         2xl:gap-[22.84px]`}
       >
         {films.map(item => (
-          <Film img={item.img} rating={item.rating} title={item.title} genre={item.genre} key={item.id} />
+          <Film
+            img={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${item.img}` || item.img}
+            rating={item.rating}
+            title={item.title}
+            genre={item.genre}
+            key={item.id}
+          />
         ))}
       </div>
     </>

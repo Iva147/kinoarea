@@ -8,3 +8,5 @@ export const endpoints = {
   collections: 'collections',
   categories: 'categories',
 } as const
+
+export const BaseMovieDBAssetsUrl = import.meta.env.VITE_MOVIEDB_ASSETS

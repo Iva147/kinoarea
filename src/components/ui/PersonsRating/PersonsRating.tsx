@@ -1,22 +1,27 @@
-import { personsList } from '../../../mock/person'
-import { IPerson } from '../../../api/types'
 import { RatingItem } from './RatingItem'
-
-const data = [...personsList]
-data.length = 4
+import { IPerson } from '../../../api/types'
+import { BaseMovieDBAssetsUrl } from '../../../api'
 
 interface PersonsRatingProps {
-  list?: IPerson[]
+  list: IPerson[]
+  shift?: number
   className?: string
 }
-export const PersonsRating = ({ list = data, className }: PersonsRatingProps) => {
+export const PersonsRating = ({ list, className, shift = 0 }: PersonsRatingProps) => {
   return (
     <ul
       className={`rounded-[10px] pt-2 pb-3 pl-5 pr-3.5 bg-darkBlue-2 grid grid-cols-1 divide-y-[2px] divide-darkBlue mt-2.5 
         lg:mt-0 ${className}`}
     >
-      {list.map(item => (
-        <RatingItem {...item} key={item.id} />
+      {list.map((item, order) => (
+        <RatingItem
+          img={`${BaseMovieDBAssetsUrl}${item.profile_path}`}
+          rate={order + shift}
+          age={0}
+          actor={item.name}
+          originalActorName={item.name}
+          key={item.id}
+        />
       ))}
     </ul>
   )

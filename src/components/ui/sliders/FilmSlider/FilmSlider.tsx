@@ -1,14 +1,18 @@
-import { IFilm } from '../../../../api/types'
+import { IMovies } from '../../../../api/types'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Film } from '../../Film/Film'
 import { Navigation, Pagination } from 'swiper'
+import { BaseMovieDBAssetsUrl } from '../../../../api'
+import { useTypedSelector } from '../../../../hooks/useTypedSelector'
+import { getGenres } from '../../../../utils/getGenres'
 
 interface FilmSliderProps {
-  slides: IFilm[]
+  slides: IMovies
   name: string
 }
 
 export const FilmSlider = ({ slides, name }: FilmSliderProps) => {
+  const allGenres = useTypedSelector(state => state.genres.movies)
   return (
     <Swiper
       spaceBetween={8}
@@ -38,11 +42,19 @@ export const FilmSlider = ({ slides, name }: FilmSliderProps) => {
       }}
       className={'slider-cards'}
     >
-      {slides.map(item => (
-        <SwiperSlide key={item.id}>
-          <Film {...item} />
-        </SwiperSlide>
-      ))}
+      {slides.map(item => {
+        const genres = getGenres(allGenres, item.genre_ids)
+        return (
+          <SwiperSlide key={item.id}>
+            <Film
+              img={`${BaseMovieDBAssetsUrl}${item.poster_path}`}
+              rating={item.vote_average}
+              title={item.title}
+              genre={genres}
+            />
+          </SwiperSlide>
+        )
+      })}
     </Swiper>
   )
 }

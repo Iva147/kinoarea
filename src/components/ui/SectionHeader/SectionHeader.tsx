@@ -1,8 +1,10 @@
+import { memo } from 'react'
 import { Typography, TypographyTypes } from '../Typography/Typography'
 import { CategoryList } from '../CategoryList/CattegoryList'
 import { ReactComponent as BurgerIcon } from '../../../assets/images/general/burger.svg'
 import { ICategory } from '../Category/Category'
 import { Link } from '../Link/Link'
+import classnames from 'classnames'
 
 export enum SectionHeaderType {
   REGULAR = 'regular',
@@ -21,10 +23,11 @@ interface Arrow {
 type SectionHeaderProps = {
   title: string
   className?: string
+  onCategoryClick?: (a: ICategory) => void
 } & (Category | Arrow)
 
-export const SectionHeader = (props: SectionHeaderProps) => {
-  const { title, className, type = SectionHeaderType.REGULAR } = props
+export const SectionHeader = memo((props: SectionHeaderProps) => {
+  const { title, className, type = SectionHeaderType.REGULAR, onCategoryClick } = props
   if (type === SectionHeaderType.ARROW) {
     const { linkTitle } = props as Arrow
     return (
@@ -32,12 +35,13 @@ export const SectionHeader = (props: SectionHeaderProps) => {
         <Typography variant={'h2'} type={TypographyTypes._TITLE}>
           {title}
         </Typography>
-        <Link path={'/'} title={linkTitle} className={'text-base font-bold text-white'} />
+        <Link path={'/'} title={linkTitle} className={classnames('text-base font-bold text-white')} />
       </div>
     )
   }
 
   const { categories } = props as Category
+  console.log(title, categories)
 
   return (
     <div className={'mt-5 mb-[30px] xl:flex xl:justify-between xl:items-center'}>
@@ -48,7 +52,9 @@ export const SectionHeader = (props: SectionHeaderProps) => {
         </>
       </Typography>
       <div className={'hidden xl:block w-[51px] h-0 border-b-2 border-white border-solid mx-2'} />
-      <CategoryList list={categories} className={'mt-4 xl:mt-0'} />
+      <CategoryList list={categories} className={'mt-4 xl:mt-0'} onItemClick={onCategoryClick} />
     </div>
   )
-}
+})
+
+SectionHeader.displayName = 'SectionHeader'

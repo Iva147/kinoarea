@@ -1,10 +1,11 @@
 import { Pagination } from 'swiper'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { VideoSlide } from '../../../../mock/videos'
-import { IVideo } from '../../../../api/types'
+import { IMovies } from '../../../../api/types'
+import { BaseMovieDBAssetsUrl } from '../../../../api'
 
 interface SliderProgressProps {
-  slides: IVideo[]
+  slides: IMovies
 }
 export const VideoSlider = ({ slides }: SliderProgressProps) => {
   return (
@@ -26,7 +27,7 @@ export const VideoSlider = ({ slides }: SliderProgressProps) => {
     >
       {slides.map(item => (
         <SwiperSlide key={item.id}>
-          <VideoSlide {...item} />
+          <VideoSlide src={`${BaseMovieDBAssetsUrl}${item.poster_path}`} title={item.title} />
         </SwiperSlide>
       ))}
     </Swiper>

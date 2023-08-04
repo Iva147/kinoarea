@@ -1,6 +1,10 @@
-import { IPerson } from '../../../api/types'
-
-interface RatingItemProps extends IPerson {}
+interface RatingItemProps {
+  img: string
+  rate: string | number
+  actor: string
+  originalActorName: string
+  age: number
+}
 export const RatingItem = ({ rate, age, actor, originalActorName }: RatingItemProps) => {
   return (
     <li className={'flex justify-between items-center py-2'}>

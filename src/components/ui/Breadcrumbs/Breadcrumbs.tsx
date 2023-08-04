@@ -26,8 +26,6 @@ export const Breadcrumbs = ({ className, lastCrumb }: BreadcrumbsProps) => {
     crumbs[crumbs.length - 1] = lastCrumb
   }
 
-  console.log({ current, crumbs })
-
   return (
     <ul className={`flex flex-wrap ${className} text-base font-q-500 w-fit`}>
       {crumbs.map(item => (

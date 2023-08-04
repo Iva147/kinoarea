@@ -1,6 +1,10 @@
-import { IPerson } from '../../../api/types'
-
-interface PersonCardProps extends Omit<IPerson, 'id'> {}
+interface PersonCardProps {
+  img: string
+  rate: string | number
+  actor: string
+  originalActorName: string
+  age: number
+}
 export const PersonCard = ({ img, rate, actor, originalActorName, age }: PersonCardProps) => {
   return (
     <div

@@ -1,11 +1,13 @@
 import classnames from 'classnames'
 
-export interface ICategory {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export interface ICategory<T = any> {
   title: string
   isActive?: boolean
-  id: string
+  id: string | number
+  param?: T
 }
-interface CategoryProps extends Omit<ICategory, 'id'> {
+interface CategoryProps extends Omit<ICategory, 'id' | 'param'> {
   className?: string
   onClick?: () => void
 }
