@@ -21,7 +21,7 @@ const Review = ({ item, handleImgError }: ReviewProps) => {
           src={setMovieDBPath(item.author_details.avatar_path)}
           alt={item.author_details.username}
           className={`
-            rounded-full w-[57px] h-[57px] bg-dark-purple object-contain p-2 
+            rounded-full w-[57px] h-[57px] bg-dark-purple object-cover
             md:w-[85px] md:h-[85px]
             lg:w-[115px] lg:h-[115px]`}
           onError={handleImgError}

@@ -1,7 +1,8 @@
 import { ReactComponent as LikeIcon } from '../../../assets/images/general/like.svg'
 import { ReactComponent as DislikeIcon } from '../../../assets/images/general/dislike.svg'
+import { ReactComponent as HeartIcon } from '../../../assets/images/general/heart.svg'
 
-type Icons = 'like' | 'dislike'
+type Icons = 'like' | 'dislike' | 'heart'
 
 interface IconBtnProps {
   type: Icons
@@ -10,11 +11,13 @@ interface IconBtnProps {
 const icons = {
   like: LikeIcon,
   dislike: DislikeIcon,
+  heart: HeartIcon,
 }
 
 const additionalStyle = {
   like: 'pt-1',
   dislike: 'pb-1',
+  heart: '',
 }
 export const IconBtn = ({ type, onClick }: IconBtnProps) => {
   const Icon = icons[type]

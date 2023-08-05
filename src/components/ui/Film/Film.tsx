@@ -2,11 +2,13 @@ import classnames from 'classnames'
 import { Button } from '../Button/Button'
 import { IFilm } from '../../../api/types'
 import { RateBadge } from '../RateBadge/RateBadge'
-interface FilmProps extends Omit<IFilm, 'id'> {
+import { useNavigate } from 'react-router-dom'
+interface FilmProps extends IFilm {
   className?: string
 }
 
-export const Film = ({ img, rating, title, genre, className }: FilmProps) => {
+export const Film = ({ img, rating, title, genre, className, id }: FilmProps) => {
+  const navigate = useNavigate()
   return (
     <div className={classnames([className])}>
       <div
@@ -18,7 +20,7 @@ export const Film = ({ img, rating, title, genre, className }: FilmProps) => {
           className={`group-hover/film:opacity-100 opacity-0 
             absolute inset-0 bg-blue bg-opacity-60 flex justify-center items-center transition-opacity`}
         >
-          <Button variant={'white'} className={'py-7'}>
+          <Button variant={'white'} className={'py-7'} onClick={() => navigate(`/films/${id}`)}>
             Смотреть фильм
           </Button>
         </div>

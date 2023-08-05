@@ -51,6 +51,7 @@ export const FilmSlider = ({ slides, name }: FilmSliderProps) => {
               rating={item.vote_average}
               title={item.title}
               genre={genres}
+              id={item.id}
             />
           </SwiperSlide>
         )

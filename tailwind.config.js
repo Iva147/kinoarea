@@ -68,8 +68,11 @@ export default {
         17: '1.0625rem', //15px
         25: '1.5625rem', //25px
         22: '1.375rem', //22px
+        32: '2rem', //32px
         35: '2.185rem', //35px
+        40: '2.5rem', //40px
         50: '3.125rem', //50px
+        60: '3.75rem', //60px
       },
       maxWidth: {
         'card-sm': 'calc(100% * (178 / 369))',

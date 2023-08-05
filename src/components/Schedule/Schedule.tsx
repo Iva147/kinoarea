@@ -24,6 +24,7 @@ export const Schedule = ({ period, films }: ScheduleProps) => {
             rating={item.rating}
             title={item.title}
             genre={item.genre}
+            id={item.id}
             key={item.id}
           />
         ))}

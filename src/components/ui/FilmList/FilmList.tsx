@@ -23,6 +23,7 @@ export const FilmList = memo(({ list }: FilmListProps) => {
             rating={movie.vote_average}
             title={movie.title}
             genre={genre || ''}
+            id={movie.id}
             key={movie.id}
           />
         )
