@@ -7,10 +7,11 @@ import { FilmDescript } from '../../components/ui/FilmDescript/FilmDescript'
 import { filmDescriptions } from '../../mock/films'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getCast } from '../../api/movieDBApi'
-import { ICastRes } from '../../api/types/responses'
+import { getCast, getPosters } from '../../api/movieDBApi'
+import { ICastRes, IPoster } from '../../api/types/responses'
 import { SectionHeader, SectionHeaderType } from '../../components/ui/SectionHeader/SectionHeader'
 import { CastList } from '../../components/ui/CastList/CastList'
+import { PostersList } from '../../components/ui/PostersList/PostersList'
 
 const data = {
   title: 'Побег из Претории',
@@ -26,12 +27,15 @@ console.log({ data })
 export const FilmPage = () => {
   const { slug } = useParams()
   const [cast, setCast] = useState<ICastRes[]>([])
+  const [posters, setPosters] = useState<IPoster[]>([])
 
   useEffect(() => {
     if (!slug) return
     getCast(slug).then(res => setCast(res))
+    getPosters(slug).then(res => setPosters(res))
   }, [slug])
 
+  console.log('POSTERS', posters)
   return (
     <div className={'container pt-[24px] pb-6 md:pt-9 md:pb-[42px] lg:pt-7 lg:pb-14 2xl:pt-16 2zl:pb-[69px]'}>
       {/*<section className={'container'}>
@@ -76,6 +80,16 @@ export const FilmPage = () => {
           className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
         />
         <CastList list={cast} />
+      </section>
+
+      <section>
+        <SectionHeader
+          title={'Постеры к фильму'}
+          type={SectionHeaderType.ARROW}
+          linkTitle={'Все постеры'}
+          className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
+        />
+        <PostersList list={posters} title={''} />
       </section>
 
       <section className={'rounded-10 pt-4 px-3.5 pb-8 lg:py-10 lg:px-5'}></section>
