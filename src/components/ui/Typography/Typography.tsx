@@ -30,7 +30,7 @@ export const Typography: FC<TypographyProps> = ({
 }) => {
   const CustomTag = variant as TagType
   return (
-    <CustomTag className={classnames([className], cls[type])} {...props}>
+    <CustomTag className={classnames('break-words sm:break-normal', [className], cls[type])} {...props}>
       {children}
     </CustomTag>
   )

@@ -7,11 +7,17 @@ import { FilmDescript } from '../../components/ui/FilmDescript/FilmDescript'
 import { filmDescriptions } from '../../mock/films'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { getCast, getPosters } from '../../api/movieDBApi'
-import { ICastRes, IPoster } from '../../api/types/responses'
+import { getCast, getPosters, getReview, getSimilarMovies } from '../../api/movieDBApi'
+import { ICastRes, IPoster, IReview } from '../../api/types/responses'
 import { SectionHeader, SectionHeaderType } from '../../components/ui/SectionHeader/SectionHeader'
 import { CastList } from '../../components/ui/CastList/CastList'
 import { PostersList } from '../../components/ui/PostersList/PostersList'
+import { Typography, TypographyTypes } from '../../components/ui/Typography/Typography'
+import { FilmSlider } from '../../components/ui/sliders/FilmSlider/FilmSlider'
+import { SliderNav } from '../../components/ui/sliders/SliderNav/SliderNav'
+import { IMovieRes } from '../../api/types'
+import { ReviewsList } from '../../components/ui/ReviewsList/ReviewsList'
+import { Button } from '../../components/ui/Button/Button'
 
 const data = {
   title: 'Побег из Претории',
@@ -28,11 +34,15 @@ export const FilmPage = () => {
   const { slug } = useParams()
   const [cast, setCast] = useState<ICastRes[]>([])
   const [posters, setPosters] = useState<IPoster[]>([])
+  const [reviews, setReviews] = useState<IReview[]>([])
+  const [similar, setSimilar] = useState<IMovieRes[]>([])
 
   useEffect(() => {
     if (!slug) return
     getCast(slug).then(res => setCast(res))
     getPosters(slug).then(res => setPosters(res))
+    getReview(slug).then(res => setReviews(res))
+    getSimilarMovies(slug).then(res => setSimilar(res))
   }, [slug])
 
   console.log('POSTERS', posters)
@@ -90,6 +100,30 @@ export const FilmPage = () => {
           className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
         />
         <PostersList list={posters} title={''} />
+      </section>
+      <section>
+        <Typography
+          variant={'h3'}
+          type={TypographyTypes._TITLE}
+          className={'mx-auto mt-9 mb-[18px] md:mt-[52px] md:mt-9 2xl:mt-[73px] 2xl:mt-[42px] w-max'}
+        >
+          Похожие фильмы
+        </Typography>
+        <FilmSlider slides={similar} name={`film-${slug}`} />
+        <div className={'flex justify-center items-center mt-8'}>
+          <SliderNav sliderName={`film-${slug}`} />
+        </div>
+      </section>
+
+      <section>
+        <div className={'mb-5 mt-24 md:flex md:justify-between'}>
+          <Typography variant={'h3'} type={TypographyTypes._TITLE} className={'mx-auto w-max mb-[54px] md:m-0'}>
+            Рецензии к фильму
+          </Typography>
+          <Button className={'mx-auto md:m-0'}>Добавить рецензию</Button>
+        </div>
+
+        <ReviewsList list={reviews} />
       </section>
 
       <section className={'rounded-10 pt-4 px-3.5 pb-8 lg:py-10 lg:px-5'}></section>

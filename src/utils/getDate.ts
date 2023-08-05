@@ -1,4 +1,4 @@
-export const getDate = (timestamp: number, o?: Intl.DateTimeFormatOptions) => {
+export const getDate = (timestamp: number | Date, o?: Intl.DateTimeFormatOptions) => {
   const options = o || {
     year: 'numeric',
     month: 'short',

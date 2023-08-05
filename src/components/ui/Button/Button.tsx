@@ -26,7 +26,7 @@ export const Button = ({
       onClick={onClick}
       type={type}
       {...rest}
-      className={twMerge(`rounded-md  ${cls[variant]} ${cls[size]} ${className}`)}
+      className={twMerge(`rounded-md w-max block ${cls[variant]} ${cls[size]} ${className}`)}
     >
       {children}
     </button>

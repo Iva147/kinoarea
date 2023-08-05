@@ -1,3 +1,5 @@
+import { IMovieRes } from './film'
+
 export type CustomError = null | string
 
 export interface IGenre {
@@ -66,4 +68,32 @@ export interface IMovieImagesRes {
   backdrops: []
   logos: []
   posters: IPoster[]
+}
+
+export interface IReview {
+  author: string
+  author_details: {
+    name: string
+    username: string
+    avatar_path: string
+    rating: number
+  }
+  content: string
+  created_at: Date
+  id: string
+  updated_at: Date
+  url: string
+}
+
+export interface IReviewsRes {
+  id: number
+  page: number
+  results: IReview[]
+}
+
+export interface ISimilarRes {
+  page: number
+  results: IMovieRes[]
+  total_pages: number
+  total_results: number
 }

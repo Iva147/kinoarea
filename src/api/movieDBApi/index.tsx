@@ -1,6 +1,6 @@
 import axios, { type AxiosResponse } from 'axios'
-import { IGenre } from '../types'
-import { ICastRes, ICreditsRes, IMovieImagesRes, IPoster } from '../types/responses'
+import { IGenre, IMovieRes } from '../types'
+import { ICastRes, ICreditsRes, IMovieImagesRes, IPoster, IReview, IReviewsRes, ISimilarRes } from '../types/responses'
 
 const token = import.meta.env.VITE_MOVIEDB_TOKEN
 type MOVIETV = 'movie' | 'tv'
@@ -83,4 +83,14 @@ export const getPosters = async (id: string, lang: string = 'en'): Promise<IPost
     params: { include_image_language: lang },
   })
   return data.posters
+}
+
+export const getReview = async (id: string): Promise<IReview[]> => {
+  const { data } = await movieDBAxious.get<IReviewsRes>(path.movie(id) + '/reviews')
+  return data.results
+}
+
+export const getSimilarMovies = async (id: string): Promise<IMovieRes[]> => {
+  const { data } = await movieDBAxious.get<ISimilarRes>(path.movie(id) + '/similar')
+  return data.results
 }
