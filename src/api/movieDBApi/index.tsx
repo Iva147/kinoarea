@@ -1,5 +1,6 @@
 import axios, { type AxiosResponse } from 'axios'
 import { IGenre } from '../types'
+import { ICastRes, ICreditsRes } from '../types/responses'
 
 const token = import.meta.env.VITE_MOVIEDB_TOKEN
 type MOVIETV = 'movie' | 'tv'
@@ -8,6 +9,7 @@ type CATEGORY = 'now_playing' | 'upcoming' | 'popular' | 'top_rated'
 const path = {
   search: (type: MOVIETV, category: CATEGORY) => `${type}/${category}`,
   discover: (type: MOVIETV) => `discover/${type}`,
+  movie: (id: string) => `movie/${id}`,
   persons: 'person/popular',
   genres: (type: MOVIETV) => `/genre/${type}/list`,
 }
@@ -69,4 +71,9 @@ export const getPersons = async (params?: IGetPersonsParams) => {
 export const getGenres = async (type: MOVIETV): Promise<IGenre[]> => {
   const { data } = await movieDBAxious.get(path.genres(type))
   return data.genres
+}
+
+export const getCast = async (id: string): Promise<ICastRes[]> => {
+  const { data } = await movieDBAxious.get<ICreditsRes>(path.movie(id) + '/credits')
+  return data.cast
 }

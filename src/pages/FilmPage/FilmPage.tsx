@@ -5,6 +5,12 @@ import FilmImg from '../../assets/images/films/film-2.png'
 //import cls from './FilmPage.module.scss'
 import { FilmDescript } from '../../components/ui/FilmDescript/FilmDescript'
 import { filmDescriptions } from '../../mock/films'
+import { useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { getCast } from '../../api/movieDBApi'
+import { ICastRes } from '../../api/types/responses'
+import { SectionHeader, SectionHeaderType } from '../../components/ui/SectionHeader/SectionHeader'
+import { CastList } from '../../components/ui/CastList/CastList'
 
 const data = {
   title: 'Побег из Претории',
@@ -18,6 +24,14 @@ const data = {
 console.log({ data })
 
 export const FilmPage = () => {
+  const { slug } = useParams()
+  const [cast, setCast] = useState<ICastRes[]>([])
+
+  useEffect(() => {
+    if (!slug) return
+    getCast(slug).then(res => setCast(res))
+  }, [slug])
+
   return (
     <div className={'container pt-[24px] pb-6 md:pt-9 md:pb-[42px] lg:pt-7 lg:pb-14 2xl:pt-16 2zl:pb-[69px]'}>
       {/*<section className={'container'}>
@@ -52,6 +66,16 @@ export const FilmPage = () => {
             <FilmDescript {...item} key={item.id} />
           ))}
         </ul>
+      </section>
+
+      <section>
+        <SectionHeader
+          title={'В главных ролях:'}
+          type={SectionHeaderType.ARROW}
+          linkTitle={'Все актёры'}
+          className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
+        />
+        <CastList list={cast} />
       </section>
 
       <section className={'rounded-10 pt-4 px-3.5 pb-8 lg:py-10 lg:px-5'}></section>
