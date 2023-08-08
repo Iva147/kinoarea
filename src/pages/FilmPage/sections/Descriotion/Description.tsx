@@ -1,4 +1,4 @@
-import { FilmDescript } from '../../../../components/ui/FilmDescript/FilmDescript'
+import { Descript } from '../../../../components/ui/Descript/Descript'
 import { IMovieDetailsRes } from '../../../../api/types/responses'
 import { getDate } from '../../../../utils'
 
@@ -30,7 +30,7 @@ export const Description = ({
   return (
     <ul className={'mt-7 mb-9 md:cols-2 md:mt-5 md:mb-6 lg:gap-7 lg:mt-11 lg:mb-12 2xl:gap-16'}>
       {list.map(item => (
-        <FilmDescript {...item} key={item.id} />
+        <Descript {...item} key={item.id} />
       ))}
     </ul>
   )

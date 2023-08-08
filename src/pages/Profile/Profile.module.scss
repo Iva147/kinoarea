@@ -1,0 +1,35 @@
+.titleWrapper {
+  @apply flex justify-between items-center
+}
+
+.titleBtn {
+  @apply flex items-center justify-between gap-2.5 rounded-5 bg-darkBlue py-2.5 pl-[11px] pr-[9px] text-xs font-q-500
+  md:gap-3.5 md:pt-[12.16px] md:pb-[12.65px] md:pl-[13.24px] md:pr-[12.7px] md:text-base
+  2xl:pt-[15.16px] 2xl:pb-[18.19px] 2xl:pl-[23.24px] 2xl:pr-[22.23px]
+}
+
+.img {
+  @apply w-[385px] max-w-full aspect-square object-cover rounded-10 mx-auto mt-3.5 mb-0.5
+  md:m-0 md:max-w-[40%]
+  lg:w-[490px] 2xl:w-[900px]
+}
+
+.form {
+  @apply sm:mr-10 sm:ml-9 md:flex md:flex-wrap md:gap-4 md:items-center
+}
+
+.inputsBlock {
+  @apply [&>*:not(:last-child)]:mb-[11px] mb-[23px] md:order-3 md:w-full
+}
+
+.socialMediaBlock {
+  @apply text-white [&>*:not(:last-child)]:mb-[9px] md:flex-1
+}
+
+.inputAddendum {
+  @apply  w-[54px] h-[54px] [&>*]:w-[22px] [&>*]:max-h-[22px] inline-block flex-center rounded-10
+}
+
+.textarea {
+  @apply h-[267px]
+}

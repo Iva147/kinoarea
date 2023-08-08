@@ -13,7 +13,6 @@ export function Checkbox({ label, name, className, isChecked, onChecked }: Check
     setChecked(prev => !prev)
     onChecked?.(!checked)
   }
-
   return (
     <label className={`relative flex gap-3 ${className}`}>
       <input
@@ -24,7 +23,7 @@ export function Checkbox({ label, name, className, isChecked, onChecked }: Check
         checked={isChecked}
       />
       <span className={`shrink-0 basis-[17px] h-[17px] rounded-sm bg-yellowish flex-center`}>
-        <span className={`${checked ? 'bg-checkmark' : ''} bg-img w-1.5 h-1`} />
+        <span className={`${isChecked ? 'bg-checkmark' : ''} bg-img w-1.5 h-1`} />
       </span>
       {label && <span className={'text-sm'}>{label}</span>}
     </label>
