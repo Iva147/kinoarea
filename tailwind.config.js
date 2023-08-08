@@ -49,6 +49,8 @@ export default {
         'gray-light': '#e6e3f0',
         yellowish: '#F2F60F',
         'purple-1': '#54689E',
+        'border-blue': '#2B354E',
+        options: '#949597',
       },
       boxShadow: {
         btn: '0 0px 2px 0px',
@@ -105,12 +107,13 @@ export default {
         72: '0.72',
       },
       backgroundImage: {
-        mailing: `url(./src/assets/images/films/mailing-bg.png)`,
-        checkmark: 'url(./src/assets/images/general/checkmark.svg)',
+        mailing: `url(/src/assets/images/films/mailing-bg.png)`,
+        checkmark: 'url(/src/assets/images/general/checkmark.svg)',
         'news-gradient': 'linear-gradient(1deg, #3657CB 0%, rgba(0, 0, 0, 0.00) 100%)',
       },
       borderRadius: {
         10: '10px',
+        5: '5px',
       },
     },
   },
@@ -149,6 +152,44 @@ export default {
           transformBox: 'border-box',
           transition: 'transform 400ms ease-in-out',
           transformOrigin: 'left',
+        },
+        '.input': {
+          color: theme('colors.white'),
+          background: theme('colors.darkBlue'),
+          borderRadius: theme('borderRadius.10'),
+          outline: 'none',
+          fontSize: theme('fontSize["15"]'),
+          fontWeight: theme('fontFamily["q-500"]'),
+
+          '&:placeholder': {
+            color: `rgba(${theme('colors.white')}, 0.6)`,
+          },
+
+          '@screen md': {
+            fontSize: theme('fontSize["14"]'),
+            fontWeight: theme('fontFamily["q-400"]'),
+          },
+        },
+        '.input-text': {
+          fontSize: theme('fontSize["15"]'),
+          fontWeight: theme('fontFamily["q-500"]'),
+
+          '@screen md': {
+            fontSize: theme('fontSize["14"]'),
+            fontWeight: theme('fontFamily["q-400"]'),
+          },
+        },
+        '.input-padding': {
+          padding: '13px 23px 14px 21px',
+
+          '@screen md': {
+            padding: '13px 23px 14px 26px',
+          },
+        },
+        '.scroll': {
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: theme('colors.blue'),
+          },
         },
       })
     }),

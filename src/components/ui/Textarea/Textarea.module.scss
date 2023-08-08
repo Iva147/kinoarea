@@ -1,0 +1,52 @@
+$decor-w: 2px;
+
+$bottom-sm: 18px + $decor-w;
+$bottom-md: 10px  + $decor-w;
+$bottom-lg: 14px + $decor-w;
+$bottom-2xl: 9px + $decor-w;
+
+
+.wrapper {
+  @apply input input-padding min-h-[200px] w-full relative;
+
+  @screen sm {
+    padding-bottom: $bottom-sm;
+  }
+
+  @screen md {
+    padding-bottom: $bottom-md;
+  }
+
+  @screen lg {
+    padding-bottom: $bottom-lg;
+  }
+
+  @screen 2xl {
+    padding-bottom: $bottom-2xl;
+  }
+
+
+  &:after {
+    @apply absolute bg-white w-[97px] h-[2px] content-[""] bottom-[$bottom-sm] left-1/2 -translate-x-1/2 -translate-y-full;
+
+    @screen sm {
+      bottom: $bottom-sm;
+    }
+
+    @screen md {
+      bottom: $bottom-md;
+    }
+
+    @screen lg {
+      bottom: $bottom-lg;
+    }
+
+    @screen 2xl {
+      bottom: $bottom-2xl;
+    }
+  }
+}
+
+.textarea {
+  @apply resize-none w-full h-full bg-transparent outline-none
+}

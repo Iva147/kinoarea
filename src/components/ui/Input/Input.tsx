@@ -19,6 +19,8 @@ interface InputProps<T extends FieldValues | undefined = undefined>
   onChange?: InputSetter
   addendum?: ReactNode
   onAddendumClick?: InputSetter
+  addendumLeft?: boolean
+  addendumFull?: boolean
   error?: string
 }
 
@@ -33,6 +35,8 @@ export function Input<T extends FieldValues | undefined = undefined>({
   onChange,
   addendum,
   onAddendumClick,
+  addendumLeft,
+  addendumFull,
   error,
   register,
   ...props
@@ -58,7 +62,14 @@ export function Input<T extends FieldValues | undefined = undefined>({
   }
 
   return (
-    <div className={classnames(`cls.input text-white/60 text-17 relative`, [className])}>
+    <div
+      className={twMerge(
+        classnames(`text-white/60 text-17 relative flex rounded-10 bg-darkBlue input`, [className], {
+          'flex-row-reverse': addendumLeft,
+          'input-padding': !addendumFull,
+        })
+      )}
+    >
       {label && (
         <label
           htmlFor={id + name}
@@ -82,10 +93,11 @@ export function Input<T extends FieldValues | undefined = undefined>({
         placeholder={placeholder}
         autoComplete="new-password"
         aria-invalid={!!error}
-        className={`
-          bg-darkBlue w-full py-3 px-4 outline-0 rounded-10 text-white
-          focus:outline-none 
-          md_h:py-5 md_h:px-[26px]`}
+        className={twMerge(
+          classnames(`w-full outline-0 rounded-10 text-white bg-transparent focus:outline-none`, {
+            'input-padding': addendumFull,
+          })
+        )}
       />
       {addendum && <button onClick={addendumClickHandler}>{addendum}</button>}
       {error && !isFieldFocused && (
