@@ -4,6 +4,7 @@ import { ILoginFields, loginSchema } from '../../../../api/types/schemas'
 import { Input } from '../../../ui/Input/Input'
 import { Typography, TypographyTypes } from '../../../ui/Typography/Typography'
 import { Button } from '../../../ui/Button/Button'
+import { useActions } from '../../../../hooks/useActions'
 
 interface LoginFormProps {
   onRegisterClick: () => void
@@ -16,10 +17,12 @@ export const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
   } = useForm({
     resolver: yupResolver(loginSchema),
   })
+  const { fetchUser } = useActions()
 
-  const onSubmit: SubmitHandler<ILoginFields> = data => {
+  const onSubmit: SubmitHandler<ILoginFields> = async data => {
     //TODO: add request
     console.log('data', data)
+    fetchUser()
   }
 
   return (

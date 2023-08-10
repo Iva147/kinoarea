@@ -1,5 +1,7 @@
 import { IMovieRes } from './film'
+import { SocialMedias } from './socialMedias'
 
+/* MovieDB */
 export type CustomError = null | string
 
 export interface IGenre {
@@ -136,4 +138,30 @@ export interface IMovieDetailsRes {
   video: boolean
   vote_average: number
   vote_count: number
+}
+
+/* firebase */
+interface IFriend {
+  id: number
+  name: string
+  img: string
+  online: boolean
+}
+
+export type SexType = 'male' | 'female' | 'others' | 'notchosen'
+
+export interface IUser {
+  id: number
+  name: string
+  surname: string | null
+  birthday: Date
+  sex: SexType
+  img: string
+  country: string
+  city: string
+  genres: { id: number; name: string }[]
+  about: string
+  links: { [K in SocialMedias]: string | null }
+  friends: IFriend[]
+  reviews: number[]
 }

@@ -1,11 +1,11 @@
-import { ReactNode, useState } from 'react'
+import { FormEvent, ReactNode, useEffect, useState } from 'react'
 import { Typography, TypographyTypes } from '../../../../components/ui/Typography/Typography'
 import { ReactComponent as CheckedIcon } from '../../../../assets/images/general/checked.svg'
 import cls from '../../Profile.module.scss'
-import Profile from '../../../../assets/images/profile/profile.png'
+
 import { Input } from '../../../../components/ui/Input/Input'
 import { Button } from '../../../../components/ui/Button/Button'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Textarea } from '../../../../components/ui/Textarea/Textarea'
 import { ProfilePages } from '../../../../router/paths'
 
@@ -16,12 +16,20 @@ import { ReactComponent as TwitterIcon } from '../../../../assets/images/general
 import { ReactComponent as FacebookIcon } from '../../../../assets/images/general/facebook-f.svg'
 import type { SocialMedias } from '../../../../api/types/socialMedias'
 import { CustomSelect } from '../../../../components/ui/Select/Select'
+import { useTypedSelector } from '../../../../hooks/useTypedSelector'
+import type { IUser, SexType } from '../../../../api/types/responses'
+import { useActions } from '../../../../hooks/useActions'
+import { getSelectedOption, getSelectedValue } from '../../../../utils/getSelectedOption'
+import type { IOption } from '../../../../utils/getSelectedOption'
 
-const sexOptions = [
+import Avatar from '../../../../assets/images/general/avatar.svg'
+import { twMerge } from 'tailwind-merge'
+
+const sexOptions: { value: SexType; label: string }[] = [
   { value: 'male', label: 'мужчина' },
   { value: 'female', label: 'женщина' },
   { value: 'others', label: 'другое' },
-  { value: 'notselects', label: 'не указывать' },
+  { value: 'notchosen', label: 'не указывать' },
 ]
 
 const socialBtns: { id: number; icon: ReactNode; bg: string; name: SocialMedias; placeholder: string }[] = [
@@ -37,41 +45,96 @@ const socialBtns: { id: number; icon: ReactNode; bg: string; name: SocialMedias;
   { id: 4, icon: <TwitterIcon />, bg: '#1DA1F2', name: 'twitter', placeholder: 'ссылка на twitter' },
   { id: 5, icon: <FacebookIcon />, bg: '#3B5998', name: 'facebook', placeholder: 'ссылка на facebook' },
 ]
+
+type Fields = Pick<IUser, 'name' | 'surname' | 'about' | 'sex'>
+type SocialMediasType = {
+  [K in SocialMedias]: string | null
+}
+
 export const Setting = () => {
-  const [socialMedias, setSocialMedias] = useState({
+  const [info, setInfo] = useState<Fields>({
+    name: '',
+    surname: '',
+    about: '',
+    sex: 'notchosen',
+  })
+  const [socialMedias, setSocialMedias] = useState<SocialMediasType>({
     linkedin: '',
     youtube: '',
     instagram: '',
     twitter: '',
     facebook: '',
   })
+  const { user, error } = useTypedSelector(state => state.user)
+  const navigate = useNavigate()
+  const { updateUser } = useActions()
+
+  function handleInput<T>(name: keyof Fields) {
+    return (value: T) => {
+      setInfo(prev => ({ ...prev, [name]: value }))
+    }
+  }
+
+  function handleSelect(selectedOptions: unknown) {
+    const sex = getSelectedValue(sexOptions, selectedOptions as IOption | IOption[])
+    if (sex) setInfo(prev => ({ ...prev, sex: sex as SexType }))
+  }
 
   function handleSocialMediasInput<T>(name: SocialMedias) {
     return (value: T) => {
-      setSocialMedias(prev => ({ ...prev, [prev[name]]: value }))
+      setSocialMedias(prev => ({ ...prev, [name]: value }))
     }
   }
+
+  useEffect(() => {
+    if (user) {
+      const { name, surname, about, sex, links } = user
+      setInfo({ name, surname, about, sex })
+      setSocialMedias(links)
+    }
+  }, [user])
+
+  const submitForm = async (e: FormEvent) => {
+    e.preventDefault()
+    await updateUser('u1', { ...info, links: socialMedias })
+    error && navigate(ProfilePages.main)
+  }
+
   return (
     <>
       <div className={cls.titleWrapper}>
         <Typography variant="h2" type={TypographyTypes._TITLE}>
           Настройки профиля
         </Typography>
-        <Link className={cls.titleBtn} to={ProfilePages.main}>
+        <button className={cls.titleBtn} form="profile-form">
           <CheckedIcon className="w-[14.8px] md:w-[19px]" />
           <span>Сохранить</span>
-        </Link>
+        </button>
       </div>
-      <form className={cls.form}>
-        <img src={Profile} alt={''} className={cls.img} />
+      <form className={cls.form} id="profile-form" onSubmit={submitForm}>
+        {user?.img ? (
+          <img src={user?.img} alt={info.name} className={cls.img} />
+        ) : (
+          <img src={Avatar} alt={'avatar'} className={twMerge(cls.img, 'avatar')} />
+        )}
         <div className={cls.inputsBlock}>
-          <Input name="profile-name" label="Имя" />
-          <Input name="profile-surname" label="Фамлия" />
-          <CustomSelect options={sexOptions} />
-          <Textarea placeholder="Информация о себе" className={cls.textarea} />
+          <Input name="profile-name" label="Имя" value={info.name} onChange={handleInput('name')} />
+          <Input
+            name="profile-surname"
+            label="Фамлия"
+            value={info.surname || undefined}
+            onChange={handleInput('surname')}
+          />
+          <CustomSelect options={sexOptions} value={getSelectedOption(sexOptions, info.sex)} onChange={handleSelect} />
+          <Textarea
+            placeholder="Информация о себе"
+            className={cls.textarea}
+            value={info.about}
+            onChange={handleInput('about')}
+          />
         </div>
         <div className={cls.socialMediaBlock}>
-          <Input addendum={<Button>Загрузить</Button>} addendumFull name="linkedin" />
+          <Input addendum={<Button type="button">Загрузить</Button>} addendumFull name="img" />
           {socialBtns.map(item => (
             <Input
               addendum={
@@ -84,7 +147,7 @@ export const Setting = () => {
               name={item.name}
               placeholder={item.placeholder}
               key={item.id}
-              value={socialMedias[item.name] && undefined}
+              value={socialMedias?.[item.name] || undefined}
               onChange={handleSocialMediasInput(item.name)}
             />
           ))}

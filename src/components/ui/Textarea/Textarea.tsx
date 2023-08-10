@@ -7,10 +7,11 @@ interface TextareaProps {
   placeholder?: string
   onChange?: (val: string) => void
   value?: string
+  defaultVal?: string
   className?: string
 }
-export const Textarea = ({ placeholder, value = '', onChange, className }: TextareaProps) => {
-  const [val, setVal] = useState(value)
+export const Textarea = ({ placeholder, value, defaultVal, onChange, className }: TextareaProps) => {
+  const [val, setVal] = useState(value || defaultVal || '')
   const changeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
     const val = e.target.value
     setVal(val)
@@ -18,7 +19,7 @@ export const Textarea = ({ placeholder, value = '', onChange, className }: Texta
   }
   return (
     <div className={twMerge(classnames(cls.wrapper, [className]))}>
-      <textarea placeholder={placeholder} value={val} onChange={changeHandler} className={cls.textarea} />
+      <textarea placeholder={placeholder} value={value || val} onChange={changeHandler} className={cls.textarea} />
     </div>
   )
 }

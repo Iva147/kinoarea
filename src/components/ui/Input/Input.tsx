@@ -1,4 +1,4 @@
-import { FormEvent, HTMLAttributes, ReactNode, useId, useState } from 'react'
+import { FormEvent, HTMLAttributes, ReactNode, useEffect, useId, useState } from 'react'
 import { IRegister } from '../../../api/types/forms'
 import classnames from 'classnames'
 import { FieldValues } from 'react-hook-form'
@@ -46,7 +46,9 @@ export function Input<T extends FieldValues | undefined = undefined>({
   const id = useId()
 
   const changeHandler = (e: FormEvent<HTMLInputElement>) => {
-    onChange ? onChange(setInputValue) : setValue((e.target as HTMLInputElement).value)
+    const v = (e.target as HTMLInputElement).value
+    setValue(v)
+    onChange?.(v)
 
     if (register && name) {
       register(name).onChange(e)
@@ -60,6 +62,10 @@ export function Input<T extends FieldValues | undefined = undefined>({
   const addendumClickHandler = () => {
     onAddendumClick && onAddendumClick(setInputValue)
   }
+
+  useEffect(() => {
+    setValue(inputValue)
+  }, [inputValue])
 
   return (
     <div

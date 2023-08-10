@@ -1,0 +1,6 @@
+export enum User {
+  ADD_USER = 'ADD_USER',
+  LOAD_USER = 'LOAD_USER',
+  ERROR_USER = 'ERROR_USER',
+  REMOVE_USER = 'REMOVE_USER',
+}

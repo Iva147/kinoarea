@@ -10,14 +10,20 @@ import { ReactComponent as TwitterIcon } from '@/assets/images/general/icons8-tw
 import { Logo } from '../Logo/Logo'
 import { NavLinks } from '../NavLinks/NavLinks'
 import { AuthModal } from '../modals/AuthModal/AuthModal'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useTypedSelector } from '../../../hooks/useTypedSelector'
 
 interface HeaderProps {
   onMenu?: () => void
 }
 export const Header = ({ onMenu }: HeaderProps) => {
-  //const [isLoginModalOpen, setLoginModalOpen] = useState(false)
   const [isRegisterOpen, setRegisterModalOpen] = useState(false)
+  const { user } = useTypedSelector(state => state.user)
+
+  useEffect(() => {
+    if (user) setRegisterModalOpen(false)
+  }, [user])
+
   return (
     <header className={'flex py-[11px] container'}>
       <div className={'hidden xl:block lg:flex-1'}>

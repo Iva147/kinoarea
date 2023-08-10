@@ -38,4 +38,8 @@ $color: theme('colors.darkBlue');
   .form_link {
     @apply text-blue text-center font-q-500 text-17 underline underline-offset-2
   }
+
+  .avatar {
+    @apply object-contain bg-dark-purple p-14 md:p-20
+  }
 }
