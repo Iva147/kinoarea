@@ -12,6 +12,7 @@ import { ReactComponent as FacebookIcon } from '../../../../assets/images/genera
 import Profile from '../../../../assets/images/profile/profile.png'
 import cls from '../../Profile.module.scss'
 import type { SocialMedias } from '../../../../api/types/socialMedias'
+import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 
 const profileInfo = [
   { id: 1, title: 'Пол:', description: 'Мужской' },
@@ -28,12 +29,12 @@ const socialsMedia = {
   instagram: <InstagramIcon />,
   twitter: <TwitterIcon />,
 }
-const socials: { id: number; link: string; name: SocialMedias }[] = [
-  { id: 1, link: '', name: 'youtube' },
-  { id: 2, link: '', name: 'linkedin' },
-  { id: 3, link: '', name: 'facebook' },
-  { id: 4, link: '', name: 'instagram' },
-  { id: 5, link: '', name: 'twitter' },
+const socials: { id: number; name: SocialMedias }[] = [
+  { id: 1, name: 'youtube' },
+  { id: 2, name: 'linkedin' },
+  { id: 3, name: 'facebook' },
+  { id: 4, name: 'instagram' },
+  { id: 5, name: 'twitter' },
 ]
 
 interface InfoItemProps {
@@ -58,6 +59,8 @@ const info = [
   { title: 'Ожидаемые\nфильмы', amount: 1, id: 5 },
 ]
 export const ProfileMain = () => {
+  const { user } = useTypedSelector(state => state.user)
+
   return (
     <>
       <div className={cls.titleWrapper}>
@@ -73,20 +76,22 @@ export const ProfileMain = () => {
         <img src={Profile} alt={''} className={cls.img} />
         <div>
           <Typography variant={'h2'} type={TypographyTypes._TITLE} className={'text-center md:text-start'}>
-            Евгений Батиков
+            {user?.name} {user?.surname}
           </Typography>
           <div className={'flex-center gap-2.5 mt-2 md:justify-start'}>
-            {socials.map(item => (
-              <Link
-                to={'https://youtu.be/EH1WsQGSrWU'}
-                className={
-                  'rounded-full border-[1px] border-border-blue w-[26.27px] h-[26.27px] flex-center text-gray [&>svg]:w-[50%] [&>svg]:max-h-[50%]'
-                }
-                key={item.id}
-              >
-                {socialsMedia[item.name]}
-              </Link>
-            ))}
+            {socials.map(item => {
+              return (
+                <Link
+                  to={user?.links[item.name] || ''}
+                  className={
+                    'rounded-full border-[1px] border-border-blue w-[26.27px] h-[26.27px] flex-center text-gray [&>svg]:w-[50%] [&>svg]:max-h-[50%]'
+                  }
+                  key={item.id}
+                >
+                  {socialsMedia[item.name]}
+                </Link>
+              )
+            })}
           </div>
           <p
             className={`text-13 text-white/80 text-center mt-3.5 mb-4 

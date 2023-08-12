@@ -154,7 +154,7 @@ export interface IUser {
   id: number
   name: string
   surname: string | null
-  birthday: Date
+  birthday: Date | null
   sex: SexType
   img: string
   country: string

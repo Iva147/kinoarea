@@ -4,6 +4,7 @@
 
 @import "swiper";
 @import "fonts";
+@import "datepicker";
 
 $color: theme('colors.darkBlue');
 @layer base {
@@ -26,7 +27,6 @@ $color: theme('colors.darkBlue');
     -webkit-transition: color 9999s ease-out, background-color 9999s ease-out;
     -webkit-transition-delay: 9999s;
   }
-
 }
 
 @layer components {

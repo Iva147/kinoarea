@@ -22,6 +22,7 @@ interface InputProps<T extends FieldValues | undefined = undefined>
   addendumLeft?: boolean
   addendumFull?: boolean
   error?: string
+  accept?: string
 }
 
 export function Input<T extends FieldValues | undefined = undefined>({
@@ -37,6 +38,7 @@ export function Input<T extends FieldValues | undefined = undefined>({
   onAddendumClick,
   addendumLeft,
   addendumFull,
+  accept,
   error,
   register,
   ...props
@@ -99,6 +101,7 @@ export function Input<T extends FieldValues | undefined = undefined>({
         placeholder={placeholder}
         autoComplete="new-password"
         aria-invalid={!!error}
+        accept={accept}
         className={twMerge(
           classnames(`w-full outline-0 rounded-10 text-white bg-transparent focus:outline-none`, {
             'input-padding': addendumFull,

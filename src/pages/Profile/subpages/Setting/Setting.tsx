@@ -4,7 +4,6 @@ import { ReactComponent as CheckedIcon } from '../../../../assets/images/general
 import cls from '../../Profile.module.scss'
 
 import { Input } from '../../../../components/ui/Input/Input'
-import { Button } from '../../../../components/ui/Button/Button'
 import { useNavigate } from 'react-router-dom'
 import { Textarea } from '../../../../components/ui/Textarea/Textarea'
 import { ProfilePages } from '../../../../router/paths'
@@ -24,6 +23,9 @@ import type { IOption } from '../../../../utils/getSelectedOption'
 
 import Avatar from '../../../../assets/images/general/avatar.svg'
 import { twMerge } from 'tailwind-merge'
+import { DateInput } from '../../../../components/ui/DateInput/DateInput'
+import { FileInput } from '../../../../components/ui/FileInput/FileInput'
+import { shortenFileName } from '../../../../utils/shortenFileName'
 
 const sexOptions: { value: SexType; label: string }[] = [
   { value: 'male', label: 'мужчина' },
@@ -65,12 +67,18 @@ export const Setting = () => {
     twitter: '',
     facebook: '',
   })
+  const [date, setDate] = useState<Date | null>(null)
+  const [selectedImage, setSelectedImage] = useState<Blob | null>(null)
+  const [err, setErr] = useState({ name: '', surname: '' })
   const { user, error } = useTypedSelector(state => state.user)
   const navigate = useNavigate()
   const { updateUser } = useActions()
 
   function handleInput<T>(name: keyof Fields) {
     return (value: T) => {
+      if (name === 'name' || name === 'surname') {
+        handleErr(value as string, name)
+      }
       setInfo(prev => ({ ...prev, [name]: value }))
     }
   }
@@ -86,18 +94,38 @@ export const Setting = () => {
     }
   }
 
+  const handleImageUpload = (e: FormEvent<HTMLInputElement>) => {
+    const file = e.currentTarget.files?.[0]
+    if (!file) return
+    setSelectedImage(file)
+  }
+
+  const getImgUrl = (file: Blob | MediaSource) => URL.createObjectURL(file)
+
   useEffect(() => {
     if (user) {
-      const { name, surname, about, sex, links } = user
+      const { name, surname, about, sex, links, birthday } = user
       setInfo({ name, surname, about, sex })
       setSocialMedias(links)
+      setDate(birthday)
     }
   }, [user])
 
   const submitForm = async (e: FormEvent) => {
     e.preventDefault()
-    await updateUser('u1', { ...info, links: socialMedias })
+
+    if (err.name || err.surname) return
+    await updateUser('u1', { ...info, links: socialMedias, birthday: date }, selectedImage)
     error && navigate(ProfilePages.main)
+  }
+
+  const handleErr = (val: string, fieldName: 'name' | 'surname') => {
+    const appropriateLength = val.length > 1
+    let errText = ''
+    if (!appropriateLength) errText = 'Нужно указать больше одной буквы'
+    if (appropriateLength && err[fieldName]) errText = ''
+
+    setErr(prev => ({ ...prev, [fieldName]: errText }))
   }
 
   return (
@@ -112,20 +140,20 @@ export const Setting = () => {
         </button>
       </div>
       <form className={cls.form} id="profile-form" onSubmit={submitForm}>
-        {user?.img ? (
-          <img src={user?.img} alt={info.name} className={cls.img} />
-        ) : (
-          <img src={Avatar} alt={'avatar'} className={twMerge(cls.img, 'avatar')} />
-        )}
+        {selectedImage && <img src={getImgUrl(selectedImage)} alt={info.name} className={cls.img} />}
+        {user?.img && !selectedImage && <img src={user?.img} alt={info.name} className={cls.img} />}
+        {!user?.img && !selectedImage && <img src={Avatar} alt={'avatar'} className={twMerge(cls.img, 'avatar')} />}
         <div className={cls.inputsBlock}>
-          <Input name="profile-name" label="Имя" value={info.name} onChange={handleInput('name')} />
+          <Input name="profile-name" label="Имя" value={info.name} onChange={handleInput('name')} error={err.name} />
           <Input
             name="profile-surname"
             label="Фамлия"
             value={info.surname || undefined}
             onChange={handleInput('surname')}
+            error={err.surname}
           />
           <CustomSelect options={sexOptions} value={getSelectedOption(sexOptions, info.sex)} onChange={handleSelect} />
+          <DateInput date={date} onChange={setDate} placeholderText={'Укажите дату рождения'} />
           <Textarea
             placeholder="Информация о себе"
             className={cls.textarea}
@@ -134,7 +162,18 @@ export const Setting = () => {
           />
         </div>
         <div className={cls.socialMediaBlock}>
-          <Input addendum={<Button type="button">Загрузить</Button>} addendumFull name="img" />
+          <FileInput
+            data={
+              <>
+                <span className={'text-white/60'}>Фото профиля: </span>
+                <span>{shortenFileName(selectedImage?.name) || ''}</span>
+              </>
+            }
+            btnText="Загрузить"
+            name="img"
+            accept="image/*"
+            onChange={handleImageUpload}
+          />
           {socialBtns.map(item => (
             <Input
               addendum={

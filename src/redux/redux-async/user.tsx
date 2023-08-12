@@ -18,11 +18,16 @@ export const fetchUser = () => {
   }
 }
 
-export const updateUser = (id: string, data: Partial<IUser>) => {
+export const updateUser = (id: string, data: Partial<IUser>, img?: Blob | null) => {
   return async (dispatch: Dispatch<UserActions>) => {
     try {
       dispatch(UserActionCreators.load())
-      await FirebaseApi.refreshUser(id, data)
+      let body = data
+      if (img) {
+        const uploadedUrl = await FirebaseApi.uploadProfileImg(id, img)
+        body = { ...data, img: uploadedUrl }
+      }
+      await FirebaseApi.refreshUser(id, body)
       const user = await FirebaseApi.getUser(id)
       if (!user) throw { message: 'Your account not found' }
 

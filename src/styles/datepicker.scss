@@ -1,0 +1,22 @@
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+
+@layer components {
+  .calendar :is(.react-datepicker__month-container, .react-datepicker__header) {
+    @apply bg-darkBlue
+  }
+
+  .calendar :is(.react-datepicker__current-month, .react-datepicker__day-name, .react-datepicker__day) {
+    @apply text-white
+  }
+
+  .calendar .react-datepicker__triangle {
+    @apply hidden
+  }
+
+  .calendar :is(.react-datepicker__day--keyboard-selected, .react-datepicker__day--selected) {
+    @apply bg-blue
+  }
+}

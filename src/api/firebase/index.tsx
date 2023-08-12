@@ -1,6 +1,8 @@
-import { db } from './base'
+import { db, storage } from './base'
 import { collection, getDocs, doc, getDoc, updateDoc, type Query } from 'firebase/firestore'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { IUser } from '../types/responses'
+import { FirebaseEndpoints } from './endpoints'
 
 export enum COLLECTIONS {
   USERS = 'users',
@@ -43,10 +45,17 @@ const refreshUser = async (id: string, data: Partial<IUser>): Promise<void> => {
   await updateDocInfo(id, COLLECTIONS.USERS, data)
 }
 
+const uploadProfileImg = async (id: string, file: Blob): Promise<string> => {
+  const storageRef = await ref(storage, `${FirebaseEndpoints.STORAGE_PROFILES}/${id}`)
+  await uploadBytesResumable(storageRef, file)
+  return await getDownloadURL(storageRef)
+}
+
 export const FirebaseApi = {
   getCollectionRef,
   getDocsInfo,
   getDocsInfoWithCol,
   getUser,
   refreshUser,
+  uploadProfileImg,
 }
