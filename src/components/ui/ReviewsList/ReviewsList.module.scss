@@ -1,0 +1,24 @@
+.headerWrapper {
+  @apply flex items-center gap-4 md:gap-6 lg:gap-[26px]
+}
+
+/* MOVIE PAGE */
+.avatar {
+  @apply rounded-full w-[57px] h-[57px] bg-dark-purple object-cover
+  md:w-[85px] md:h-[85px]
+  lg:w-[115px] lg:h-[115px]
+}
+
+.name {
+  @apply text-xl font-q-700 md:text-25 lg:text-3xl
+}
+
+.time {
+  @apply text-xs text-gray-light2 my-3 md:text-base md:mt-[30px] md:mb-[17px] lg:mb-16 lg:mt-7 lg:text-15
+}
+
+
+/* PROFILE PAGE */
+.poster {
+  @apply rounded-5 w-[50px] h-[80px] object-cover sm:w-[95.7px] sm:h-[141.2px]
+}

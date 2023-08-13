@@ -4,12 +4,14 @@ import { genresReducer } from './genresReducer'
 import { personsReducer } from './personsReducer'
 import { profitReducer } from './profitReducer'
 import { userReducer } from './userReducer'
+import { userReviewsReduser } from './userReviews'
 export const rootReducer = combineReducers({
   movies: moviesReducer,
   genres: genresReducer,
   persons: personsReducer,
   profit: profitReducer,
   user: userReducer,
+  userReviews: userReviewsReduser,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

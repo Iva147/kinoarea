@@ -1,0 +1,5 @@
+export enum UserReviews {
+  ADD_REVIEWS = 'ADD_REVIEWS',
+  LOAD_REVIEWS = 'LOAD_REVIEWS',
+  ERR_REVIEWS = 'ERR_REVIEWS',
+}

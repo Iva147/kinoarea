@@ -12,6 +12,7 @@ import {
   Profile,
   ProfileMain,
   ProfileSetting,
+  UserReviews,
 } from '../pages'
 
 export const router = createBrowserRouter([
@@ -65,7 +66,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'reviews',
-            element: <div></div>,
+            element: <UserReviews />,
           },
           {
             path: 'likes',

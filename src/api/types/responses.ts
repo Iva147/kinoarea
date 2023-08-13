@@ -1,5 +1,6 @@
 import { IMovieRes } from './film'
 import { SocialMedias } from './socialMedias'
+import { Timestamp } from 'firebase/firestore'
 
 /* MovieDB */
 export type CustomError = null | string
@@ -164,4 +165,14 @@ export interface IUser {
   links: { [K in SocialMedias]: string | null }
   friends: IFriend[]
   reviews: number[]
+}
+
+export interface IUserReview extends Pick<IReview, 'content' | 'id' | 'author_details'> {
+  userId: string
+  created_at: Timestamp
+  movie: {
+    id: string
+    name: string
+    poster: string
+  }
 }
