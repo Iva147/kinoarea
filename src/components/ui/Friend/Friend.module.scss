@@ -1,0 +1,17 @@
+.img {
+  @apply rounded-5 aspect-square w-full object-cover
+}
+
+.name {
+  @apply mt-2.5 mb-[5px] font-q-700 text-15
+  md:mt-3 md:mb-[6px]
+  lg:mt-2.5 lg:mb-[5px]
+}
+
+.status {
+  @apply text-13 text-white/70
+}
+
+.online {
+  @apply text-yellowish
+}

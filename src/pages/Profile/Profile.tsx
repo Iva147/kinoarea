@@ -10,6 +10,9 @@ import { ReactComponent as LikesIcon } from '../../assets/images/general/likes.s
 import { ReactComponent as CommentsIcon } from '../../assets/images/general/comments.svg'
 import { ReactComponent as FilmsIcon } from '../../assets/images/general/films.svg'
 import { ReactComponent as FamousIcon } from '../../assets/images/general/famous.svg'
+import { useTypedSelector } from '../../hooks/useTypedSelector'
+import { useEffect } from 'react'
+import { useActions } from '../../hooks/useActions'
 
 const navBtns = [
   { id: 1, path: ProfilePages.main, icon: <HomeIcon /> },
@@ -23,6 +26,8 @@ const navBtns = [
 
 export const Profile = () => {
   const { pathname } = useLocation()
+  const { user } = useTypedSelector(state => state.user)
+  const { fetchUser } = useActions()
 
   const checkActive = (itemPath: string) => {
     let current
@@ -36,6 +41,10 @@ export const Profile = () => {
     }
     return current === itemPath
   }
+
+  useEffect(() => {
+    if (!user) fetchUser()
+  }, [user, fetchUser])
 
   return (
     <div className={'container flex flex-col gap-2 md:gap-[5px] lg:flex-row lg:gap-[8.77px] lg:items-start'}>

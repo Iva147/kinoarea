@@ -5,12 +5,15 @@ import {
   doc,
   getDoc,
   updateDoc,
+  query,
+  where,
+  documentId,
   type Query,
   type QuerySnapshot,
   type DocumentData,
 } from 'firebase/firestore'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import { IUser, IUserReview } from '../types/responses'
+import { IFriend, IUser, IUserReview } from '../types/responses'
 import { FirebaseEndpoints } from './endpoints'
 
 export enum COLLECTIONS {
@@ -19,9 +22,21 @@ export enum COLLECTIONS {
 }
 
 const getCollectionRef = (colName: COLLECTIONS) => collection(db, colName)
-export async function getDocsInfo<T>(ref: Query): Promise<T[]> {
+export async function getDocsInfo<T>(ref: Query, fields?: string[]): Promise<T[]> {
   const docsSnapshot: QuerySnapshot<DocumentData, DocumentData> = await getDocs(ref)
-  const allDocs: T[] = docsSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }) as T)
+  const allDocs: T[] = docsSnapshot.docs.map(doc => {
+    const all = doc.data()
+    let needed = all
+
+    if (fields) {
+      needed = {}
+      fields.forEach(field => {
+        console.log('FIELD', fields, field, needed)
+        needed[field] = all[field]
+      })
+    }
+    return { ...needed, id: doc.id } as T
+  })
 
   return allDocs
 }
@@ -59,6 +74,13 @@ const getUserReviews = async (): Promise<IUserReview[]> => {
   return await getDocsInfoWithCol<IUserReview>(COLLECTIONS.REVIEWS)
 }
 
+const getUserFriends = async (friendsId: string[]): Promise<IFriend[]> => {
+  const q = query(getCollectionRef(COLLECTIONS.USERS), where(documentId(), 'in', friendsId))
+  const d = await getDocsInfo<IFriend>(q, ['name', 'surname', 'img'])
+  console.log('D', d)
+  return d
+}
+
 /* STORAGE */
 
 const uploadProfileImg = async (id: string, file: Blob): Promise<string> => {
@@ -75,4 +97,5 @@ export const FirebaseApi = {
   refreshUser,
   uploadProfileImg,
   getUserReviews,
+  getUserFriends,
 }

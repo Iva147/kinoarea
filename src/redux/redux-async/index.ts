@@ -4,6 +4,7 @@ import * as PersonsThunk from './persons'
 import { MoviesActionCreators, PersonsActionCreator, ProfitActionCreators } from '../actionsCreators'
 import { fetchUser, updateUser } from './user'
 import { fetchUserReviews } from './userReviews'
+import { fetchUserFriends } from './userFriends'
 
 export default {
   ...MovieAsyncActions,
@@ -15,4 +16,5 @@ export default {
   fetchUser,
   updateUser,
   fetchUserReviews,
+  fetchUserFriends,
 }

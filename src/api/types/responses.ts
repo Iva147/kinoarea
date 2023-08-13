@@ -142,13 +142,6 @@ export interface IMovieDetailsRes {
 }
 
 /* firebase */
-interface IFriend {
-  id: number
-  name: string
-  img: string
-  online: boolean
-}
-
 export type SexType = 'male' | 'female' | 'others' | 'notchosen'
 
 export interface IUser {
@@ -163,7 +156,7 @@ export interface IUser {
   genres: { id: number; name: string }[]
   about: string
   links: { [K in SocialMedias]: string | null }
-  friends: IFriend[]
+  friends: string[]
   reviews: number[]
 }
 
@@ -176,3 +169,5 @@ export interface IUserReview extends Pick<IReview, 'content' | 'id' | 'author_de
     poster: string
   }
 }
+
+export interface IFriend extends Pick<IUser, 'id' | 'name' | 'surname' | 'img'> {}

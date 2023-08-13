@@ -1,0 +1,6 @@
+.friends {
+  @apply grid grid-cols-2 gap-y-5 gap-x-5 sm:gap-x-[25px]
+  md:grid-cols-3 md:gap-y-[22.8px] md:gap-x-[30.6px]
+  lg:grid-cols-4 lg:gap-y-5 lg:gap-x-[26.5px]
+  2xl:grid-cols-5 2xl:gap-y-12 2xl:gap-x-8
+}
