@@ -84,8 +84,8 @@ export const SearchFilm = ({ className, onClose }: SearchFilmProps) => {
             return (
               <SearchedItem
                 img={setMovieDBPath(item.poster_path)}
-                title={item.title}
-                originalName={item.original_title}
+                title={item.title || item.name || ''}
+                originalName={item.original_title || item.original_name || ''}
                 genre={'----'}
                 rate={item.popularity}
                 onClick={() => onItemClick(item.id)}

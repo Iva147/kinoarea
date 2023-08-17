@@ -27,7 +27,7 @@ export const VideoSlider = ({ slides }: SliderProgressProps) => {
     >
       {slides.map(item => (
         <SwiperSlide key={item.id}>
-          <VideoSlide src={`${BaseMovieDBAssetsUrl}${item.poster_path}`} title={item.title} />
+          <VideoSlide src={`${BaseMovieDBAssetsUrl}${item.poster_path}`} title={item.title || item.name || ''} />
         </SwiperSlide>
       ))}
     </Swiper>

@@ -1,10 +1,10 @@
 import { MoviesActionTypes } from '../actionsTypes/moviesActionTypes'
-import { CustomError } from '../../api/types'
+import { CustomError, IMovieRes } from '../../api/types'
 import { ICategory } from '../../components/ui/Category/Category'
 
 export type NowPlayingMovie = {
   type: MoviesActionTypes.ADD_NOW_PLAYING_MOVIE
-  payload: []
+  payload: IMovieRes[]
 }
 
 export type LoadNowPlayingMovie = {
@@ -23,7 +23,7 @@ export interface ChangeNowPlayingCategory {
 
 export type PopularMovie = {
   type: MoviesActionTypes.ADD_POPULAR_MOVIE
-  payload: []
+  payload: IMovieRes[]
 }
 export type LoadPopularMovie = {
   type: MoviesActionTypes.LOAD_POPULAR_MOVIE
@@ -41,7 +41,7 @@ export interface ChangePopularCategory {
 
 export type UpcomingMovie = {
   type: MoviesActionTypes.ADD_UPCOMING_MOVIE
-  payload: []
+  payload: IMovieRes[]
 }
 
 export type LoadUpcomingMovie = {

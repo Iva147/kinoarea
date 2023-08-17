@@ -41,7 +41,6 @@ export const SectionHeader = memo((props: SectionHeaderProps) => {
   }
 
   const { categories } = props as Category
-  console.log(title, categories)
 
   return (
     <div className={'mt-5 mb-[30px] xl:flex xl:justify-between xl:items-center'}>

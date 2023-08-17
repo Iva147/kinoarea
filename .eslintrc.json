@@ -33,6 +33,7 @@
   "rules": {
     "prettier/prettier": "error",
     "react/react-in-jsx-scope": "off",
+    "react-hooks/exhaustive-deps": "off",
     "@typescript-eslint/no-empty-interface": [
       "error",
       {

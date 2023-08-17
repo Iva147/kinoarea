@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
         element: <Collections />,
       },
       {
-        path: 'search/result',
+        path: 'films',
         element: <SearchResult />,
       },
       {

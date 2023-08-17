@@ -27,8 +27,6 @@ export const NewTrailers = () => {
     return { first, rest }
   }, [upcoming])
 
-  console.log('movies', movies)
-
   if (!movies) return null
 
   return (

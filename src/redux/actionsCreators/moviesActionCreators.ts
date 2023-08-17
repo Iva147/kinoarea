@@ -1,9 +1,10 @@
 import { MoviesActionTypes } from '../actionsTypes/moviesActionTypes'
 import * as MovieActions from '../actions/moviesActions'
 import { ICategory } from '../../components/ui/Category/Category'
+import { IMovieRes } from '../../api/types'
 
 export const MoviesActionCreators = {
-  addNowPlayingMovies: (movies: []): MovieActions.NowPlayingMovie => {
+  addNowPlayingMovies: (movies: IMovieRes[]): MovieActions.NowPlayingMovie => {
     return { type: MoviesActionTypes.ADD_NOW_PLAYING_MOVIE, payload: movies }
   },
   loadNowPlayingMovies: (): MovieActions.LoadNowPlayingMovie => {
@@ -15,7 +16,7 @@ export const MoviesActionCreators = {
   changeNowPlayingCategory: (category: ICategory): MovieActions.ChangeNowPlayingCategory => {
     return { type: MoviesActionTypes.CHANGE_NOW_PLAYING_CATEGORY, payload: category }
   },
-  addPopularMovies: (movies: []): MovieActions.PopularMovie => {
+  addPopularMovies: (movies: IMovieRes[]): MovieActions.PopularMovie => {
     return { type: MoviesActionTypes.ADD_POPULAR_MOVIE, payload: movies }
   },
   loadPopularMovies: (): MovieActions.LoadPopularMovie => {
@@ -27,7 +28,7 @@ export const MoviesActionCreators = {
   changePopularCategory: (category: ICategory): MovieActions.ChangePopularCategory => {
     return { type: MoviesActionTypes.CHANGE_POPULAR_CATEGORY, payload: category }
   },
-  addUpcomingMovies: (movies: []): MovieActions.UpcomingMovie => {
+  addUpcomingMovies: (movies: IMovieRes[]): MovieActions.UpcomingMovie => {
     return { type: MoviesActionTypes.ADD_UPCOMING_MOVIE, payload: movies }
   },
   loadUpcomingMovies: (): MovieActions.LoadUpcomingMovie => {

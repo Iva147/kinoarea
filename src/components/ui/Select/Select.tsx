@@ -20,6 +20,7 @@ const CustomOption = (props: OptionProps) => {
 
 interface CustomSelectProps extends Props {
   withCustomOptions?: boolean
+  options: { label: string; value: string }[]
 }
 export const CustomSelect = ({
   options,

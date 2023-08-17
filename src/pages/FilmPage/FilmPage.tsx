@@ -1,5 +1,4 @@
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs'
-import FilmImg from '../../assets/images/films/film-2.png'
 import { ReactComponent as PlayIcon } from '../../assets/images/general/play-btn.svg'
 import cls from './FilmPage.module.scss'
 import { useParams } from 'react-router-dom'
@@ -18,17 +17,6 @@ import { Button } from '../../components/ui/Button/Button'
 import { setMovieDBPath } from '../../utils'
 import { Description } from './sections/Descriotion/Description'
 
-const data = {
-  title: 'Побег из Претории',
-  originalTitle: 'Escape from Pretoria',
-  poster: FilmImg,
-  description: `Двое борцов за свободу отбывают срок в одной из самых строгих тюрем мира — в «Претории». 
-  Вместе с другими узниками они планируют дерзкий и опасный побег. Но придумать план — это только первый шаг. 
-  Шаг второй — реализация плана.`,
-}
-
-console.log({ data })
-
 export const FilmPage = () => {
   const { slug } = useParams()
   const [details, setDetails] = useState<IMovieDetailsRes | null>(null)
@@ -45,7 +33,6 @@ export const FilmPage = () => {
     getSimilarMovies(slug).then(res => setSimilar(res))
     getMovieDetails(slug).then(res => setDetails(res))
   }, [slug])
-  console.log(details)
 
   return (
     <>

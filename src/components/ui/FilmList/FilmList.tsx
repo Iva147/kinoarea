@@ -21,7 +21,7 @@ export const FilmList = memo(({ list }: FilmListProps) => {
           <Film
             img={`${baseUrl}${movie.poster_path}`}
             rating={movie.vote_average}
-            title={movie.title}
+            title={movie.title || movie.name || ''}
             genre={genre || ''}
             id={movie.id}
             key={movie.id}

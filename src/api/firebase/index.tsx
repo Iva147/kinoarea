@@ -31,7 +31,6 @@ export async function getDocsInfo<T>(ref: Query, fields?: string[]): Promise<T[]
     if (fields) {
       needed = {}
       fields.forEach(field => {
-        console.log('FIELD', fields, field, needed)
         needed[field] = all[field]
       })
     }
@@ -77,7 +76,7 @@ const getUserReviews = async (): Promise<IUserReview[]> => {
 const getUserFriends = async (friendsId: string[]): Promise<IFriend[]> => {
   const q = query(getCollectionRef(COLLECTIONS.USERS), where(documentId(), 'in', friendsId))
   const d = await getDocsInfo<IFriend>(q, ['name', 'surname', 'img'])
-  console.log('D', d)
+
   return d
 }
 

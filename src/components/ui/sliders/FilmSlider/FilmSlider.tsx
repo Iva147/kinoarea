@@ -49,7 +49,7 @@ export const FilmSlider = ({ slides, name }: FilmSliderProps) => {
             <Film
               img={`${BaseMovieDBAssetsUrl}${item.poster_path}`}
               rating={item.vote_average}
-              title={item.title}
+              title={item.title || item.name || ''}
               genre={genres}
               id={item.id}
             />

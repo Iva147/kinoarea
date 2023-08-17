@@ -1,5 +1,6 @@
 import axios, { type AxiosResponse } from 'axios'
 import { IGenre, IMovieRes } from '../types'
+import { IGetSearchParams, CATEGORY, MOVIETV } from '../types/requests'
 import {
   ICastRes,
   ICreditsRes,
@@ -10,11 +11,10 @@ import {
   ISimilarRes,
   IMovieDetailsRes,
   ISearchResult,
+  IDiscoverResult,
 } from '../types/responses'
 
 const token = import.meta.env.VITE_MOVIEDB_TOKEN
-type MOVIETV = 'movie' | 'tv'
-type CATEGORY = 'now_playing' | 'upcoming' | 'popular' | 'top_rated'
 
 const path = {
   search: (type: MOVIETV, category: CATEGORY) => `${type}/${category}`,
@@ -38,27 +38,8 @@ movieDBAxious.interceptors.response.use(
     return Promise.reject(err)
   }
 )
-type IParams = {
-  year?: number
-  with_genres?: string
-}
 
-type TVFilters = IParams
-type MovieFilters = IParams
-
-type TVSearch = {
-  type: 'tv'
-  category?: CATEGORY
-  params?: TVFilters
-}
-
-type MoviesSearch = {
-  type: 'movie'
-  category?: CATEGORY
-  params?: MovieFilters
-}
-type IGetSearchParams = TVSearch | MoviesSearch
-export const getSearch = async (options: IGetSearchParams) => {
+export const getSearch = async (options: IGetSearchParams): Promise<IDiscoverResult> => {
   const { type, category = 'popular', params } = options
   let movie: AxiosResponse
 
@@ -120,4 +101,8 @@ export const getSearchedItem = async (value?: string, page: number = 1): Promise
   })
 
   return data
+}
+
+export const MovieDBAPI = {
+  getSearch,
 }

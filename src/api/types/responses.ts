@@ -4,6 +4,7 @@ import { Timestamp } from 'firebase/firestore'
 
 /* MovieDB */
 export type CustomError = null | string
+export const MovieDBPageSize = 20
 
 export interface IGenre {
   id: number
@@ -141,29 +142,23 @@ export interface IMovieDetailsRes {
   vote_count: number
 }
 
-export interface ISearchMovieResult {
-  adult: boolean
-  backdrop_path: string | null
-  genre_ids: number[]
-  id: number
+export type ISearchMovieResult = IMovieRes & {
   media_type: 'movie'
-  original_language: 'en' | 'ru'
-  original_title: string
-  overview: string
-  popularity: number
-  poster_path: string
-  release_date: Date
-  title: string
-  video: boolean
-  vote_average: string
-  vote_count: number
 }
 
-export interface ISearchResult {
+interface IResponse {
   page: number
-  results: ISearchMovieResult[]
+  results: any[]
   total_pages: number
   total_results: number
+}
+
+export interface ISearchResult extends IResponse {
+  results: ISearchMovieResult[]
+}
+
+export interface IDiscoverResult extends IResponse {
+  results: IMovieRes[]
 }
 
 /* firebase */

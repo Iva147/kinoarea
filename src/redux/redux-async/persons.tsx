@@ -8,7 +8,6 @@ export const fetchPopularPersons = (id?: string | number) => {
     try {
       dispatch(PersonsActionCreator.loadPopular())
       const data = await getPersons({ page: id || 1 })
-      console.log('PERSONS', data)
       dispatch(PersonsActionCreator.addPopular(data))
     } catch (err) {
       let message = 'Smth went wrong'
