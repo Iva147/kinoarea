@@ -1,6 +1,6 @@
 import { ReactComponent as SearchIcon } from '../../../assets/images/general/search.svg'
 import { twMerge } from 'tailwind-merge'
-import { ForwardedRef, forwardRef } from 'react'
+import { ForwardedRef, forwardRef, KeyboardEventHandler, useCallback } from 'react'
 
 interface SearchBarProps {
   className?: string
@@ -8,8 +8,21 @@ interface SearchBarProps {
 }
 export const SearchBar = forwardRef(
   ({ className, onSearch }: SearchBarProps, ref: ForwardedRef<HTMLInputElement | null>) => {
+    const onKeyDown: KeyboardEventHandler<HTMLDivElement> = useCallback(
+      e => {
+        if (e.key === 'Enter') {
+          onSearch?.()
+        }
+      },
+      [onSearch]
+    )
     return (
-      <div className={twMerge('flex bg-white rounded-10 pt-[9px] px-2.5 pb-2.5', className)}>
+      <div
+        className={twMerge('flex bg-white rounded-10 pt-[9px] px-2.5 pb-2.5', className)}
+        onKeyDown={onKeyDown}
+        role="button"
+        tabIndex={0}
+      >
         <input
           type="text"
           ref={ref}
