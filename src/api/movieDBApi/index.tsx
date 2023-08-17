@@ -9,6 +9,7 @@ import {
   IReviewsRes,
   ISimilarRes,
   IMovieDetailsRes,
+  ISearchResult,
 } from '../types/responses'
 
 const token = import.meta.env.VITE_MOVIEDB_TOKEN
@@ -107,4 +108,16 @@ export const getReview = async (id: string): Promise<IReview[]> => {
 export const getSimilarMovies = async (id: string): Promise<IMovieRes[]> => {
   const { data } = await movieDBAxious.get<ISimilarRes>(path.movie(id) + '/similar')
   return data.results
+}
+
+export const getSearchedItem = async (value?: string, page: number = 1): Promise<ISearchResult | undefined> => {
+  if (!value) return
+  const { data } = await movieDBAxious.get<ISearchResult>(`/search/multi`, {
+    params: {
+      query: 'value',
+      page,
+    },
+  })
+
+  return data
 }

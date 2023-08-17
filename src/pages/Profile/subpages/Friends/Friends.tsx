@@ -5,6 +5,7 @@ import { useActions } from '../../../../hooks/useActions'
 import { Friend } from '../../../../components/ui/Friend/Friend'
 import clsProfile from '../../Profile.module.scss'
 import cls from './Friends.module.scss'
+import { IncomingFriend } from '../../../../components/ui/IncomingFriend/IncomingFriend'
 
 export const Friends = () => {
   const { friends } = useTypedSelector(state => state.userFriends)
@@ -22,6 +23,10 @@ export const Friends = () => {
         </Typography>
         <p>Всего: {friends.length}</p>
       </div>
+      {friends[0] && (
+        <IncomingFriend img={friends[0].img} name={`${friends[0].name} ${friends[0].surname}`} commonFriends={0} />
+      )}
+
       <div className={cls.friends}>
         {friends?.map(friend => (
           <Friend img={friend.img} name={friend.name} surname={friend.surname} id={friend.id} key={friend.id} online />

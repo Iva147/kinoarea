@@ -1,0 +1,32 @@
+.wrapper {
+  @apply rounded-10 bg-blue/30 pt-2 pr-[13px] pb-[11px] pl-[7px] flex gap-[5px]
+  md:gap-[11px] md:pt-[11px] md:pr-[22px] md:pb-[9px] md:pl-3
+  lg:gap-[13px]
+}
+
+.avatar {
+  @apply rounded-5 w-[35px] h-9 object-cover
+}
+
+.textWrapper {
+  @apply flex flex-col justify-between text-[10px] leading-[1]
+  md:flex-1 md:flex-row md:items-center md:gap-4 md:text-[11px]
+  lg:text-13 lg:gap-[23px]
+  2xl:text-15
+}
+
+.title {
+  @apply font-q-600 md:flex-1
+}
+
+.btns {
+  @apply flex gap-2.5 text-white/80 font-q-500 md:justify-self-end 2xl:gap-[25px]
+}
+
+.btn {
+  @apply hover:text-white/100 hover:underline hover:decoration-solid hover:underline-offset-2 transition-all
+}
+
+.svg {
+  @apply w-2 h-2 md:w-3 md:h-3
+}

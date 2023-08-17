@@ -12,20 +12,32 @@ import { NavLinks } from '../NavLinks/NavLinks'
 import { AuthModal } from '../modals/AuthModal/AuthModal'
 import { useEffect, useState } from 'react'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
+import { SearchFilm } from '../SearchFilm/SearchFilm'
+import { scrollBody } from '../../../utils/scrollBody'
 
 interface HeaderProps {
   onMenu?: () => void
 }
 export const Header = ({ onMenu }: HeaderProps) => {
   const [isRegisterOpen, setRegisterModalOpen] = useState(false)
+  const [isSearchShown, setSearchShown] = useState(false)
   const { user } = useTypedSelector(state => state.user)
 
   useEffect(() => {
     if (user) setRegisterModalOpen(false)
   }, [user])
 
+  const openSearch = () => {
+    scrollBody.stop()
+    setSearchShown(true)
+  }
+
+  const closeSearch = () => {
+    scrollBody.allow()
+    setSearchShown(false)
+  }
   return (
-    <header className={'flex py-[11px] container'}>
+    <header className={'flex py-[11px] container relative'}>
       <div className={'hidden xl:block lg:flex-1'}>
         <NavLinks className={`xl:flex xl:justify-between gap-0.5 xl:max-w-[760px] xl:m-auto xl:font-base`} />
       </div>
@@ -34,9 +46,12 @@ export const Header = ({ onMenu }: HeaderProps) => {
           <BurgerIcon className={'fill-blue'} />
         </Button>
 
-        <Button onClick={() => console.log('SearchIcon')} variant={'icon'}>
-          <SearchIcon />
-        </Button>
+        <div className={'relative'}>
+          <Button onClick={openSearch} variant={'icon'}>
+            <SearchIcon />
+          </Button>
+        </div>
+        {isSearchShown && <SearchFilm className={'fixed inset-0'} onClose={closeSearch} />}
       </div>
       <div className={'flex-1 flex justify-center items-center xl:order-first xl:justify-normal xl:grow-0'}>
         <div>

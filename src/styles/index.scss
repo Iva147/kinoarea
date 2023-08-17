@@ -12,6 +12,10 @@ $color: theme('colors.darkBlue');
     @apply font-q
   }
 
+  .disable-scroll {
+    overflow: hidden;
+  }
+
   svg {
     @apply fill-current
   }
