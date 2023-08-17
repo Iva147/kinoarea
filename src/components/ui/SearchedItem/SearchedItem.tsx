@@ -1,5 +1,6 @@
 import { RateBadge } from '../RateBadge/RateBadge'
 import { twMerge } from 'tailwind-merge'
+import { AbsentImg } from '../AbsentImg/AbsentImg'
 
 interface SearchedFilmProps {
   img: string
@@ -22,11 +23,16 @@ export const SearchedItem = ({ img, title, rate, genre, originalName, className,
         className
       )}
     >
-      <img
-        src={img}
-        alt={originalName}
-        className={'w-[79px] aspect-square object-cover md:order-1 md:aspect-[79/113]'}
-      />
+      {img ? (
+        <img
+          src={img}
+          alt={originalName}
+          className={'w-[79px] aspect-square object-cover rounded-10 md:order-1 md:aspect-[79/113]'}
+        />
+      ) : (
+        <AbsentImg className={'w-[79px] aspect-square rounded-10 md:order-1 md:aspect-[79/113]'} />
+      )}
+
       <div className={'order-3 flex-[100%] md:flex-1 md:order-2'}>
         <p className={'font-q-700 text-xl'}>{title}</p>
         <p className={'text-white/70'}>{originalName}</p>
