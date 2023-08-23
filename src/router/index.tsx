@@ -14,6 +14,9 @@ import {
   ProfileSetting,
   UserReviews,
   Friends,
+  Actors,
+  Actor,
+  loadActor,
 } from '../pages'
 
 export const router = createBrowserRouter([
@@ -90,6 +93,15 @@ export const router = createBrowserRouter([
             element: <Navigate to={'/profile'} />,
           },
         ],
+      },
+      {
+        path: 'actors',
+        element: <Actors />,
+      },
+      {
+        path: 'actors/:actorId',
+        element: <Actor />,
+        loader: loadActor,
       },
     ],
   },

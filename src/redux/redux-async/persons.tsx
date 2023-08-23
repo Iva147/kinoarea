@@ -8,7 +8,7 @@ export const fetchPopularPersons = (id?: string | number) => {
     try {
       dispatch(PersonsActionCreator.loadPopular())
       const data = await getPersons({ page: id || 1 })
-      dispatch(PersonsActionCreator.addPopular(data))
+      dispatch(PersonsActionCreator.addPopular(data.results))
     } catch (err) {
       let message = 'Smth went wrong'
       if (err instanceof Error) message = err.message

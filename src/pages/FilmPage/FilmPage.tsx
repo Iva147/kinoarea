@@ -36,10 +36,9 @@ export const FilmPage = () => {
 
   return (
     <>
-      <img
-        src={setMovieDBPath(details?.poster_path)}
-        alt={details?.title}
-        className={'absolute w-full top-[10%] left-0 -z-1 opacity-40'}
+      <div
+        style={{ backgroundImage: `url(${setMovieDBPath(details?.backdrop_path || details?.poster_path)})` }}
+        className={'bg-no-repeat bg-cover bg-top absolute w-full aspect-[3/4] left-0 -z-1 opacity-40 '}
       />
       <div
         className={

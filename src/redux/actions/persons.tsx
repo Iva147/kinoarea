@@ -1,10 +1,10 @@
 import { Persons } from '../actionsTypes/persons'
-import { CustomError } from '../../api/types'
+import { CustomError, IPerson } from '../../api/types'
 import { ICategory } from '../../components/ui/Category/Category'
 
 export interface AddPopularPersons {
   type: Persons.ADD_POPULAR
-  payload: []
+  payload: IPerson[]
 }
 
 export interface LoadPopularPersons {

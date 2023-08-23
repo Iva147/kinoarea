@@ -1,6 +1,7 @@
 import { IMovieRes } from './film'
 import { SocialMedias } from './socialMedias'
 import { Timestamp } from 'firebase/firestore'
+import { MOVIETV } from './requests'
 
 /* MovieDB */
 export type CustomError = null | string
@@ -11,17 +12,100 @@ export interface IGenre {
   name: string
 }
 
+interface IMovieTitle {
+  media_type: 'movie'
+  title: string
+  original_title: string
+}
+
+interface ITvTitle {
+  media_type: 'tv'
+  name: string
+  original_name: string
+}
+
+export type IKnownFor = ({
+  adult: boolean
+  backdrop_path: string
+  genre_ids: number[]
+  id: number
+  original_language: string
+  overview: string
+  poster_path: string
+  release_date: string
+  video: boolean
+  vote_average: boolean
+  vote_count: number
+} & (IMovieTitle | ITvTitle))[]
+
 export interface IPerson {
   adult: boolean
   gender: number
   id: number
-  known_for: []
+  known_for: IKnownFor
   known_for_department: string
   name: string
   popularity: number
   profile_path: string
 }
 
+export interface IPersonDetail {
+  adult: boolean
+  also_known_as: string[]
+  biography: string
+  birthday: Date | null
+  deathday: Date | null
+  gender: number
+  homepage: string | null
+  id: number
+  imdb_id: number
+  known_for_department: string
+  name: string
+  place_of_birth: string | null
+  popularity: number
+  profile_path: string
+}
+
+export interface IPersonImages {
+  id: number
+  profiles: {
+    aspect_ratio: number
+    height: number
+    iso_639_1: null
+    file_path: string
+    vote_average: number
+    vote_count: number
+    width: number
+  }[]
+}
+
+type IPersonCombinedCredits = {
+  adult: boolean
+  backdrop_path: string
+  genre_ids: number[]
+  id: number
+  original_language: string
+  overview: string
+  popularity: number
+  poster_path: string
+  release_date: Date
+  video: boolean
+  vote_average: number
+  vote_count: number
+  character: string
+  credit_id: string
+  order: 0
+  media_type: MOVIETV
+} & (IMovieTitle | ITvTitle)
+export interface IPersonCredits {
+  cast: IPersonCombinedCredits[]
+}
+
+export type IPersonFullInfo = IPersonDetail & { images: Omit<IPersonImages, 'id'> } & {
+  combined_credits: IPersonCredits
+}
+
+/* MOVIE */
 export interface ICastRes {
   adult: boolean
   gender: number
@@ -159,6 +243,10 @@ export interface ISearchResult extends IResponse {
 
 export interface IDiscoverResult extends IResponse {
   results: IMovieRes[]
+}
+
+export interface IPersonResult extends IResponse {
+  results: IPerson[]
 }
 
 /* firebase */

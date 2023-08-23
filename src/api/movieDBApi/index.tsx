@@ -12,6 +12,8 @@ import {
   IMovieDetailsRes,
   ISearchResult,
   IDiscoverResult,
+  IPersonResult,
+  IPersonFullInfo,
 } from '../types/responses'
 
 const token = import.meta.env.VITE_MOVIEDB_TOKEN
@@ -21,6 +23,7 @@ const path = {
   discover: (type: MOVIETV) => `discover/${type}`,
   movie: (id: string) => `movie/${id}`,
   persons: 'person/popular',
+  person: (id: string) => `person/${id}`,
   genres: (type: MOVIETV) => `/genre/${type}/list`,
 }
 
@@ -54,9 +57,18 @@ export const getSearch = async (options: IGetSearchParams): Promise<IDiscoverRes
 interface IGetPersonsParams {
   page: number | string
 }
-export const getPersons = async (params?: IGetPersonsParams) => {
+export const getPersons = async (params?: IGetPersonsParams): Promise<IPersonResult> => {
   const { data } = await movieDBAxious.get(path.persons, { params })
-  return data.results
+  return data
+}
+
+export const getPersonFullInfo = async (id: string): Promise<IPersonFullInfo> => {
+  const { data } = await movieDBAxious.get(path.person(id), {
+    params: {
+      append_to_response: 'images,combined_credits',
+    },
+  })
+  return data
 }
 
 export const getGenres = async (type: MOVIETV): Promise<IGenre[]> => {

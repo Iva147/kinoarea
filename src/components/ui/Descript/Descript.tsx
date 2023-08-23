@@ -1,4 +1,4 @@
-interface DescriptProps {
+export interface DescriptProps {
   title: string
   descriptions: string[] | string
 }
