@@ -66,17 +66,18 @@ export interface IPersonDetail {
   profile_path: string
 }
 
+export interface IPersonImg {
+  aspect_ratio: number
+  height: number
+  iso_639_1: null
+  file_path: string
+  vote_average: number
+  vote_count: number
+  width: number
+}
 export interface IPersonImages {
   id: number
-  profiles: {
-    aspect_ratio: number
-    height: number
-    iso_639_1: null
-    file_path: string
-    vote_average: number
-    vote_count: number
-    width: number
-  }[]
+  profiles: IPersonImg[]
 }
 
 type IPersonCombinedCredits = {

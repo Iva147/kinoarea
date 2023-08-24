@@ -6,6 +6,8 @@ import { IPersonFullInfo } from '../../api/types/responses'
 import { Descript } from '../../components/ui/Descript/Descript'
 import { Typography, TypographyTypes } from '../../components/ui/Typography/Typography'
 import { MovieItem } from '../../components/ui/MovieItem/MovieItem'
+import { SectionHeader, SectionHeaderType } from '../../components/ui/SectionHeader/SectionHeader'
+import { Images } from './sections/Images'
 
 export const Actor = () => {
   const actor = useLoaderData() as IPersonFullInfo
@@ -21,6 +23,7 @@ export const Actor = () => {
     known_for_department,
     also_known_as,
     combined_credits,
+    images,
   } = actor
   console.log('ACTOR', actor)
 
@@ -74,6 +77,10 @@ export const Actor = () => {
             />
           ))}
         </div>
+      </section>
+      <section>
+        <SectionHeader title={'Фото'} type={SectionHeaderType.ARROW} linkTitle={'Все фото'} />
+        <Images list={images?.profiles} title={name} />
       </section>
     </div>
   )

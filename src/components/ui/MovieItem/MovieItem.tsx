@@ -46,7 +46,7 @@ export const MovieItem = ({ img, name, original_name, character, overview, ratin
             </div>
           </div>
         </div>
-        <Button size={'md'} className={'hidden md:block'}>
+        <Button size={'md'} className={'hidden md:block min-w-max'}>
           Карточка фильма
         </Button>
       </div>
