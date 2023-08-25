@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs, useLoaderData } from 'react-router-dom'
+import { type LoaderFunctionArgs, Outlet, useLoaderData } from 'react-router-dom'
 import { getPersonFullInfo } from '../../api/movieDBApi'
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs'
 import { getDate, setMovieDBPath } from '../../utils'
@@ -8,9 +8,11 @@ import { Typography, TypographyTypes } from '../../components/ui/Typography/Typo
 import { MovieItem } from '../../components/ui/MovieItem/MovieItem'
 import { SectionHeader, SectionHeaderType } from '../../components/ui/SectionHeader/SectionHeader'
 import { Images } from './sections/Images'
+import { useLastPathSegment } from '../../hooks/useLastPathsegment'
 
 export const Actor = () => {
   const actor = useLoaderData() as IPersonFullInfo
+  const lastSegment = useLastPathSegment()
 
   if (!actor) return <div>Такого актора не найдено</div>
 
@@ -25,7 +27,10 @@ export const Actor = () => {
     combined_credits,
     images,
   } = actor
-  console.log('ACTOR', actor)
+
+  if (lastSegment === 'images') {
+    return <Outlet context={{ images: images.profiles, title: name }} />
+  }
 
   return (
     <div className={'container'}>
@@ -79,7 +84,7 @@ export const Actor = () => {
         </div>
       </section>
       <section>
-        <SectionHeader title={'Фото'} type={SectionHeaderType.ARROW} linkTitle={'Все фото'} />
+        <SectionHeader title={'Фото'} type={SectionHeaderType.ARROW} linkTitle={'Все фото'} moveToViaArrow={'images'} />
         <Images list={images?.profiles} title={name} />
       </section>
     </div>

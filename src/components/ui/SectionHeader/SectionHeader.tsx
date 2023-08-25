@@ -18,6 +18,8 @@ interface Category {
 interface Arrow {
   type: SectionHeaderType.ARROW
   linkTitle: string
+  moveToViaArrow?: string
+  onArrowClick?: () => void
 }
 
 type SectionHeaderProps = {
@@ -29,13 +31,18 @@ type SectionHeaderProps = {
 export const SectionHeader = memo((props: SectionHeaderProps) => {
   const { title, className, type = SectionHeaderType.REGULAR, onCategoryClick } = props
   if (type === SectionHeaderType.ARROW) {
-    const { linkTitle } = props as Arrow
+    const { linkTitle, onArrowClick, moveToViaArrow = '' } = props as Arrow
     return (
       <div className={`flex flex-col gap-2 items-center md:flex-row md:justify-between ${className}`}>
         <Typography variant={'h2'} type={TypographyTypes._TITLE}>
           {title}
         </Typography>
-        <Link path={'/'} title={linkTitle} className={classnames('text-base font-bold text-white')} />
+        <Link
+          path={moveToViaArrow}
+          title={linkTitle}
+          onClick={onArrowClick}
+          className={classnames('text-base font-bold text-white')}
+        />
       </div>
     )
   }

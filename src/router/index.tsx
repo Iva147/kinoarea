@@ -18,6 +18,7 @@ import {
   Actor,
   loadActor,
 } from '../pages'
+import { ActorImages } from '../pages/ActorImages/ActorImages'
 
 export const router = createBrowserRouter([
   {
@@ -102,6 +103,12 @@ export const router = createBrowserRouter([
         path: 'actors/:actorId',
         element: <Actor />,
         loader: loadActor,
+        children: [
+          {
+            path: 'images',
+            element: <ActorImages />,
+          },
+        ],
       },
     ],
   },
