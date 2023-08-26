@@ -5,7 +5,15 @@ export const PAGES: { [key: string]: string } = {
   '/premiere': 'Афиша',
   '/films': 'Фильмы',
   '/news': 'Новости',
+
+  /* collections */
   '/collections': 'Подборки',
+  '/collections/tv': 'Сериалы',
+  '/collections/category': 'Направления',
+  '/collections/cast': 'По акторам',
+  '/collections/year': 'Годы',
+  '/collections/genres': 'Жанры',
+
   '/actors': 'Акторы',
 }
 

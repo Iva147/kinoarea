@@ -8,6 +8,7 @@ import {
   News,
   OneNews,
   Collections,
+  ChosenCollection,
   SearchResult,
   Profile,
   ProfileMain,
@@ -48,6 +49,7 @@ export const router = createBrowserRouter([
       {
         path: 'collections',
         element: <Collections />,
+        children: [{ path: ':slug', element: <ChosenCollection /> }],
       },
       {
         path: 'films',
