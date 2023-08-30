@@ -1,0 +1,17 @@
+.modal {
+  @apply min-w-0 min-h-0
+}
+
+.modalContent {
+  @apply min-w-0 min-h-0 w-fit;
+
+  & > div {
+    overflow: auto !important;
+  }
+}
+
+
+
+.youtubeFrame {
+  @apply min-w-[50vw] aspect-[16/9]
+}

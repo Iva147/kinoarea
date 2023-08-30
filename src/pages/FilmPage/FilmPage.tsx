@@ -16,6 +16,7 @@ import { ReviewsList } from '../../components/ui/ReviewsList/ReviewsList'
 import { Button } from '../../components/ui/Button/Button'
 import { setMovieDBPath } from '../../utils'
 import { Description } from './sections/Descriotion/Description'
+import { MovieModal } from '../../components/ui/modals/MovieModal/MovieModal'
 
 export const FilmPage = () => {
   const { slug } = useParams()
@@ -24,6 +25,7 @@ export const FilmPage = () => {
   const [posters, setPosters] = useState<IPoster[]>([])
   const [reviews, setReviews] = useState<IReview[]>([])
   const [similar, setSimilar] = useState<IMovieRes[]>([])
+  const [isModalOpen, setModalOpen] = useState(false)
 
   useEffect(() => {
     if (!slug) return
@@ -33,6 +35,8 @@ export const FilmPage = () => {
     getSimilarMovies(slug).then(res => setSimilar(res))
     getMovieDetails(slug).then(res => setDetails(res))
   }, [slug])
+
+  const handlePlay = () => setModalOpen(true)
 
   return (
     <>
@@ -66,7 +70,7 @@ export const FilmPage = () => {
               </div>
               <div className={''}>
                 <p className={'mt-4 mb-11 md:my-4'}>{details.overview}</p>
-                <Button variant={'transparent'} className={cls.playBtn}>
+                <Button variant={'transparent'} className={cls.playBtn} onClick={handlePlay}>
                   <>
                     <PlayIcon />
                     <span>Смотреть трейлер</span>
@@ -82,6 +86,8 @@ export const FilmPage = () => {
                 className={'hidden rounded-10 object-cover aspect-[230/310] md:block md:max-w-[297px]'}
               />
             </div>
+
+            <MovieModal close={() => setModalOpen(false)} isOpened={isModalOpen} />
           </section>
         )}
 
