@@ -38,7 +38,6 @@ export const Header = ({ onMenu }: HeaderProps) => {
   }
   return (
     <header className={'flex py-[11px] container relative'}>
-      <p>KEY {import.meta.env.VITE_MOVIEDB_ASSETS}</p>
       <div className={'hidden xl:block lg:flex-1'}>
         <NavLinks className={`xl:flex xl:justify-between gap-0.5 xl:max-w-[760px] xl:m-auto xl:font-base`} />
       </div>
