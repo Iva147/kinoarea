@@ -14,12 +14,13 @@ const navLinks = [
 
 interface LinksProps {
   className?: string
+  onClick?: () => void
 }
-export const NavLinks = ({ className }: LinksProps) => {
+export const NavLinks = ({ className, onClick }: LinksProps) => {
   return (
     <ul className={classnames('font-bold text-white', [className])}>
       {navLinks.map(({ id, path, title }) => (
-        <Link to={path} key={id}>
+        <Link to={path} key={id} onClick={onClick}>
           {title}
         </Link>
       ))}

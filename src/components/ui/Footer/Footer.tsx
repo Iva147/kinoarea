@@ -5,6 +5,7 @@ import { ReactComponent as InstagramIcon } from '../../../assets/images/general/
 import { ReactComponent as FacebookIcon } from '../../../assets/images/general/facebook-f.svg'
 import { ReactComponent as TwitterIcon } from '../../../assets/images/general/icons8-twitter.svg'
 import { ReactComponent as YoutubeIcon } from '../../../assets/images/general/youtube.svg'
+import { scrollTop } from '../../../utils/scrollTop'
 
 export const Footer = () => {
   return (
@@ -21,6 +22,7 @@ export const Footer = () => {
           className={`flex flex-col text-center gap-3 my-5 text-13 leading-[33px] text-q-700
             md:flex-row  md:justify-around md:max-w-[552px] md:mx-auto md:my-6
             2xl:mt-[34px] 2xl:mb-[41px] 2xl:max-w-[724px]`}
+          onClick={() => scrollTop()}
         />
         <div className={'flex flex-col gap-2 text-13 text-gray-light/72 text-center lg:gap-6'}>
           <p>2020 © Kinoarea. Все права защищены</p>
