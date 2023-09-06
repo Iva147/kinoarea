@@ -5,6 +5,7 @@ import { Navigation } from '../ui/Navigation/Navigation'
 import { Outlet } from 'react-router-dom'
 import { Footer } from '../ui/Footer/Footer'
 import { Mailing } from '../ui/Mailing/Mailing'
+import { ScrollTopArrow } from '../ui/ScrollTopArrow/ScrollTopArrow'
 
 const isNavOpen = signal(false)
 
@@ -32,6 +33,7 @@ export const Layout = ({ children, noMailing = false }: LayoutProps) => {
         {noMailing || <Mailing />}
       </main>
       <Footer />
+      <ScrollTopArrow />
     </div>
   )
 }
