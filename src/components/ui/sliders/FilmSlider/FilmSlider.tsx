@@ -3,8 +3,8 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Film } from '../../Film/Film'
 import { Navigation, Pagination } from 'swiper'
 import { BaseMovieDBAssetsUrl } from '../../../../api'
-import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 import { getGenres } from '../../../../utils/getGenres'
+import type { GenreIds } from '../../../../mock/types'
 
 interface FilmSliderProps {
   slides: IMovies
@@ -12,7 +12,6 @@ interface FilmSliderProps {
 }
 
 export const FilmSlider = ({ slides, name }: FilmSliderProps) => {
-  const allGenres = useTypedSelector(state => state.genres.movies)
   return (
     <Swiper
       spaceBetween={8}
@@ -43,7 +42,7 @@ export const FilmSlider = ({ slides, name }: FilmSliderProps) => {
       className={'slider-cards'}
     >
       {slides.map(item => {
-        const genres = getGenres(allGenres, item.genre_ids)
+        const genres = getGenres(item.genre_ids as unknown as GenreIds)
         return (
           <SwiperSlide key={item.id}>
             <Film

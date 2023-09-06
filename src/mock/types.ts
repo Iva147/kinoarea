@@ -31,4 +31,7 @@ export const movieTypes = {
   10766: 'Soap',
   10767: 'Talk',
   10768: 'War & Politics',
-}
+} as const
+
+export type GenreId = keyof typeof movieTypes
+export type GenreIds = GenreId[]

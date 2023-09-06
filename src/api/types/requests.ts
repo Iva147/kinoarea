@@ -17,6 +17,8 @@ export type IParams = {
   with_genres?: string
   with_keywords?: string
   year?: number
+  'primary_release_date.gte'?: string
+  'primary_release_date.lte'?: string
 }
 
 export type TVFilters = IParams
