@@ -17,6 +17,8 @@ import { Button } from '../../components/ui/Button/Button'
 import { setMovieDBPath } from '../../utils'
 import { Description } from './sections/Descriotion/Description'
 import { MovieModal } from '../../components/ui/modals/MovieModal/MovieModal'
+import { Comment } from '../../components/ui/Comment/Comment'
+import { useTypedSelector } from '../../hooks/useTypedSelector'
 
 export const FilmPage = () => {
   const { slug } = useParams()
@@ -26,6 +28,7 @@ export const FilmPage = () => {
   const [reviews, setReviews] = useState<IReview[]>([])
   const [similar, setSimilar] = useState<IMovieRes[]>([])
   const [isModalOpen, setModalOpen] = useState(false)
+  const user = useTypedSelector(state => state.user.user)
 
   useEffect(() => {
     if (!slug) return
@@ -133,7 +136,15 @@ export const FilmPage = () => {
             </Typography>
             <Button className={'mx-auto md:m-0'}>Добавить рецензию</Button>
           </div>
-
+          {
+            //TODO: get rid of empty string in union by adding user
+            <Comment
+              userImg={user?.img || ''}
+              userName={user?.name || 'jkjkj jkj'}
+              userId={user?.id.toString() || ''}
+              movie={{ id: details?.id || '', name: details?.title || '', poster: details?.poster_path || '' }}
+            />
+          }
           <ReviewsList list={reviews} />
         </section>
 

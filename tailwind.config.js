@@ -191,6 +191,9 @@ export default {
             backgroundColor: theme('colors.blue'),
           },
         },
+        '.comment-editor': {
+          border: theme('colors.white'),
+        },
       })
     }),
   ],
