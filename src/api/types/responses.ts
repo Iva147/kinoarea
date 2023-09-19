@@ -271,9 +271,9 @@ export interface IUser {
 
 export interface IUserReview extends Pick<IReview, 'content' | 'id' | 'author_details'> {
   userId: string
-  created_at: Timestamp
+  created_at: Timestamp | Date
   movie: {
-    id: string
+    id: string | number
     name: string
     poster: string
   }
