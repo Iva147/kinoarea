@@ -14,9 +14,9 @@ import { setMovieDBPath } from '../../../../utils'
 export const NewTrailers = () => {
   const { fetchUpcomingMovies } = useActions()
   const { upcoming } = useTypedSelector(state => state.movies)
+
   useEffect(() => {
     fetchUpcomingMovies()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const movies = useMemo(() => {
@@ -35,6 +35,8 @@ export const NewTrailers = () => {
         title={'Новые трейлеры'}
         type={SectionHeaderType.ARROW}
         linkTitle={'Новые трейлеры'}
+        moveToViaArrow={'collections/category'}
+        state={{ title: 'Сейчас в кино', category: 'up_coming' }}
         className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
       />
       <div>
