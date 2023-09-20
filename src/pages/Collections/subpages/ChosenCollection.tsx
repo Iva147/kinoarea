@@ -14,13 +14,12 @@ export const ChosenCollection = () => {
   const [films, setFilms] = useState<IDiscoverResult>()
   const [currentPage, setCurrentPage] = useState(1)
 
-  const fetch = async () => {
+  const fetch = async (page: number = 1) => {
     const options: IGetSearchParams = {
       type: 'movie',
+      params: params ? { ...params, page } : { page },
     }
     if (category) options.category = category
-    if (params) options.params = params
-
     const data = await getSearch(options)
     setFilms(data)
   }
@@ -29,6 +28,7 @@ export const ChosenCollection = () => {
   }, [])
 
   const changePage = (page: number) => {
+    fetch(page)
     setCurrentPage(page)
     scrollTop()
   }
