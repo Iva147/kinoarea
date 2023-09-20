@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ILoginFields, loginSchema } from '../../../../api/types/schemas'
+import { ILoginFields, loginSchema } from '../../../../api/types'
 import { Input } from '../../../ui/Input/Input'
 import { Typography, TypographyTypes } from '../../../ui/Typography/Typography'
 import { Button } from '../../../ui/Button/Button'
@@ -32,7 +32,7 @@ export const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
       </Typography>
       <Input register={register} name={'login'} error={errors?.login?.message} label={'Логин, почта или телефон'} />
       <Input register={register} name={'password'} error={errors?.password?.message} label={'Ваш пароль'} />
-      <Button variant={'yellow'} type={'submit'}>
+      <Button variant={'yellow'} type={'submit'} className={'w-full'}>
         Войти
       </Button>
       <button onClick={onRegisterClick} className={'form_link'}>

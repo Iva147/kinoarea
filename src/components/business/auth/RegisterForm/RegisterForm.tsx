@@ -79,7 +79,7 @@ export const RegisterForm = () => {
           )}
         />
       </div>
-      <Button variant={'yellow'} type={'submit'}>
+      <Button variant={'yellow'} type={'submit'} className={'w-full'}>
         Зарегистрироваться
       </Button>
     </form>

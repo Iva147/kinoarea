@@ -6,6 +6,7 @@ import cls from './Modal.module.scss'
 import { Portal } from '../../Portal/Portal'
 import { ReactComponent as CloseIcon } from '../../../../assets/images/general/close-btn.svg'
 import classnames from 'classnames'
+import { twMerge } from 'tailwind-merge'
 
 export interface ModalProps {
   className?: string
@@ -69,7 +70,7 @@ export const Modal: FC<ModalProps> = ({ children, close, isOpened, overlay = 'on
         <div className={cls.overlay + ' ' + cls[overlay]} onClick={closeHandler}>
           <div className={`${cls.content} ${contentClassName}`} onClick={onContentClick}>
             <button className={cls.closeBtn} onClick={closeHandler}>
-              <CloseIcon className={cls.icon} />
+              <CloseIcon className={twMerge('stroke-white', cls.icon)} />
             </button>
             <div className={'max-h-[80vh] overflow-y-scroll'}>{children}</div>
           </div>
