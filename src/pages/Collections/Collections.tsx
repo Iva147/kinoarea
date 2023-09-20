@@ -9,7 +9,7 @@ import { CollectionsList } from '../../components/ui/CollectionsList/Collections
 import { categories_2, CategoriesTypes } from '../../mock/categories'
 import { Pagination } from '../../components/ui/Pagination/Pagination'
 import { scrollTop } from '../../utils/scrollTop'
-import { Navigate, Outlet, useNavigate, useParams } from 'react-router-dom'
+import { Navigate, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ICategories } from '../../api/types/categories'
 
 type CategoryTag = {
@@ -37,7 +37,7 @@ export const Collections = () => {
   const [chosenCollection, setChosenCollection] = useState<ICategories | null>()
   const { slug } = useParams<Record<'slug', CategoriesTypes>>()
   const navigate = useNavigate()
-
+  const location = useLocation()
   const list = useMemo(() => {
     const data = categories_2.filter(item => item.types.includes(activeCategory.type))
 
@@ -67,9 +67,16 @@ export const Collections = () => {
     navigate(category.types)
   }
 
-  if (slug && slugs.includes(slug) && chosenCollection) return <Outlet context={{ chosen: chosenCollection, slug }} />
+  if (slug && slugs.includes(slug) && chosenCollection) {
+    return <Outlet context={{ title: chosenCollection.title, params: chosenCollection.params }} />
+  }
 
-  if (slug && !slugs.includes(slug) && !chosenCollection) return <Navigate to={'/collections'} />
+  if (slug && location.state) {
+    const { title, category } = location.state
+    return <Outlet context={{ title, category }} />
+  }
+
+  if (slug && !slugs.includes(slug) && !chosenCollection && !location.state) return <Navigate to={'/collections'} />
 
   return (
     <section className={'container pb-9 lg:pb-10 2xl:pb-[70px]'}>

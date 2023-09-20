@@ -7,14 +7,15 @@ import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 import { genres } from '../../../../mock/categories'
 import { setActiveItem } from '../../../../utils/setActiveItem'
 import { ICategory } from '../../../../components/ui/Category/Category'
+import { useNavigate } from 'react-router-dom'
 
 export const NowPlaying = () => {
   const { fetchNowPlayingMovies, changeNowPlayingCategory } = useActions()
   const { nowPlaying, nowPlayingCategory } = useTypedSelector(state => state.movies)
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchNowPlayingMovies()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const allMovies = useMemo(() => {
@@ -41,6 +42,11 @@ export const NowPlaying = () => {
       <Button
         variant={'transparent'}
         className={'block mt-7 mb-8 mx-auto md:mt-8 md:mb-6 lg:mb-12 2xl:mt-12 2xl:mb-[54px]'}
+        onClick={() =>
+          navigate('collections/category', {
+            state: { title: 'Сейчас в кино', category: 'now_playing' },
+          })
+        }
       >
         Все новинки
       </Button>

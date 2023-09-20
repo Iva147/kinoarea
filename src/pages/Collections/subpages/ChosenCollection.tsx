@@ -1,31 +1,30 @@
-import { CategoriesTypes } from '../../../mock/categories'
 import { useOutletContext } from 'react-router-dom'
 import { getSearch } from '../../../api/movieDBApi'
 import { useEffect, useState } from 'react'
-import { ICategories } from '../../../api/types/categories'
 import { Typography, TypographyTypes } from '../../../components/ui/Typography/Typography'
 import { Breadcrumbs } from '../../../components/ui/Breadcrumbs/Breadcrumbs'
 import { Pagination } from '../../../components/ui/Pagination/Pagination'
 import { ResultList } from '../../../components/ui/ResultList/ResultList'
 import { IDiscoverResult } from '../../../api/types/responses'
 import { scrollTop } from '../../../utils/scrollTop'
+import { CATEGORY, IGetSearchParams, IParams } from '../../../api/types/requests'
 
 export const ChosenCollection = () => {
-  const { chosen } = useOutletContext() as { chosen: ICategories; slug: CategoriesTypes }
+  const { title, params, category } = useOutletContext() as { title: string; params?: IParams; category?: CATEGORY }
   const [films, setFilms] = useState<IDiscoverResult>()
   const [currentPage, setCurrentPage] = useState(1)
 
   const fetch = async () => {
-    const data = await getSearch({
+    const options: IGetSearchParams = {
       type: 'movie',
-      params: chosen.params,
-    })
+    }
+    if (category) options.category = category
+    if (params) options.params = params
 
-    console.log('ChosenCollection', data)
+    const data = await getSearch(options)
     setFilms(data)
   }
   useEffect(() => {
-    if (!chosen) return
     fetch()
   }, [])
 
@@ -39,7 +38,7 @@ export const ChosenCollection = () => {
       <Typography variant={'h1'} type={TypographyTypes._TITLE}>
         Подборки фильмов
       </Typography>
-      <Breadcrumbs lastCrumb={chosen.title} />
+      <Breadcrumbs lastCrumb={title} />
 
       <p className={'py-3'}>Всего найдено: {films?.total_results}</p>
       <ResultList list={films?.results || []} />
