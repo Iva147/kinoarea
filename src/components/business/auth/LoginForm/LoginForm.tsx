@@ -1,6 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { ILoginFields, loginSchema } from '../../../../api/types'
+import { ILoginFields, loginSchema } from '../../../../api/types/schemas'
 import { Input } from '../../../ui/Input/Input'
 import { Typography, TypographyTypes } from '../../../ui/Typography/Typography'
 import { Button } from '../../../ui/Button/Button'
