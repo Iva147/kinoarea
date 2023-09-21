@@ -5,7 +5,7 @@ import {
   doc,
   getDoc,
   updateDoc,
-  addDoc,
+  setDoc,
   query,
   where,
   documentId,
@@ -66,9 +66,11 @@ const getUser = async (id: string): Promise<IUser | null> => {
   return await getDocInfo(id, COLLECTIONS.USERS)
 }
 
-const addUser = async (userData: Pick<IUser, 'name' | 'surname'>): Promise<IUser | null> => {
+const createUser = async (userData: Pick<IUser, 'name' | 'surname' | 'id'>): Promise<IUser | null> => {
+  const { id, ...rest } = userData
   const colRef = await getCollectionRef(COLLECTIONS.USERS)
-  const docRef = await addDoc(colRef, userData)
+  const docRef = doc(colRef, id)
+  await setDoc(docRef, rest)
   return await getUser(docRef.id)
 }
 
@@ -100,7 +102,7 @@ export const FirebaseApi = {
   getDocsInfo,
   getDocsInfoWithCol,
   getUser,
-  addUser,
+  createUser,
   refreshUser,
   uploadProfileImg,
   getUserReviews,

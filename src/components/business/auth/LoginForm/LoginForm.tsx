@@ -22,7 +22,8 @@ export const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
   const onSubmit: SubmitHandler<ILoginFields> = async data => {
     //TODO: add request
     console.log('data', data)
-    fetchUser()
+    const { login, password } = data
+    fetchUser({ login, password })
   }
 
   return (

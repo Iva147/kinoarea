@@ -3,14 +3,18 @@ import { UserActions } from '../actions/user'
 import { UserActionCreators } from '../actionsCreators/user'
 import { FirebaseApi } from '../../api/firebase'
 import { IUser } from '../../api/types/responses'
-import { createUserWithEmailAndPassword, signOut } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../../api/firebase/base'
 
-export const fetchUser = () => {
+export const fetchUser = ({ login, password }: { login: string; password: string }) => {
   return async (dispatch: Dispatch<UserActions>) => {
     try {
       dispatch(UserActionCreators.load())
-      const user = await FirebaseApi.getUser('u1')
+      const userCredential = await signInWithEmailAndPassword(auth, login, password)
+      console.log('userCredential', userCredential)
+      const user = await FirebaseApi.getUser(userCredential.user.uid)
+      console.log('user', user)
+
       if (!user) throw { message: 'Such user not found' }
 
       dispatch(UserActionCreators.add(user))
@@ -40,7 +44,7 @@ export const updateUser = (id: string, data: Partial<IUser>, img?: Blob | null) 
   }
 }
 
-export const addUser = (userData: Pick<IUser, 'name' | 'surname'> & { login: string; password: string }) => {
+export const createUser = (userData: Pick<IUser, 'name' | 'surname'> & { login: string; password: string }) => {
   return async (dispatch: Dispatch<UserActions>) => {
     try {
       dispatch(UserActionCreators.load())
@@ -48,32 +52,10 @@ export const addUser = (userData: Pick<IUser, 'name' | 'surname'> & { login: str
         .then(userCredential => {
           const user = userCredential.user
 
-          console.log('user 1', user)
-
-          /* {
-            name: userData.name,
-              surname: userData.surname,
-            birthday: null,
-            sex: 'notchosen',
-            img: '',
-            country: '',
-            city: '',
-            genres: [],
-            about: '',
-            links: {
-            youtube: '',
-              linkedin: '',
-              facebook: '',
-              instagram: '',
-              twitter: '',
-          },
-            friends: [],
-              reviews: [],
-          }*/
-
-          FirebaseApi.addUser({
+          FirebaseApi.createUser({
             name: userData.name,
             surname: userData.surname,
+            id: user.uid,
           })
             .then(user => {
               console.log('added User', user)
@@ -82,13 +64,11 @@ export const addUser = (userData: Pick<IUser, 'name' | 'surname'> & { login: str
             .catch(error => {
               throw error
             })
-          console.log('user', user)
         })
         .catch(error => {
           throw error
         })
     } catch (err) {
-      console.log('error', err)
       if (err instanceof Error) dispatch(UserActionCreators.error(err.message))
     }
   }
