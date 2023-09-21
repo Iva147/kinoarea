@@ -14,6 +14,8 @@ import { useEffect, useState } from 'react'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
 import { SearchFilm } from '../SearchFilm/SearchFilm'
 import { scrollBody } from '../../../utils/scrollBody'
+import { useActions } from '../../../hooks/useActions'
+import { useNavigate } from 'react-router-dom'
 
 interface HeaderProps {
   onMenu?: () => void
@@ -22,9 +24,14 @@ export const Header = ({ onMenu }: HeaderProps) => {
   const [isRegisterOpen, setRegisterModalOpen] = useState(false)
   const [isSearchShown, setSearchShown] = useState(false)
   const { user } = useTypedSelector(state => state.user)
+  const { removeFetchedUser } = useActions()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    if (user) setRegisterModalOpen(false)
+    if (user) {
+      setRegisterModalOpen(false)
+      navigate('/profile/settings')
+    }
   }, [user])
 
   const openSearch = () => {
@@ -35,6 +42,10 @@ export const Header = ({ onMenu }: HeaderProps) => {
   const closeSearch = () => {
     scrollBody.allow()
     setSearchShown(false)
+  }
+
+  const logOut = () => {
+    removeFetchedUser()
   }
   return (
     <header className={'flex py-[11px] container relative'}>
@@ -65,7 +76,11 @@ export const Header = ({ onMenu }: HeaderProps) => {
         </div>
       </div>
       <div className={'lg:ml-6'}>
-        <Button onClick={() => setRegisterModalOpen(true)}>Войти</Button>
+        {user ? (
+          <Button onClick={() => logOut()}>Выйти</Button>
+        ) : (
+          <Button onClick={() => setRegisterModalOpen(true)}>Войти</Button>
+        )}
       </div>
       <AuthModal isOpened={isRegisterOpen} close={() => setRegisterModalOpen(false)} />
     </header>

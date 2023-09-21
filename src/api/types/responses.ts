@@ -2,6 +2,7 @@ import { IMovieRes } from './film'
 import { SocialMedias } from './socialMedias'
 import { Timestamp } from 'firebase/firestore'
 import { MOVIETV } from './requests'
+import { GenreIds } from '../../mock/types'
 
 /* MovieDB */
 export type CustomError = null | string
@@ -254,7 +255,7 @@ export interface IPersonResult extends IResponse {
 export type SexType = 'male' | 'female' | 'others' | 'notchosen'
 
 export interface IUser {
-  id: number
+  id: string
   name: string
   surname: string | null
   birthday: Date | null
@@ -262,7 +263,7 @@ export interface IUser {
   img: string
   country: string
   city: string
-  genres: { id: number; name: string }[]
+  genres: GenreIds
   about: string
   links: { [K in SocialMedias]: string | null }
   friends: string[]

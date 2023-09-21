@@ -18,6 +18,8 @@ export const userReducer = (state = initialState, action: UserActions): InitialS
       return { ...state, loading: true }
     case User.ADD_USER:
       return { ...state, user: action.payload, loading: false, error: null }
+    case User.REMOVE_USER:
+      return { ...state, user: null, loading: false, error: null }
     case User.ERROR_USER:
       return { ...state, loading: false, error: action.payload }
     default:

@@ -9,18 +9,14 @@ import { ReactComponent as LinkedInIcon } from '../../../../assets/images/genera
 import { ReactComponent as TwitterIcon } from '../../../../assets/images/general/icons8-twitter.svg'
 import { ReactComponent as InstagramIcon } from '../../../../assets/images/general/instagram.svg'
 import { ReactComponent as FacebookIcon } from '../../../../assets/images/general/facebook-f.svg'
-import Profile from '../../../../assets/images/profile/profile.png'
 import cls from '../../Profile.module.scss'
 import type { SocialMedias } from '../../../../api/types/socialMedias'
 import { useTypedSelector } from '../../../../hooks/useTypedSelector'
-
-const profileInfo = [
-  { id: 1, title: 'Пол:', description: 'Мужской' },
-  { id: 2, title: 'День рождения:', description: '24 мая 1991 г. (28 лет)' },
-  { id: 3, title: 'Страна:', description: 'Украина' },
-  { id: 4, title: 'Город:', description: 'Киев' },
-  { id: 4, title: 'Любимые жанры:', description: 'Драма, триллер, документальный' },
-]
+import { getDate, getGenres } from '../../../../utils'
+import { GenreIds } from '../../../../mock/types'
+import { IUser } from '../../../../api/types/responses'
+import Avatar from '../../../../assets/images/general/avatar.svg'
+import { twMerge } from 'tailwind-merge'
 
 const socialsMedia = {
   youtube: <YoutubeIcon />,
@@ -51,12 +47,13 @@ const InfoItem = ({ amount, title }: InfoItemProps) => {
   )
 }
 
-const info = [
-  { title: 'Друзья', amount: 15, id: 1 },
-  { title: `Любимые\nфильмы`, amount: 5, id: 2 },
-  { title: 'Избранное', amount: 0, id: 3 },
-  { title: 'Рецензии', amount: 1, id: 4 },
-  { title: 'Ожидаемые\nфильмы', amount: 1, id: 5 },
+//TODO: set others fields for user
+const info: { id: number; title: string; property?: keyof Pick<IUser, 'friends' | 'reviews'> }[] = [
+  { title: 'Друзья', id: 1, property: 'friends' },
+  { title: `Любимые\nфильмы`, id: 2 },
+  { title: 'Избранное', id: 3 },
+  { title: 'Рецензии', id: 4, property: 'reviews' },
+  { title: 'Ожидаемые\nфильмы', id: 5 },
 ]
 export const ProfileMain = () => {
   const { user } = useTypedSelector(state => state.user)
@@ -73,7 +70,11 @@ export const ProfileMain = () => {
         </Link>
       </div>
       <div className={'md:flex md:items-start md:gap-6 md:my-[22px] 2xl:gap-11'}>
-        <img src={Profile} alt={''} className={cls.img} />
+        {user?.img ? (
+          <img src={user?.img} alt={user.name} className={cls.img} />
+        ) : (
+          <img src={Avatar} alt={'avatar'} className={twMerge(cls.img, 'avatar')} />
+        )}
         <div>
           <Typography variant={'h2'} type={TypographyTypes._TITLE} className={'text-center md:text-start'}>
             {user?.name} {user?.surname}
@@ -82,13 +83,13 @@ export const ProfileMain = () => {
             {socials.map(item => {
               return (
                 <Link
-                  to={user?.links[item.name] || ''}
+                  to={user?.links?.[item?.name] || ''}
                   className={
                     'rounded-full border-[1px] border-border-blue w-[26.27px] h-[26.27px] flex-center text-gray [&>svg]:w-[50%] [&>svg]:max-h-[50%]'
                   }
                   key={item.id}
                 >
-                  {socialsMedia[item.name]}
+                  {socialsMedia[item?.name]}
                 </Link>
               )
             })}
@@ -102,9 +103,14 @@ export const ProfileMain = () => {
             безусловно открывает новые горизонты для поставленных обществом задач.
           </p>
           <div>
-            {profileInfo.map(item => (
-              <Descript title={item.title} descriptions={item.description} key={item.id} />
-            ))}
+            <Descript title={'Пол'} descriptions={user?.sex || 'не указано'} />
+            <Descript title={'День рождения'} descriptions={user?.birthday ? getDate(user.birthday) : 'не указано'} />
+            <Descript title={'Страна'} descriptions={user?.country || 'не указано'} />
+            <Descript title={'Город'} descriptions={user?.city || 'не указано'} />
+            <Descript
+              title={'Любимые жанры:'}
+              descriptions={user?.genres ? getGenres(user.genres as GenreIds) : 'не указано'}
+            />
           </div>
         </div>
       </div>
@@ -112,7 +118,7 @@ export const ProfileMain = () => {
         className={'flex-center flex-wrap font-q-700 text-xs text-center whitespace-wrap md:text-15 md:justify-between'}
       >
         {info.map(item => (
-          <InfoItem title={item.title} amount={item.amount} key={item.id} />
+          <InfoItem title={item.title} amount={(item.property && user?.[item.property]?.length) || 0} key={item.id} />
         ))}
       </div>
     </>

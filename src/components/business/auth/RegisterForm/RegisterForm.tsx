@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '../../../ui/Button/Button'
 import { Checkbox } from '../../../ui/Checkbox/Checkbox'
 import { Link } from 'react-router-dom'
+import { useActions } from '../../../../hooks/useActions'
 
 const fields: { id: string; name: RegisterFields & string; label: string }[] = [
   { id: '1', name: 'name', label: 'Имя' },
@@ -24,10 +25,11 @@ export const RegisterForm = () => {
   } = useForm({
     resolver: yupResolver(registerSchemas),
   })
+  const { addUser } = useActions()
 
   const onSubmit: SubmitHandler<IRegisterFields> = data => {
-    //TODO: add request
-    console.log('data', data)
+    const { name, surname, password, login } = data
+    addUser({ name, surname, password, login })
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={'form'}>
