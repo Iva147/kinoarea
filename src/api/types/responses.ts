@@ -258,16 +258,16 @@ export interface IUser {
   id: string
   name: string
   surname: string | null
-  birthday: Date | null
-  sex: SexType
-  img: string
-  country: string
-  city: string
-  genres: GenreIds
-  about: string
-  links: { [K in SocialMedias]: string | null }
-  friends: string[]
-  reviews: number[]
+  birthday?: Timestamp | null
+  sex?: SexType
+  img?: string
+  country?: string
+  city?: string
+  genres?: GenreIds
+  about?: string
+  links?: { [K in SocialMedias]: string | null }
+  friends?: string[]
+  reviews?: number[]
 }
 
 export interface IUserReview extends Pick<IReview, 'content' | 'id' | 'author_details'> {

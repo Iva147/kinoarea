@@ -23,8 +23,12 @@ export const Friends = () => {
         </Typography>
         <p>Всего: {friends.length}</p>
       </div>
-      {friends[0] && (
-        <IncomingFriend img={friends[0].img} name={`${friends[0].name} ${friends[0].surname}`} commonFriends={0} />
+      {friends?.[0] && (
+        <IncomingFriend
+          img={friends?.[0].img || ''}
+          name={`${friends[0].name} ${friends[0].surname}`}
+          commonFriends={0}
+        />
       )}
 
       <div className={cls.friends}>

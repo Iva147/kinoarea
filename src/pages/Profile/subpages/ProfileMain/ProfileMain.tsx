@@ -99,12 +99,14 @@ export const ProfileMain = () => {
               md:text-15 md:text-start md:mt-3 md:mb-[22px] 
               lg:mb-7 2xl:text-17 2xl:mt-4.5`}
           >
-            Учитывая ключевые сценарии поведения, базовый вектор развития, а также свежий взгляд на привычные вещи -
-            безусловно открывает новые горизонты для поставленных обществом задач.
+            {user?.about || 'не указано'}
           </p>
           <div>
             <Descript title={'Пол'} descriptions={user?.sex || 'не указано'} />
-            <Descript title={'День рождения'} descriptions={user?.birthday ? getDate(user.birthday) : 'не указано'} />
+            <Descript
+              title={'День рождения'}
+              descriptions={user?.birthday ? getDate(user.birthday.toDate()) : 'не указано'}
+            />
             <Descript title={'Страна'} descriptions={user?.country || 'не указано'} />
             <Descript title={'Город'} descriptions={user?.city || 'не указано'} />
             <Descript

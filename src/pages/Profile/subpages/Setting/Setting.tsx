@@ -26,6 +26,7 @@ import { twMerge } from 'tailwind-merge'
 import { DateInput } from '../../../../components/ui/DateInput/DateInput'
 import { FileInput } from '../../../../components/ui/FileInput/FileInput'
 import { shortenFileName } from '../../../../utils/shortenFileName'
+import { Timestamp } from 'firebase/firestore'
 
 const sexOptions: { value: SexType; label: string }[] = [
   { value: 'male', label: 'мужчина' },
@@ -106,8 +107,8 @@ export const Setting = () => {
     if (user) {
       const { name, surname, about, sex, links, birthday } = user
       setInfo({ name, surname, about, sex })
-      setSocialMedias(links)
-      setDate(birthday)
+      links && setSocialMedias(links)
+      birthday && setDate(birthday.toDate())
     }
   }, [user])
 
@@ -115,9 +116,28 @@ export const Setting = () => {
     e.preventDefault()
 
     if (err.name || err.surname) return
-    await updateUser('u1', { ...info, links: socialMedias, birthday: date }, selectedImage)
-    error && navigate(ProfilePages.main)
+    if (user) {
+      console.log('submitForm', user)
+      console.log('birthday', date)
+      const updatedUserData: Partial<IUser> = {
+        ...info,
+        links: socialMedias,
+        birthday: date && Timestamp.fromDate(date),
+      }
+
+      for (const key in updatedUserData) {
+        if (key !== 'name' && key !== 'surname' && updatedUserData[key as keyof IUser] === undefined) {
+          delete updatedUserData[key as keyof IUser]
+        }
+      }
+      console.log('data', { ...info, links: socialMedias, birthday: date })
+
+      await updateUser(user.id, updatedUserData, selectedImage)
+      error && navigate(ProfilePages.main)
+    }
   }
+
+  console.dir({ ...info, links: socialMedias, birthday: date })
 
   const handleErr = (val: string, fieldName: 'name' | 'surname') => {
     const appropriateLength = val.length > 1
@@ -152,7 +172,11 @@ export const Setting = () => {
             onChange={handleInput('surname')}
             error={err.surname}
           />
-          <CustomSelect options={sexOptions} value={getSelectedOption(sexOptions, info.sex)} onChange={handleSelect} />
+          <CustomSelect
+            options={sexOptions}
+            value={getSelectedOption(sexOptions, info?.sex || 'notchosen')}
+            onChange={handleSelect}
+          />
           <DateInput date={date} onChange={setDate} placeholderText={'Укажите дату рождения'} />
           <Textarea
             placeholder="Информация о себе"

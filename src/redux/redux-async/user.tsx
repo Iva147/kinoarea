@@ -11,12 +11,8 @@ export const fetchUser = ({ login, password }: { login: string; password: string
     try {
       dispatch(UserActionCreators.load())
       const userCredential = await signInWithEmailAndPassword(auth, login, password)
-      console.log('userCredential', userCredential)
       const user = await FirebaseApi.getUser(userCredential.user.uid)
-      console.log('user', user)
-
       if (!user) throw { message: 'Such user not found' }
-
       dispatch(UserActionCreators.add(user))
     } catch (err) {
       if (err instanceof Error) dispatch(UserActionCreators.error(err.message))
@@ -35,6 +31,7 @@ export const updateUser = (id: string, data: Partial<IUser>, img?: Blob | null) 
       }
       await FirebaseApi.refreshUser(id, body)
       const user = await FirebaseApi.getUser(id)
+      console.log('user', user)
       if (!user) throw { message: 'Your account not found' }
 
       dispatch(UserActionCreators.add(user))
