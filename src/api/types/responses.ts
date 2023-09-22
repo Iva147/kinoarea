@@ -81,7 +81,7 @@ export interface IPersonImages {
   profiles: IPersonImg[]
 }
 
-type IPersonCombinedCredits = {
+export type IPersonCombinedCredits = {
   adult: boolean
   backdrop_path: string
   genre_ids: number[]

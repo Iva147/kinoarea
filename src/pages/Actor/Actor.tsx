@@ -14,11 +14,54 @@ import { twMerge } from 'tailwind-merge'
 import { useSeeMore } from '../../hooks/useSeeMore'
 import { Button } from '../../components/ui/Button/Button'
 import classNames from 'classnames'
+import { usePaginateData } from '../../hooks/usePaginateData'
+import { Pagination } from '../../components/ui/Pagination/Pagination'
+import { useCallback, useEffect } from 'react'
+import type { IPersonCombinedCredits } from '../../api/types/responses'
 
+const filmsPerPageAmount = 10
+interface ActorFilmsPagination {
+  total_pages: number
+  page: number
+  max_per_page: number
+}
 export const Actor = () => {
   const actor = useLoaderData() as IPersonFullInfo
   const lastSegment = useLastPathSegment()
   const { isSeeMorePossible, setSeeMore, ref, isMatchedSize } = useSeeMore<HTMLDivElement>()
+  const {
+    data: filmsPerPage,
+    setData: setFilmsPerPage,
+    pagesData,
+    setPagesData,
+    onPaginationChange,
+  } = usePaginateData<IPersonCombinedCredits[], ActorFilmsPagination>()
+
+  useEffect(() => {
+    const films = actor?.combined_credits?.cast
+    if (!films) return
+
+    const filmsAmount = films.length
+    const max_per_page = filmsPerPageAmount
+    const total_pages = Math.ceil(filmsAmount / max_per_page)
+    const startPage = 1
+    setPagesData({ total_pages, page: startPage, max_per_page })
+    setFilms(startPage)
+  }, [actor])
+
+  const setFilms = useCallback(
+    (page: number) => {
+      const endItem = page * filmsPerPageAmount
+      const startItem = endItem - filmsPerPageAmount
+      const filmsToShow = actor.combined_credits.cast.slice(startItem, endItem + 1)
+      setFilmsPerPage(filmsToShow)
+    },
+    [actor.combined_credits.cast, setFilmsPerPage]
+  )
+  const switchFilms = (page: number) => {
+    setFilms(page)
+    setPagesData({ total_pages: pagesData!.total_pages, max_per_page: pagesData!.max_per_page, page })
+  }
 
   if (!actor) return <div>Такого актора не найдено</div>
 
@@ -111,8 +154,9 @@ export const Actor = () => {
           Фильмы
         </Typography>
         <div>
+          <p>Всего найдено фильмов: {combined_credits?.cast.length}</p>
           {(!combined_credits.cast || !combined_credits?.cast.length) && <p>Фильмов для отображения не найдено</p>}
-          {combined_credits.cast?.map(item => (
+          {filmsPerPage?.map(item => (
             <MovieItem
               name={item.media_type === 'movie' ? item.title : item.name}
               img={item.poster_path}
@@ -123,6 +167,16 @@ export const Actor = () => {
             />
           ))}
         </div>
+        {pagesData && (
+          <Pagination
+            totalCount={combined_credits?.cast.length}
+            currentPage={pagesData.page}
+            siblingCount={pagesData.total_pages >= 5 ? 2 : undefined}
+            pageSize={filmsPerPageAmount}
+            onPageChange={(pageNum: number) => onPaginationChange(pageNum, switchFilms)}
+            className={'mx-auto mt-4 md:mt-8 ld:mt-9 2xl:mt-11'}
+          />
+        )}
       </section>
       <section>
         <SectionHeader title={'Фото'} type={SectionHeaderType.ARROW} linkTitle={'Все фото'} moveToViaArrow={'images'} />
