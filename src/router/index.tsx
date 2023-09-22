@@ -20,6 +20,7 @@ import {
   loadActor,
 } from '../pages'
 import { ActorImages } from '../pages/ActorImages/ActorImages'
+import { ProtectedRoute } from '../components/business/ProtectedRoute/ProtectedRoute'
 
 export const router = createBrowserRouter([
   {
@@ -57,7 +58,11 @@ export const router = createBrowserRouter([
       },
       {
         path: 'profile',
-        element: <Profile />,
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        ),
         children: [
           {
             index: true,

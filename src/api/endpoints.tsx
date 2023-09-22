@@ -7,6 +7,7 @@ export const endpoints = {
   news: 'news',
   collections: 'collections',
   categories: 'categories',
+  profile: 'profile',
 } as const
 
 export const BaseMovieDBAssetsUrl = import.meta.env.VITE_MOVIEDB_ASSETS
