@@ -3,7 +3,7 @@ import { UserActions } from '../actions/user'
 import { UserActionCreators } from '../actionsCreators/user'
 import { FirebaseApi } from '../../api/firebase'
 import { IUser } from '../../api/types/responses'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../../api/firebase/base'
 
 export const fetchUser = ({ login, password }: { login: string; password: string }) => {
@@ -77,6 +77,23 @@ export const removeFetchedUser = () => {
       dispatch(UserActionCreators.load())
       await signOut(auth)
       dispatch(UserActionCreators.remove())
+    } catch (err) {
+      if (err instanceof Error) dispatch(UserActionCreators.error(err.message))
+    }
+  }
+}
+
+export const getLoggedUser = () => {
+  return async (dispatch: Dispatch<UserActions>) => {
+    try {
+      dispatch(UserActionCreators.load())
+      await onAuthStateChanged(auth, userCredential => {
+        if (!userCredential) return
+        ;(async () => {
+          const user = await FirebaseApi.getUser(userCredential.uid)
+          user && dispatch(UserActionCreators.add(user))
+        })()
+      })
     } catch (err) {
       if (err instanceof Error) dispatch(UserActionCreators.error(err.message))
     }
