@@ -12,10 +12,11 @@ export const UserReviews = () => {
   const { reviews } = useTypedSelector(state => state.userReviews)
   const { fetchUserReviews } = useActions()
   const navigate = useNavigate()
+  const user = useTypedSelector(state => state.user.user)
 
   useEffect(() => {
-    if (!reviews.length) fetchUserReviews()
-  }, [reviews, fetchUserReviews])
+    if (user) fetchUserReviews(user.id)
+  }, [fetchUserReviews])
 
   if (!reviews || !reviews.length) {
     return (
@@ -42,7 +43,7 @@ export const UserReviews = () => {
         <p>Всего: {reviews.length}</p>
       </div>
 
-      <ReviewsList type="user" list={reviews} />
+      <ReviewsList type="user" list={reviews} setAsHtml />
     </>
   )
 }

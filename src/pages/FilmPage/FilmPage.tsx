@@ -29,6 +29,7 @@ export const FilmPage = () => {
   const [similar, setSimilar] = useState<IMovieRes[]>([])
   const [isModalOpen, setModalOpen] = useState(false)
   const user = useTypedSelector(state => state.user.user)
+  const [isCommentBlockShown, setCommentBlockShown] = useState(false)
 
   useEffect(() => {
     if (!slug) return
@@ -134,17 +135,20 @@ export const FilmPage = () => {
             <Typography variant={'h3'} type={TypographyTypes._TITLE} className={'mx-auto w-max mb-[54px] md:m-0'}>
               Рецензии к фильму
             </Typography>
-            <Button className={'mx-auto md:m-0'}>Добавить рецензию</Button>
+            <Button className={'mx-auto md:m-0'} onClick={() => setCommentBlockShown(prev => !prev)}>
+              {isCommentBlockShown ? 'Спрятать добавление рецензии' : 'Добавить рецензию'}
+            </Button>
           </div>
-          {
-            //TODO: get rid of empty string in union by adding user
+          {user && isCommentBlockShown && (
             <Comment
-              userImg={user?.img || ''}
-              userName={user?.name || 'jkjkj jkj'}
-              userId={user?.id.toString() || ''}
+              userImg={user.img || ''}
+              userName={user.name}
+              userSurname={user.surname || ''}
+              userId={user.id}
               movie={{ id: details?.id || '', name: details?.title || '', poster: details?.poster_path || '' }}
+              className={'mb-4'}
             />
-          }
+          )}
           <ReviewsList list={reviews} />
         </section>
 

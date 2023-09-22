@@ -4,15 +4,38 @@ import { AbsentImg } from '../AbsentImg/AbsentImg'
 import { Button } from '../Button/Button'
 import { Review } from '../Review/Review'
 import type { IUserReview } from '../../../api/types/responses'
+import { useActions } from '../../../hooks/useActions'
+import { Timestamp } from 'firebase/firestore'
+import { twMerge } from 'tailwind-merge'
 
 interface CommentProps extends Pick<IUserReview, 'movie' | 'userId'> {
   userImg: string
   userName: string
+  userSurname: string
+  className?: string
 }
 
-export const Comment = ({ userId, userImg, userName, movie }: CommentProps) => {
+export const Comment = ({ userId, userImg, userName, userSurname, movie, className }: CommentProps) => {
   const editorValRef = useRef<string>('')
   const [showPreview, setShowPreview] = useState(false)
+  const { setUserReview } = useActions()
+
+  const comment = {
+    userId,
+    created_at: Timestamp.now(),
+    movie,
+    author_details: {
+      name: userName,
+      username: userSurname,
+      avatar_path: userImg,
+      rating: 0,
+    },
+  }
+  const sendMessage = (content: string) => {
+    setUserReview({ ...comment, created_at: Timestamp.now(), content })
+    //TODO: message that comment is sent
+    editorValRef.current = ''
+  }
 
   return (
     <>
@@ -20,22 +43,10 @@ export const Comment = ({ userId, userImg, userName, movie }: CommentProps) => {
         <Review
           htmlContent={editorValRef.current}
           type={'user'}
-          item={{
-            id: userId + userName,
-            userId: userId,
-            created_at: new Date(),
-            movie,
-            content: '',
-            author_details: {
-              name: userName,
-              username: userName,
-              avatar_path: userImg,
-              rating: 0,
-            },
-          }}
+          item={{ ...comment, created_at: Timestamp.now(), id: userId + userName, content: editorValRef.current }}
         />
       )}
-      <div className={'rounded-10 border-blue pt-12 px-[5.97%] pb-9 bg-darkBlue-5'}>
+      <div className={twMerge('rounded-10 border-blue pt-12 px-[5.97%] pb-9 bg-darkBlue-5', className)}>
         {!showPreview && (
           <>
             <div className={'flex items-center gap-5 md:gap-9'}>
@@ -62,7 +73,9 @@ export const Comment = ({ userId, userImg, userName, movie }: CommentProps) => {
           >
             {showPreview ? 'Вернуться к редактированию' : 'Предварительный просмотр'}
           </Button>
-          <Button variant={'yellow'}>Отправить</Button>
+          <Button variant={'yellow'} onClick={() => sendMessage(editorValRef.current)}>
+            Отправить
+          </Button>
         </div>
       </div>
     </>

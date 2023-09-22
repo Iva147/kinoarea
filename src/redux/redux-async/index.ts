@@ -3,7 +3,7 @@ import * as GenresAsyncActions from './genres'
 import * as PersonsThunk from './persons'
 import { MoviesActionCreators, PersonsActionCreator, ProfitActionCreators } from '../actionsCreators'
 import { fetchUser, updateUser, createUser, removeFetchedUser, getLoggedUser } from './user'
-import { fetchUserReviews } from './userReviews'
+import { fetchUserReviews, setUserReview } from './userReviews'
 import { fetchUserFriends } from './userFriends'
 
 export default {
@@ -16,6 +16,7 @@ export default {
   fetchUser,
   updateUser,
   fetchUserReviews,
+  setUserReview,
   fetchUserFriends,
   createUser,
   removeFetchedUser,

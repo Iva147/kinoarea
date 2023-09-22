@@ -7,9 +7,10 @@ import { type ReviewType, Review } from '../Review/Review'
 interface ReviewsListProps {
   type?: ReviewType
   list: IUserReview[] | IReview[]
+  setAsHtml?: boolean
 }
 
-export const ReviewsList = memo(({ list, type = 'movie' }: ReviewsListProps) => {
+export const ReviewsList = memo(({ list, type = 'movie', setAsHtml = false }: ReviewsListProps) => {
   const [isAllShown, setAllShown] = useState(false)
   const reviews = useMemo(() => {
     const maxAmount = 3
@@ -28,14 +29,29 @@ export const ReviewsList = memo(({ list, type = 'movie' }: ReviewsListProps) => 
     element.onerror = null
     element.src = AvatarIcon
   }
+
   return (
     <div>
       {(reviews?.start || list).map(item => (
-        <Review item={item} key={item.id} handleImgError={hangleImgError} type={type} />
+        <Review
+          item={item}
+          key={item.id}
+          handleImgError={hangleImgError}
+          type={type}
+          htmlContent={setAsHtml ? item.content : undefined}
+        />
       ))}
 
       {isAllShown &&
-        reviews?.rest?.map(item => <Review item={item} key={item.id} handleImgError={hangleImgError} type={type} />)}
+        reviews?.rest?.map(item => (
+          <Review
+            item={item}
+            key={item.id}
+            handleImgError={hangleImgError}
+            type={type}
+            htmlContent={setAsHtml ? item.content : undefined}
+          />
+        ))}
 
       {reviews?.rest && (
         <Button onClick={() => setAllShown(prev => !prev)} className={'mx-auto'}>
