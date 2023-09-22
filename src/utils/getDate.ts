@@ -3,6 +3,7 @@ export const getDate = (
   o?: Intl.DateTimeFormatOptions,
   locals: string = 'en-US'
 ) => {
+  if (!timestamp) return ''
   const options = o || {
     year: 'numeric',
     month: 'short',

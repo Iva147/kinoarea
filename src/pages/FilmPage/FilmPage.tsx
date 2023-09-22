@@ -40,7 +40,7 @@ export const FilmPage = () => {
   }, [slug])
 
   const handlePlay = () => setModalOpen(true)
-
+  console.log('details', details)
   return (
     <>
       <div
@@ -71,8 +71,8 @@ export const FilmPage = () => {
                   <div>raiting 2</div>
                 </div>
               </div>
-              <div className={''}>
-                <p className={'mt-4 mb-11 md:my-4'}>{details.overview}</p>
+              <div>
+                <div className={'mt-4 mb-11 md:my-4'}>{details.overview}</div>
                 <Button variant={'transparent'} className={cls.playBtn} onClick={handlePlay}>
                   <>
                     <PlayIcon />

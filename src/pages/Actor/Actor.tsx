@@ -9,10 +9,16 @@ import { MovieItem } from '../../components/ui/MovieItem/MovieItem'
 import { SectionHeader, SectionHeaderType } from '../../components/ui/SectionHeader/SectionHeader'
 import { Images } from './sections/Images'
 import { useLastPathSegment } from '../../hooks/useLastPathsegment'
+import Avatar from '../../assets/images/general/avatar.svg'
+import { twMerge } from 'tailwind-merge'
+import { useSeeMore } from '../../hooks/useSeeMore'
+import { Button } from '../../components/ui/Button/Button'
+import classNames from 'classnames'
 
 export const Actor = () => {
   const actor = useLoaderData() as IPersonFullInfo
   const lastSegment = useLastPathSegment()
+  const { isSeeMorePossible, setSeeMore, ref, isMatchedSize } = useSeeMore<HTMLDivElement>()
 
   if (!actor) return <div>Такого актора не найдено</div>
 
@@ -47,7 +53,38 @@ export const Actor = () => {
               className={'rounded-10 w-[63%] object-cover aspect-[230/310] md:hidden'}
             />
           </div>
-          <p className={'mt-4 mb-11 md:my-4'}>{biography}</p>
+          <div className={'mt-4 mb-11 md:my-4 '}>
+            <p
+              className={twMerge(
+                classNames('max-h-[7.5em] overflow-hidden text-ellipsis text-justify', {
+                  'max-h-none': !isSeeMorePossible,
+                })
+              )}
+              ref={ref}
+            >
+              {biography}
+            </p>
+            {!isMatchedSize && isSeeMorePossible && (
+              <div className={'flex justify-between items-start flex-col sm:flex-row'}>
+                <span className={'leading-[0px]'}>...</span>
+                <Button onClick={() => setSeeMore(false)} variant={'white'} className={'mt-5 self-center sm:self-auto'}>
+                  Читать полностью
+                </Button>
+              </div>
+            )}
+            {!isMatchedSize && !isSeeMorePossible && (
+              <div className={'flex justify-end'}>
+                <Button
+                  onClick={() => setSeeMore(true)}
+                  variant={'transparent'}
+                  className={'mt-5 self-center sm:self-auto'}
+                >
+                  Уменьшить текст
+                </Button>
+              </div>
+            )}
+          </div>
+
           <div>
             {!!also_known_as.length && <Descript title={'Извесный как'} descriptions={also_known_as} />}
             {birthday && <Descript title={'Дата рождения'} descriptions={getDate(birthday)} />}
@@ -57,11 +94,15 @@ export const Actor = () => {
         </div>
 
         <div>
-          <img
-            src={setMovieDBPath(profile_path)}
-            alt={'film'}
-            className={'hidden rounded-10 object-cover aspect-[230/310] md:block md:max-w-[297px]'}
-          />
+          {profile_path ? (
+            <img
+              src={setMovieDBPath(profile_path)}
+              alt={'film'}
+              className={'hidden rounded-10 object-cover aspect-[230/310] md:block md:max-w-[297px]'}
+            />
+          ) : (
+            <img src={Avatar} alt={'avatar'} className={twMerge('avatar')} />
+          )}
         </div>
       </section>
 
@@ -70,7 +111,7 @@ export const Actor = () => {
           Фильмы
         </Typography>
         <div>
-          {(!combined_credits.cast || !combined_credits?.cast.length) && <p>Фильмов ждя отображения не найдено</p>}
+          {(!combined_credits.cast || !combined_credits?.cast.length) && <p>Фильмов для отображения не найдено</p>}
           {combined_credits.cast?.map(item => (
             <MovieItem
               name={item.media_type === 'movie' ? item.title : item.name}

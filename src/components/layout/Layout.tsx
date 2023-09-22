@@ -6,6 +6,7 @@ import { Outlet } from 'react-router-dom'
 import { Footer } from '../ui/Footer/Footer'
 import { Mailing } from '../ui/Mailing/Mailing'
 import { ScrollTopArrow } from '../ui/ScrollTopArrow/ScrollTopArrow'
+import { ScrollRestoration } from '../ui/ScrollRestoration/ScrollRestoration'
 
 const isNavOpen = signal(false)
 
@@ -25,15 +26,17 @@ export const Layout = ({ children, noMailing = false }: LayoutProps) => {
   effect(() => console.log({ isNavOpen: isNavOpen.value }))
 
   return (
-    <div className="App bg-darkBlue flex flex-col min-h-screen">
-      <Header onMenu={onMenuClick} />
-      <Navigation isOpen={isNavOpen.value} onClose={onNavClose} />
-      <main className={'grow'}>
-        {children || <Outlet />}
-        {noMailing || <Mailing />}
-      </main>
-      <Footer />
-      <ScrollTopArrow />
-    </div>
+    <ScrollRestoration>
+      <div className="App bg-darkBlue flex flex-col min-h-screen">
+        <Header onMenu={onMenuClick} />
+        <Navigation isOpen={isNavOpen.value} onClose={onNavClose} />
+        <main className={'grow'}>
+          {children || <Outlet />}
+          {noMailing || <Mailing />}
+        </main>
+        <Footer />
+        <ScrollTopArrow />
+      </div>
+    </ScrollRestoration>
   )
 }

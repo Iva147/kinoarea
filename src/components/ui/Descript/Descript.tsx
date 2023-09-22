@@ -12,7 +12,7 @@ export const Descript = ({ descriptions, title }: DescriptProps) => {
       className={'flex text-xs text-start items-start md:text-13 lg:text-base 2xl:text-lg [&:not(:last-of-type)]:mb-2'}
     >
       <p className={'basis-1/3 sm:basis-1/5 shrink-0 pr-1 text-white/90 font-q-600 md:basis-1/3'}>{title}:</p>
-      <p className={'text-yellowish text-ellipsis overflow-hidden whitespace-nowrap'}>
+      <p className={'text-yellowish'}>
         {type ? (
           descriptions.map((item, order) => (
             <span className={style.item} key={order}>

@@ -4,15 +4,17 @@ import { RateBadge } from '../RateBadge/RateBadge'
 import { Button } from '../Button/Button'
 import { IKnownFor } from '../../../api/types/responses'
 import { type KnownForItem, KnownFor } from '../KnownFor/KnownFor'
+import { type KeyboardEvent, useCallback } from 'react'
 
 interface ResultItemProps {
   img?: string
   name: string
   known_for: IKnownFor
   rating: number
+  onClick?: () => void
 }
 
-export const PersonItem = ({ img, name, known_for, rating }: ResultItemProps) => {
+export const PersonItem = ({ img, name, known_for, rating, onClick }: ResultItemProps) => {
   const setKnownFor = () => {
     const knownForFilms: KnownForItem[] = []
     const knownForTV: KnownForItem[] = []
@@ -36,17 +38,26 @@ export const PersonItem = ({ img, name, known_for, rating }: ResultItemProps) =>
       </>
     )
   }
+
+  const onKeyDown = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Enter') {
+      onClick?.()
+    }
+  }, [])
+
   return (
     <li className={'pt-[14px] pb-5 flex items-center gap-5 item-border'}>
-      {img ? (
-        <img
-          src={setMovieDBPath(img)}
-          alt={name}
-          className={'rounded-10 w-[144px] h-[205px] object-cover xl:w-[150px] xl:h-[214px]'}
-        />
-      ) : (
-        <AbsentImg className={'rounded-10 w-[144px] h-[205px] object-cover xl:w-[150px] xl:h-[214px]'} />
-      )}
+      <div onClick={onClick} onKeyDown={onKeyDown} tabIndex={0} role={'button'}>
+        {img ? (
+          <img
+            src={setMovieDBPath(img)}
+            alt={name}
+            className={'rounded-10 w-[144px] h-[205px] object-cover xl:w-[150px] xl:h-[214px]'}
+          />
+        ) : (
+          <AbsentImg className={'rounded-10 w-[144px] h-[205px] object-cover xl:w-[150px] xl:h-[214px]'} />
+        )}
+      </div>
 
       <div className={'flex-1 gap-1 md:flex md:items-center md:justify-between lg:gap-[25px]'}>
         <div className={'lg:flex-1 lg:flex lg:items-center lg:justify-between'}>
@@ -62,7 +73,7 @@ export const PersonItem = ({ img, name, known_for, rating }: ResultItemProps) =>
             </div>
           </div>
         </div>
-        <Button size={'md'} className={'hidden md:block'}>
+        <Button size={'md'} className={'hidden md:block'} onClick={onClick}>
           Карточка актора
         </Button>
       </div>

@@ -5,10 +5,12 @@ import { getPersons } from '../../api/movieDBApi'
 import { PersonItem } from '../../components/ui/PersonItem/PersonItem'
 import { scrollTop } from '../../utils/scrollTop'
 import { Typography, TypographyTypes } from '../../components/ui/Typography/Typography'
+import { useNavigate } from 'react-router-dom'
 
 export const Actors = () => {
   const [actors, setActors] = useState<IPerson[]>([])
   const [pagesData, setPagesData] = useState<Omit<IPersonResult, 'results'> | null>(null)
+  const navigate = useNavigate()
 
   const setData = (page?: number) => {
     const params = page ? { page } : undefined
@@ -41,6 +43,7 @@ export const Actors = () => {
           name={actor.name}
           rating={actor.popularity}
           known_for={actor.known_for}
+          onClick={() => navigate(`/actors/${actor.id}`)}
           key={actor.id}
         />
       ))}

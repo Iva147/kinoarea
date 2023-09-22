@@ -1,11 +1,13 @@
 import { ICastRes } from '../../../api/types/responses'
 import { setMovieDBPath } from '../../../utils'
-import { memo, useMemo } from 'react'
+import { memo, useCallback, useMemo, type KeyboardEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 interface CastListProps {
   list: ICastRes[]
 }
 export const CastList = memo(({ list }: CastListProps) => {
+  const navigate = useNavigate()
   const cast = useMemo(() => {
     const maxAmount = 8
     if (list.length > 8) {
@@ -13,6 +15,19 @@ export const CastList = memo(({ list }: CastListProps) => {
     }
     return list
   }, [list])
+
+  const redirect = useCallback((id: number) => {
+    navigate(`/actors/${id}`)
+  }, [])
+
+  const onKeyDown = useCallback((id: number) => {
+    return (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Enter') {
+        redirect(id)
+      }
+    }
+  }, [])
+
   return (
     <div
       className={`grid grid-cols-2 gap-x-[8.9%] gap-y-5 
@@ -21,7 +36,13 @@ export const CastList = memo(({ list }: CastListProps) => {
         2xl:grid-cols-5 2xl:gap-y-14`}
     >
       {cast.map(item => (
-        <div key={item.id}>
+        <div
+          key={item.id}
+          onClick={() => redirect(item.id)}
+          onKeyDown={onKeyDown(item.id)}
+          tabIndex={0}
+          role={'button'}
+        >
           <img
             src={setMovieDBPath(item.profile_path)}
             alt={item.name}
