@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs, Outlet, useLoaderData } from 'react-router-dom'
+import { type LoaderFunctionArgs, Outlet, useLoaderData, useNavigate } from 'react-router-dom'
 import { getPersonFullInfo } from '../../api/movieDBApi'
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs'
 import { getDate, setMovieDBPath } from '../../utils'
@@ -36,6 +36,7 @@ export const Actor = () => {
     setPagesData,
     onPaginationChange,
   } = usePaginateData<IPersonCombinedCredits[], ActorFilmsPagination>()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const films = actor?.combined_credits?.cast
@@ -164,6 +165,7 @@ export const Actor = () => {
               character={`Роль: ${item.character}`}
               rating={item.vote_average}
               key={item.id}
+              onClick={() => navigate(`/films/${item.id}`)}
             />
           ))}
         </div>

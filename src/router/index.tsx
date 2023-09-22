@@ -35,6 +35,10 @@ export const router = createBrowserRouter([
         element: <Premiere />,
       },
       {
+        path: 'films',
+        element: <SearchResult />,
+      },
+      {
         path: 'films/:slug',
         element: <FilmPage />,
       },
@@ -50,10 +54,6 @@ export const router = createBrowserRouter([
         path: 'collections',
         element: <Collections />,
         children: [{ path: ':slug', element: <ChosenCollection /> }],
-      },
-      {
-        path: 'films',
-        element: <SearchResult />,
       },
       {
         path: 'profile',
