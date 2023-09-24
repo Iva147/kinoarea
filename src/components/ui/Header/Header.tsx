@@ -24,13 +24,19 @@ export const Header = ({ onMenu }: HeaderProps) => {
   const [isRegisterOpen, setRegisterModalOpen] = useState(false)
   const [isSearchShown, setSearchShown] = useState(false)
   const { user } = useTypedSelector(state => state.user)
-  const { removeFetchedUser } = useActions()
+  const authBy = useTypedSelector(state => state.authForm.authBy)
+  const { removeFetchedUser, addIncomingFriend } = useActions()
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (user) {
-      setRegisterModalOpen(false)
+    if (!user) return
+
+    setRegisterModalOpen(false)
+
+    if (authBy === 'register') {
       navigate('/profile/settings')
+      /* Default friends */
+      addIncomingFriend(user.id, ['kinoarea', 'admin'])
     }
   }, [user])
 

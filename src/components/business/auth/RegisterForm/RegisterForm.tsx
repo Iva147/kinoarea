@@ -25,11 +25,12 @@ export const RegisterForm = () => {
   } = useForm({
     resolver: yupResolver(registerSchemas),
   })
-  const { createUser } = useActions()
+  const { createUser, setAuthBy } = useActions()
 
   const onSubmit: SubmitHandler<IRegisterFields> = data => {
     const { name, surname, password, login } = data
     createUser({ name, surname, password, login })
+    setAuthBy('register')
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={'form'}>

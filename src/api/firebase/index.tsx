@@ -108,6 +108,12 @@ const removeUserFriend = async (userId: string, friendId: string): Promise<void>
   await updateDoc(docRef, { friends: arrayRemove(friendId) })
 }
 
+const addIncomingFriend = async (userId: string, friendId: string | string[]): Promise<void> => {
+  const docRef = doc(db, COLLECTIONS.USERS, userId)
+  const friendIdsToAdd = Array.isArray(friendId) ? friendId : [friendId]
+  await updateDoc(docRef, { incomingFriends: arrayUnion(...friendIdsToAdd) })
+}
+
 const removeIncomingFriend = async (userId: string, friendId: string): Promise<void> => {
   const docRef = doc(db, COLLECTIONS.USERS, userId)
   await updateDoc(docRef, { incomingFriends: arrayRemove(friendId) })
@@ -135,4 +141,5 @@ export const FirebaseApi = {
   addUserFriend,
   removeUserFriend,
   removeIncomingFriend,
+  addIncomingFriend,
 }

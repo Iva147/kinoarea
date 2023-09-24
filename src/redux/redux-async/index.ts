@@ -1,11 +1,16 @@
 import * as MovieAsyncActions from './moviesAsyncActions'
 import * as GenresAsyncActions from './genres'
 import * as PersonsThunk from './persons'
-import { MoviesActionCreators, PersonsActionCreator, ProfitActionCreators } from '../actionsCreators'
+import {
+  MoviesActionCreators,
+  PersonsActionCreator,
+  ProfitActionCreators,
+  AuthFormActionCreators,
+} from '../actionsCreators'
 import { fetchUser, updateUser, createUser, removeFetchedUser, getLoggedUser } from './user'
 import { fetchUserReviews, setUserReview } from './userReviews'
 import { fetchUserFriends, addUserFriend, removeUserFriend } from './userFriends'
-import { fetchIncomingFriends, removeIncomingFriend } from './incomingFriends'
+import { fetchIncomingFriends, removeIncomingFriend, addIncomingFriend } from './incomingFriends'
 
 export default {
   ...MovieAsyncActions,
@@ -14,6 +19,7 @@ export default {
   changePersonActiveCategory: PersonsActionCreator.changeActiveCategory,
   ...MoviesActionCreators,
   ...ProfitActionCreators,
+  ...AuthFormActionCreators,
   fetchUser,
   updateUser,
   fetchUserReviews,
@@ -26,4 +32,5 @@ export default {
   removeUserFriend,
   removeIncomingFriend,
   fetchIncomingFriends,
+  addIncomingFriend,
 }

@@ -30,3 +30,16 @@ export const removeIncomingFriend = (userId: string, friendsId: string) => {
     }
   }
 }
+
+export const addIncomingFriend = (userId: string, friendsId: string | string[]) => {
+  return async (dispatch: Dispatch<IncomingFriendsActions>) => {
+    try {
+      dispatch(IncomingFriendsActionCreators.load())
+      await FirebaseApi.addIncomingFriend(userId, friendsId)
+    } catch (err) {
+      let message = 'Smth went wrong'
+      if (err instanceof Error) message = err.message
+      dispatch(IncomingFriendsActionCreators.err(message))
+    }
+  }
+}
