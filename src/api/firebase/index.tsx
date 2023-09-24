@@ -10,6 +10,8 @@ import {
   query,
   where,
   documentId,
+  arrayUnion,
+  arrayRemove,
   type Query,
   type QuerySnapshot,
   type DocumentData,
@@ -91,9 +93,24 @@ const setUserReview = async (review: Omit<IUserReview, 'id'>): Promise<void> => 
 
 const getUserFriends = async (friendsId: string[]): Promise<IFriend[]> => {
   const q = query(getCollectionRef(COLLECTIONS.USERS), where(documentId(), 'in', friendsId))
-  const d = await getDocsInfo<IFriend>(q, ['name', 'surname', 'img'])
+  const d = await getDocsInfo<IFriend>(q, ['name', 'surname', 'img', 'friends'])
 
   return d
+}
+
+const addUserFriend = async (userId: string, friendId: string): Promise<void> => {
+  const docRef = doc(db, COLLECTIONS.USERS, userId)
+  await updateDoc(docRef, { friends: arrayUnion(friendId) })
+}
+
+const removeUserFriend = async (userId: string, friendId: string): Promise<void> => {
+  const docRef = doc(db, COLLECTIONS.USERS, userId)
+  await updateDoc(docRef, { friends: arrayRemove(friendId) })
+}
+
+const removeIncomingFriend = async (userId: string, friendId: string): Promise<void> => {
+  const docRef = doc(db, COLLECTIONS.USERS, userId)
+  await updateDoc(docRef, { incomingFriends: arrayRemove(friendId) })
 }
 
 /* STORAGE */
@@ -115,4 +132,7 @@ export const FirebaseApi = {
   getUserReviews,
   setUserReview,
   getUserFriends,
+  addUserFriend,
+  removeUserFriend,
+  removeIncomingFriend,
 }

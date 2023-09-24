@@ -6,6 +6,7 @@ import { profitReducer } from './profitReducer'
 import { userReducer } from './userReducer'
 import { userReviewsReduser } from './userReviews'
 import { userFriendsReducer } from './userFriendsReducer'
+import { incomingFriendsReducer } from './incomingFriends'
 export const rootReducer = combineReducers({
   movies: moviesReducer,
   genres: genresReducer,
@@ -14,6 +15,7 @@ export const rootReducer = combineReducers({
   user: userReducer,
   userReviews: userReviewsReduser,
   userFriends: userFriendsReducer,
+  incomingFriends: incomingFriendsReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

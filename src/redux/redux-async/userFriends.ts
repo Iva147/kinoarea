@@ -17,3 +17,29 @@ export const fetchUserFriends = (friendsIds: string[]) => {
     }
   }
 }
+
+export const addUserFriend = (userId: string, friendsId: string) => {
+  return async (dispatch: Dispatch<UserFriendsActions>) => {
+    try {
+      dispatch(UserFriendsActionCreators.load())
+      await FirebaseApi.addUserFriend(userId, friendsId)
+    } catch (err) {
+      let message = 'Smth went wrong'
+      if (err instanceof Error) message = err.message
+      dispatch(UserFriendsActionCreators.err(message))
+    }
+  }
+}
+
+export const removeUserFriend = (userId: string, friendsId: string) => {
+  return async (dispatch: Dispatch<UserFriendsActions>) => {
+    try {
+      dispatch(UserFriendsActionCreators.load())
+      await FirebaseApi.removeUserFriend(userId, friendsId)
+    } catch (err) {
+      let message = 'Smth went wrong'
+      if (err instanceof Error) message = err.message
+      dispatch(UserFriendsActionCreators.err(message))
+    }
+  }
+}

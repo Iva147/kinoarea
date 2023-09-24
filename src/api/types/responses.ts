@@ -267,6 +267,7 @@ export interface IUser {
   about?: string
   links?: { [K in SocialMedias]: string | null }
   friends?: string[]
+  incomingFriends?: string[]
   reviews?: number[]
 }
 
@@ -280,4 +281,4 @@ export interface IUserReview extends Pick<IReview, 'content' | 'id' | 'author_de
   }
 }
 
-export interface IFriend extends Pick<IUser, 'id' | 'name' | 'surname' | 'img'> {}
+export interface IFriend extends Pick<IUser, 'id' | 'name' | 'surname' | 'img' | 'friends'> {}

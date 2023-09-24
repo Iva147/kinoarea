@@ -6,15 +6,26 @@ import { Friend } from '../../../../components/ui/Friend/Friend'
 import clsProfile from '../../Profile.module.scss'
 import cls from './Friends.module.scss'
 import { IncomingFriend } from '../../../../components/ui/IncomingFriend/IncomingFriend'
+import { getCommonFriends } from '../../../../utils/getCommonFriends'
 
 export const Friends = () => {
   const { friends } = useTypedSelector(state => state.userFriends)
-  const friendsIds = useTypedSelector(state => state.user.user?.friends)
-  const { fetchUserFriends } = useActions()
+  const { friends: incomingFriends } = useTypedSelector(state => state.incomingFriends)
+  const incomingFriend = incomingFriends?.[0]
+  const user = useTypedSelector(state => state.user.user)
+  const { fetchUserFriends, fetchIncomingFriends, addUserFriend, removeIncomingFriend } = useActions()
 
   useEffect(() => {
-    if (friendsIds) fetchUserFriends(friendsIds)
-  }, [fetchUserFriends, friendsIds])
+    if (user?.friends) fetchUserFriends(user?.friends)
+    if (user?.incomingFriends) fetchIncomingFriends(user?.incomingFriends)
+  }, [fetchUserFriends, fetchIncomingFriends, user])
+  console.log('friends', friends)
+  console.log('incomingFriends', incomingFriends)
+
+  const onAcceptFriend = (userId: string, friendId: string) => {
+    addUserFriend(userId, friendId)
+    removeIncomingFriend(userId, friendId)
+  }
   return (
     <>
       <div className={clsProfile.titleWrapper}>
@@ -23,11 +34,13 @@ export const Friends = () => {
         </Typography>
         <p>Всего: {friends.length}</p>
       </div>
-      {friends?.[0] && (
+      {incomingFriend && (
         <IncomingFriend
-          img={friends?.[0].img || ''}
-          name={`${friends[0].name} ${friends[0].surname}`}
-          commonFriends={0}
+          img={incomingFriend.img || ''}
+          name={`${incomingFriend.name} ${incomingFriend.surname}`}
+          commonFriends={getCommonFriends(incomingFriend?.friends, user?.friends).length}
+          onAccept={() => user && onAcceptFriend(user.id, incomingFriend.id)}
+          onCancel={() => user && removeIncomingFriend(user.id, incomingFriend.id)}
         />
       )}
 
