@@ -16,7 +16,7 @@ export const Film = ({ img, rating, title, genre, className, id }: FilmProps) =>
         className={`group/film relative bg-img aspect-card-sm rounded-lg overflow-hidden`}
         style={{ backgroundImage: `url(${img})` }}
       >
-        {img || <AbsentImg className={'absolute inset-0'} />}
+        {!!img || <AbsentImg className={'absolute inset-0'} />}
         {!!rating && <RateBadge rating={rating} className={'absolute top-2.5 right-2.5'} />}
         <div
           className={`group-hover/film:opacity-100 opacity-0 
