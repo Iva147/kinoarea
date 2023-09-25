@@ -8,6 +8,7 @@ import { userReviewsReduser } from './userReviews'
 import { userFriendsReducer } from './userFriendsReducer'
 import { incomingFriendsReducer } from './incomingFriends'
 import { authFormReducer } from './authForm'
+import { NotificationReducer } from './notification'
 export const rootReducer = combineReducers({
   movies: moviesReducer,
   genres: genresReducer,
@@ -18,6 +19,7 @@ export const rootReducer = combineReducers({
   userFriends: userFriendsReducer,
   incomingFriends: incomingFriendsReducer,
   authForm: authFormReducer,
+  notification: NotificationReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

@@ -8,6 +8,7 @@ import { ReactComponent as CloseIcon } from '../../../../assets/images/general/c
 import classnames from 'classnames'
 import { twMerge } from 'tailwind-merge'
 
+export type SimulateCloseCb = () => void
 export interface ModalProps {
   className?: string
   contentClassName?: string
@@ -15,11 +16,19 @@ export interface ModalProps {
   close: () => void
   isOpened: boolean
   overlay?: 'on' | 'off'
+  getSimulateCloseCb?: (cb: SimulateCloseCb) => void
 }
 
 const ANIMATION_TIME = 400
 
-export const Modal: FC<ModalProps> = ({ children, close, isOpened, overlay = 'on', contentClassName }) => {
+export const Modal: FC<ModalProps> = ({
+  children,
+  close,
+  isOpened,
+  overlay = 'on',
+  contentClassName,
+  getSimulateCloseCb,
+}) => {
   const [isClosing, setIsClosing] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -56,6 +65,10 @@ export const Modal: FC<ModalProps> = ({ children, close, isOpened, overlay = 'on
       window.removeEventListener('keydown', onKeyDown)
     }
   }, [isOpened, onKeyDown])
+
+  useEffect(() => {
+    getSimulateCloseCb?.(closeHandler)
+  }, [getSimulateCloseCb])
 
   if (!isOpened) return null
 

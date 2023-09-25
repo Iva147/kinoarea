@@ -6,6 +6,7 @@ import {
   PersonsActionCreator,
   ProfitActionCreators,
   AuthFormActionCreators,
+  NotificationCreators,
 } from '../actionsCreators'
 import { fetchUser, updateUser, createUser, removeFetchedUser, getLoggedUser } from './user'
 import { fetchUserReviews, setUserReview } from './userReviews'
@@ -20,6 +21,7 @@ export default {
   ...MoviesActionCreators,
   ...ProfitActionCreators,
   ...AuthFormActionCreators,
+  ...NotificationCreators,
   fetchUser,
   updateUser,
   fetchUserReviews,

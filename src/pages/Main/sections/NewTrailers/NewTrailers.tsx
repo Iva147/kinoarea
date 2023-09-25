@@ -10,9 +10,11 @@ import { ReactComponent as FacebookIcon } from '../../../../assets/images/genera
 import { ReactComponent as InstagramIcon } from '../../../../assets/images/general/instagram.svg'
 import { ReactComponent as LinkedInIcon } from '../../../../assets/images/general/linkedin-in.svg'
 import { setMovieDBPath } from '../../../../utils'
+import { notificationList } from '../../../../mock/notificationList'
 
 export const NewTrailers = () => {
-  const { fetchUpcomingMovies } = useActions()
+  const user = useTypedSelector(state => state.user.user)
+  const { fetchUpcomingMovies, setNotification } = useActions()
   const { upcoming } = useTypedSelector(state => state.movies)
 
   useEffect(() => {
@@ -28,6 +30,20 @@ export const NewTrailers = () => {
   }, [upcoming])
 
   if (!movies) return null
+
+  const onLikeClick = () => {
+    if (!user) {
+      setNotification(notificationList.userAbsent)
+      return
+    }
+  }
+
+  const onDislikeClick = () => {
+    if (!user) {
+      setNotification(notificationList.userAbsent)
+      return
+    }
+  }
 
   return (
     <section>
@@ -62,11 +78,11 @@ export const NewTrailers = () => {
         </div>
         <div className={'flex items-center text-white gap-1 text-0.5rem'}>
           <div>
-            <IconBtn type={'like'} />
+            <IconBtn type={'like'} onClick={onLikeClick} />
             <p className={'text-center'}>3 245</p>
           </div>
           <div>
-            <IconBtn type={'dislike'} />
+            <IconBtn type={'dislike'} onClick={onDislikeClick} />
             <p className={'text-center'}>420</p>
           </div>
         </div>

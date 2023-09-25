@@ -8,6 +8,7 @@ import { Mailing } from '../ui/Mailing/Mailing'
 import { ScrollTopArrow } from '../ui/ScrollTopArrow/ScrollTopArrow'
 import { ScrollRestoration } from '../ui/ScrollRestoration/ScrollRestoration'
 import { useActions } from '../../hooks/useActions'
+import { Notification } from '../ui/modals/Notification/Notification'
 
 const isNavOpen = signal(false)
 
@@ -43,6 +44,7 @@ export const Layout = ({ children, noMailing = false }: LayoutProps) => {
         <Footer />
         <ScrollTopArrow />
       </div>
+      <Notification />
     </ScrollRestoration>
   )
 }
