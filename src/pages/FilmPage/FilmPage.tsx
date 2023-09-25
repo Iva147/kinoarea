@@ -19,6 +19,8 @@ import { Description } from './sections/Descriotion/Description'
 import { MovieModal } from '../../components/ui/modals/MovieModal/MovieModal'
 import { Comment } from '../../components/ui/Comment/Comment'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
+import { useActions } from '../../hooks/useActions'
+import { notificationList } from '../../mock/notificationList'
 
 export const FilmPage = () => {
   const { slug } = useParams()
@@ -30,6 +32,7 @@ export const FilmPage = () => {
   const [isModalOpen, setModalOpen] = useState(false)
   const user = useTypedSelector(state => state.user.user)
   const [isCommentBlockShown, setCommentBlockShown] = useState(false)
+  const { setNotification } = useActions()
 
   useEffect(() => {
     if (!slug) return
@@ -41,7 +44,15 @@ export const FilmPage = () => {
   }, [slug])
 
   const handlePlay = () => setModalOpen(true)
-  console.log('details', details)
+
+  const addComment = () => {
+    if (user) {
+      setCommentBlockShown(prev => !prev)
+      return
+    }
+    setNotification(notificationList.userAbsentComment)
+  }
+
   return (
     <>
       <div
@@ -135,7 +146,7 @@ export const FilmPage = () => {
             <Typography variant={'h3'} type={TypographyTypes._TITLE} className={'mx-auto w-max mb-[54px] md:m-0'}>
               Рецензии к фильму
             </Typography>
-            <Button className={'mx-auto md:m-0'} onClick={() => setCommentBlockShown(prev => !prev)}>
+            <Button className={'mx-auto md:m-0'} onClick={addComment}>
               {isCommentBlockShown ? 'Спрятать добавление рецензии' : 'Добавить рецензию'}
             </Button>
           </div>
