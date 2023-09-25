@@ -1,4 +1,5 @@
 import { ReactComponent as LogoIcon } from '../../../assets/images/general/logo.svg'
+import { Link } from 'react-router-dom'
 
 interface LogoProps {
   classes?: string
@@ -6,7 +7,9 @@ interface LogoProps {
 export const Logo = ({ classes = '' }: LogoProps) => {
   return (
     <div className={classes + ' w-fit'}>
-      <LogoIcon />
+      <Link to={'/'}>
+        <LogoIcon />
+      </Link>
     </div>
   )
 }
