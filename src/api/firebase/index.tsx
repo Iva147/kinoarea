@@ -7,6 +7,7 @@ import {
   updateDoc,
   setDoc,
   addDoc,
+  deleteDoc,
   query,
   where,
   documentId,
@@ -19,10 +20,12 @@ import {
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { IFriend, IUser, IUserReview } from '../types/responses'
 import { FirebaseEndpoints } from './endpoints'
+import { IFbFavouriteMovie, IFilmStatus } from '../types/film'
 
 export enum COLLECTIONS {
   USERS = 'users',
   REVIEWS = 'reviews',
+  FILMS = 'films',
 }
 
 const getCollectionRef = (colName: COLLECTIONS) => collection(db, colName)
@@ -44,7 +47,7 @@ export async function getDocsInfo<T>(ref: Query, fields?: string[]): Promise<T[]
   return allDocs
 }
 
-export async function getDocsInfoWithCol<T>(colName: COLLECTIONS) {
+export async function getDocsInfoWithCol<T>(colName: COLLECTIONS): Promise<T[]> {
   const colRef = await getCollectionRef(colName)
 
   return getDocsInfo<T>(colRef)
@@ -119,6 +122,71 @@ const removeIncomingFriend = async (userId: string, friendId: string): Promise<v
   await updateDoc(docRef, { incomingFriends: arrayRemove(friendId) })
 }
 
+/* FAVOURITE FILMS */
+// TODO: remove
+/*const addFavouriteFilm = async (userId: string, film: IFbFavouriteMovie): Promise<void> => {
+  const docRef = doc(db, COLLECTIONS.USERS, userId)
+  await updateDoc(docRef, { favouriteFilms: arrayUnion(film) })
+}
+}*/
+
+// TODO: replace
+/*const removeFavouriteFilm = async (userId: string, film: IFbFavouriteMovie): Promise<void> => {
+  const docRef = doc(db, COLLECTIONS.USERS, userId)
+  await updateDoc(docRef, { favouriteFilms: arrayRemove(film) })
+}*/
+
+const addFavouriteFilm = async ({
+  userId,
+  film,
+  filmStatus,
+}: {
+  userId: string
+  film: Omit<IFbFavouriteMovie, 'status'>
+  filmStatus: IFilmStatus
+}): Promise<void> => {
+  const docRef = doc(db, COLLECTIONS.FILMS, userId, COLLECTIONS.FILMS, film.id.toString())
+  await setDoc(docRef, { ...film, status: [filmStatus] })
+}
+
+const removeFavouriteFilm = async ({ userId, filmId }: { userId: string; filmId: string }): Promise<void> => {
+  const docRef = doc(db, COLLECTIONS.FILMS, userId, COLLECTIONS.FILMS, filmId)
+  await deleteDoc(docRef)
+}
+
+const getFavouriteFilms = async ({
+  userId,
+  filmStatus,
+}: {
+  userId: string
+  filmStatus: IFilmStatus | IFilmStatus[]
+}): Promise<IFbFavouriteMovie[]> => {
+  const colRef = collection(db, COLLECTIONS.FILMS, userId, COLLECTIONS.FILMS)
+  const status = Array.isArray(filmStatus) ? filmStatus : [filmStatus]
+  const q = query(colRef, where('status', 'array-contains', status))
+  return await getDocsInfo<IFbFavouriteMovie>(q)
+}
+
+const getFavouriteFilm = async ({
+  userId,
+  filmId,
+  filmStatus,
+}: {
+  userId: string
+  filmId: string
+  filmStatus?: IFilmStatus
+}): Promise<IFbFavouriteMovie | null> => {
+  const docRef = doc(db, COLLECTIONS.FILMS, userId, COLLECTIONS.FILMS, filmId)
+  const docSnap = await getDoc(docRef)
+
+  if (docSnap.exists()) {
+    const data = { id: docSnap.id, ...docSnap.data() } as unknown as IFbFavouriteMovie
+    if (filmStatus && !data.status?.includes(filmStatus)) return null
+    return data
+  }
+  return null
+}
+
 /* STORAGE */
 
 const uploadProfileImg = async (id: string, file: Blob): Promise<string> => {
@@ -142,4 +210,8 @@ export const FirebaseApi = {
   removeUserFriend,
   removeIncomingFriend,
   addIncomingFriend,
+  addFavouriteFilm,
+  removeFavouriteFilm,
+  getFavouriteFilms,
+  getFavouriteFilm,
 }

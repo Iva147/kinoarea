@@ -2,7 +2,7 @@ import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs'
 import { ReactComponent as PlayIcon } from '../../assets/images/general/play-btn.svg'
 import cls from './FilmPage.module.scss'
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getCast, getMovieDetails, getPosters, getReview, getSimilarMovies } from '../../api/movieDBApi'
 import { ICastRes, IMovieDetailsRes, IPoster, IReview } from '../../api/types/responses'
 import { SectionHeader, SectionHeaderType } from '../../components/ui/SectionHeader/SectionHeader'
@@ -21,6 +21,9 @@ import { Comment } from '../../components/ui/Comment/Comment'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { useActions } from '../../hooks/useActions'
 import { notificationList } from '../../mock/notificationList'
+import { IconBtn } from '../../components/ui/IconBtn/IconBtn'
+import { FirebaseApi } from '../../api/firebase'
+import { IFbFavouriteMovie, IFilmStatus } from '../../api/types/film'
 
 export const FilmPage = () => {
   const { slug } = useParams()
@@ -32,6 +35,7 @@ export const FilmPage = () => {
   const [isModalOpen, setModalOpen] = useState(false)
   const user = useTypedSelector(state => state.user.user)
   const [isCommentBlockShown, setCommentBlockShown] = useState(false)
+  const [_favouriteFilm, setFavouriteFilm] = useState<IFbFavouriteMovie | null>(null)
   const { setNotification } = useActions()
 
   useEffect(() => {
@@ -41,6 +45,11 @@ export const FilmPage = () => {
     getReview(slug).then(res => setReviews(res))
     getSimilarMovies(slug).then(res => setSimilar(res))
     getMovieDetails(slug).then(res => setDetails(res))
+
+    if (!user) return
+    FirebaseApi.getFavouriteFilm({ userId: user.id, filmId: slug, filmStatus: 'favourite' }).then(res =>
+      setFavouriteFilm(res)
+    )
   }, [slug])
 
   const handlePlay = () => setModalOpen(true)
@@ -51,6 +60,61 @@ export const FilmPage = () => {
       return
     }
     setNotification(notificationList.userAbsentComment)
+  }
+
+  const film: Omit<IFbFavouriteMovie, 'status'> | null = useMemo(() => {
+    return (
+      details && {
+        id: details?.id,
+        poster_path: details?.poster_path,
+        name: details?.title,
+        original_name: details?.original_title,
+      }
+    )
+  }, [details])
+
+  const setCategoryForFilm = useCallback(
+    async (filmStatus: IFilmStatus): Promise<void> => {
+      if (!film || !user) return
+
+      console.log('film', film)
+      console.log('filmStatus', filmStatus)
+      try {
+        await FirebaseApi.addFavouriteFilm({
+          userId: user.id,
+          filmStatus,
+          film,
+        })
+      } catch (err) {
+        console.log('err', err)
+      }
+    },
+    [film, user]
+  )
+  const onLikeClick = async () => {
+    if (!user) {
+      setNotification(notificationList.userAbsent)
+      return
+    }
+
+    await setCategoryForFilm('liked')
+  }
+
+  const onDislikeClick = async () => {
+    if (!user) {
+      setNotification(notificationList.userAbsent)
+      return
+    }
+    await setCategoryForFilm('disliked')
+  }
+
+  const onFavouriteClick = async () => {
+    if (!user) {
+      setNotification(notificationList.userAbsentFavourite)
+      return
+    }
+
+    await setCategoryForFilm('favourite')
   }
 
   return (
@@ -100,6 +164,11 @@ export const FilmPage = () => {
                 alt={'film'}
                 className={'hidden rounded-10 object-cover aspect-[230/310] md:block md:max-w-[297px]'}
               />
+              <div className={'flex items-center text-white gap-1 text-0.5rem'}>
+                <IconBtn type={'like'} onClick={onLikeClick} />
+                <IconBtn type={'dislike'} onClick={onDislikeClick} />
+                <IconBtn type={'heart'} onClick={onFavouriteClick} />
+              </div>
             </div>
 
             <MovieModal close={() => setModalOpen(false)} isOpened={isModalOpen} />

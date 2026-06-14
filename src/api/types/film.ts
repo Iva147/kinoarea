@@ -40,5 +40,9 @@ interface ITVRes {
 }
 
 export interface IMovieRes extends IFilmRes, ITVRes {}
+export type IFilmStatus = 'favourite' | 'liked' | 'disliked'
+export interface IFbFavouriteMovie extends Pick<IMovieRes, 'id' | 'name' | 'original_name' | 'poster_path'> {
+  status: IFilmStatus[]
+}
 
 export type IMovies = IMovieRes[]
