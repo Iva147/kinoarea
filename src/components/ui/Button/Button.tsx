@@ -21,7 +21,6 @@ export const Button = ({
   type = 'button',
   ...rest
 }: PropsWithChildren<ButtonProps>) => {
-  console.log('rest', rest)
   return (
     <button
       onClick={onClick}
